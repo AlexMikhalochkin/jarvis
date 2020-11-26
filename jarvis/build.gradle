@@ -1,0 +1,9 @@
+plugins {
+    id "org.springframework.boot"
+}
+
+dependencies {
+    implementation project(":jarvis-controller")
+    implementation project(":jarvis-model")
+    implementation project(":jarvis-service")
+}

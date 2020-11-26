@@ -1,0 +1,25 @@
+{
+  "id": "bedroom-light-0",
+  "type": "action.devices.types.LIGHT",
+  "traits": [
+    "action.devices.traits.OnOff"
+  ],
+  "name": {
+    "defaultNames": [
+      "Bedroom light"
+    ],
+    "name": "Bedroom light",
+    "nicknames": [
+      "Bedroom light"
+    ]
+  },
+  "willReportState": false,
+  "roomHint": "Bedroom",
+  "attributes": null,
+  "deviceInfo": {
+    "manufacturer": "lights-out-inc"
+  },
+  "customData": {
+    "fooValue": 74
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "kitchen-light-0",
+  "type": "action.devices.types.LIGHT",
+  "traits": [
+    "action.devices.traits.OnOff"
+  ],
+  "name": {
+    "defaultNames": [
+      "Kitchen light"
+    ],
+    "name": "Kitchen light",
+    "nicknames": [
+      "Kitchen light"
+    ]
+  },
+  "willReportState": true,
+  "roomHint": "Kitchen",
+  "attributes": null,
+  "deviceInfo": {
+    "swVersion": "11.4",
+    "model": "hs1234",
+    "manufacturer": "lights-out-inc",
+    "hwVersion": "3.2"
+  },
+  "otherDeviceIds": null,
+  "customData": {
+    "fooValue": 74
+  }
+}
