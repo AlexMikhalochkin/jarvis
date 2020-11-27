@@ -32,7 +32,7 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           command: |
-            cd jarvis/ && java -jar jarvis.jar &
+            cd jarvis/ && kill $(ps aux | grep 'jarvis.jar' | grep -v grep | awk '{print $2}') && java -jar jarvis.jar &
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           user: ${{ secrets.SSH_USER }}
