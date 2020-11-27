@@ -1,7 +1,3 @@
-test {
-    useJUnitPlatform()
-}
-
 dependencies {
     implementation project(":jarvis-plc-integration")
     implementation project(":jarvis-model")

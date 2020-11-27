@@ -1,12 +1,12 @@
-package com.mikhalochkin.jarvis.plc.integration.api;
+package com.mikhalochkin.jarvis.plc.integration.impl;
 
+import com.mikhalochkin.jarvis.plc.integration.api.PlcClient;
 import mockit.FullVerifications;
 import mockit.Injectable;
 import mockit.Tested;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.client.WebClient;
-import com.mikhalochkin.jarvis.plc.integration.impl.MegaDClient;
 
 public class MegaDClientTest {
 
@@ -17,14 +17,14 @@ public class MegaDClientTest {
     private final PlcClient client = new MegaDClient();
 
     @Test
-    @Ignore
+    @Disabled
     public void testSendRequest() {
         client.turnOn(7);
         new FullVerifications(webClient){};
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void testSendRequest2() {
         client.turnOff(7);
         new FullVerifications(webClient){};
