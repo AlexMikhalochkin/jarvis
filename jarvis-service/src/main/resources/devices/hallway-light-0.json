@@ -1,0 +1,22 @@
+{
+  "id": "hallway-light-0",
+  "type": "action.devices.types.LIGHT",
+  "traits": [
+    "action.devices.traits.OnOff"
+  ],
+  "name": {
+    "name": "Light in the hallway",
+    "nicknames": [
+      "Light in the hallway"
+    ]
+  },
+  "willReportState": false,
+  "roomHint": "Hallway",
+  "attributes": null,
+  "deviceInfo": {
+    "manufacturer": "lights-out-inc"
+  },
+  "customData": {
+    "fooValue": 74
+  }
+}
