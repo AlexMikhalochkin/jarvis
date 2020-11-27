@@ -1,0 +1,40 @@
+# This workflow will deploy a Java project to the remote server
+
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew build
+      - name: Deploy the package to the remote server
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: jarvis/build/libs/jarvis-0.0.1.jar
+          remote: jarvis/jarvis.jar
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+      - name: Run a script on remote server (start the application)
+        if: always()
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd jarvis/ && java -jar jarvis.jar &
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          user: ${{ secrets.SSH_USER }}
+          pass: ${{ secrets.SSH_PASSWORD }}
+          args: "-tt"
