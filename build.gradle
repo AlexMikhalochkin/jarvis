@@ -1,46 +1,71 @@
 plugins {
     id 'org.springframework.boot' version '2.3.3.RELEASE'
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
+    id 'java-library'
 }
 
-subprojects {
+group = 'com.mikhalochkin'
+version = '0.0.1'
+sourceCompatibility = '11'
 
-    apply plugin: 'java'
-    apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'java-library'
+repositories {
+    mavenCentral()
+}
 
-    group = 'com.mikhalochkin'
-    version = '0.0.1'
-    sourceCompatibility = '11'
-
-    repositories {
-        mavenCentral()
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.7.RELEASE")
     }
+}
 
-    dependencyManagement {
-        imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.7.RELEASE")
-        }
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
     }
+}
 
-    test {
-        useJUnitPlatform()
-        testLogging {
-            events "passed", "skipped", "failed"
-        }
+dependencies {
+    implementation('commons-io:commons-io:2.8.0')
+    implementation('com.google.guava:guava:28.0-jre')
+    implementation('org.apache.commons:commons-collections4:4.4')
+    implementation('org.apache.commons:commons-lang3:3.11')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
+    implementation ('org.springframework.boot:spring-boot-starter-thymeleaf')
+    implementation ('org.springframework.boot:spring-boot-starter-webflux')
+    implementation ('commons-io:commons-io:2.8.0')
+    implementation ('org.springframework.boot:spring-boot-starter-aop')
+    testImplementation('org.jmockit:jmockit:1.49')
+    testImplementation('org.junit.jupiter:junit-jupiter:5.4.2')
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+}
 
-    dependencies {
-        implementation('commons-io:commons-io:2.8.0')
-        implementation('com.google.guava:guava:28.0-jre')
-        implementation('org.apache.commons:commons-collections4:4.4')
-        implementation('org.apache.commons:commons-lang3:3.11')
-        implementation('org.springframework.boot:spring-boot-starter-web')
-        implementation("org.springframework.boot:spring-boot-starter-actuator")
-        testImplementation('org.jmockit:jmockit:1.49')
-        testImplementation('org.junit.jupiter:junit-jupiter:5.4.2')
-        testImplementation('org.springframework.boot:spring-boot-starter-test') {
-            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-        }
+sourceSets {
+    integrationTest {
+        java.srcDir "$projectDir/src/integrationTest/java"
+        resources.srcDir "$projectDir/src/integrationTest/resources"
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+    }
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
+task integrationTest(type: Test) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+integrationTest {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
     }
 }
