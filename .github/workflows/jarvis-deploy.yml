@@ -16,13 +16,13 @@ jobs:
           java-version: 11
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Build executable jar
+        run: ./gradlew bootJar
       - name: Deploy the package to the remote server
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: jarvis/build/libs/jarvis-0.0.1.jar
-          remote: jarvis/jarvis.jar
+          local: jarvis/build/libs
+          remote: jarvis
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USER }}
@@ -32,7 +32,10 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           command: |
-            cd jarvis/ && kill $(ps aux | grep 'jarvis.jar' | grep -v grep | awk '{print $2}') && java -jar jarvis.jar &
+            cd jarvis/
+            mv jarvis-*.jar jarvis.jar
+            kill $(ps aux | grep 'jarvis.jar' | grep -v grep | awk '{print $2}')
+            java -jar jarvis.jar &
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           user: ${{ secrets.SSH_USER }}
