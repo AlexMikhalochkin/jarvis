@@ -64,7 +64,7 @@ public class GoogleController {
 
     private Map<String, Object> createQueryResponse(Payload payload) {
         List<String> deviceIds = payload.getDevices().stream()
-                .map(Device::getId)
+                .map(GoogleDevice::getId)
                 .collect(Collectors.toList());
         return Collections.singletonMap("devices", googleService.getStatuses(deviceIds));
     }
@@ -73,8 +73,26 @@ public class GoogleController {
         Payload payload = new Payload();
         //TODO: investigate user id
         payload.setAgentUserId("1836.15267389");
-        payload.setDevices(googleService.getAllDevices());
+        List<GoogleDevice> allDevices = googleService.getAllDevices().stream()
+                .map(this::convertToGoogleDevice)
+                .collect(Collectors.toList());
+        payload.setDevices(allDevices);
         return payload;
+    }
+
+    private GoogleDevice convertToGoogleDevice(Device device) {
+        GoogleDevice googleDevice = new GoogleDevice();
+        googleDevice.setId(device.getId());
+        googleDevice.setName(device.getName());
+        googleDevice.setTraits(device.getTraits());
+        googleDevice.setType(device.getType());
+        googleDevice.setDeviceInfo(device.getDeviceInfo());
+        googleDevice.setOtherDeviceIds(device.getOtherDeviceIds());
+        googleDevice.setAttributes(device.getAttributes());
+        googleDevice.setCustomData(device.getCustomData());
+        googleDevice.setRoomHint(device.getRoomHint());
+        googleDevice.setWillReportState(device.isWillReportState());
+        return googleDevice;
     }
 
     private Pair<List<String>, Boolean> createPair(Command command) {

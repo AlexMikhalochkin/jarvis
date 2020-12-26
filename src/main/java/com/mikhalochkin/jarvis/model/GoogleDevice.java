@@ -1,5 +1,6 @@
 package com.mikhalochkin.jarvis.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -9,11 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Represents device.
+ * Represents device for google home.
  *
  * @author Alex Mikhalochkin
  */
-public class Device {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class GoogleDevice {
 
     private String id;
     private String type;
@@ -25,7 +27,6 @@ public class Device {
     private Map<String, String> deviceInfo;
     private List<Object> otherDeviceIds;
     private Map<String, Object> customData;
-    private int port;
 
     public String getId() {
         return id;
@@ -107,21 +108,13 @@ public class Device {
         this.customData = customData;
     }
 
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        Device device = (Device) o;
+        GoogleDevice device = (GoogleDevice) o;
 
         return new EqualsBuilder()
                 .append(willReportState, device.willReportState)

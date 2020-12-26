@@ -17,7 +17,7 @@ import java.util.List;
 public class Payload {
 
     private String agentUserId;
-    private List<Device> devices;
+    private List<GoogleDevice> devices;
     private List<Command> commands;
 
     public String getAgentUserId() {
@@ -28,11 +28,11 @@ public class Payload {
         this.agentUserId = agentUserId;
     }
 
-    public List<Device> getDevices() {
+    public List<GoogleDevice> getDevices() {
         return devices;
     }
 
-    public void setDevices(List<Device> devices) {
+    public void setDevices(List<GoogleDevice> devices) {
         this.devices = devices;
     }
 
