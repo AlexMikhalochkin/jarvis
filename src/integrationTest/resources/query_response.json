@@ -1,0 +1,12 @@
+{
+  "requestId": "6894439706274654514",
+  "payload": {
+    "devices": {
+      "kitchen-light-0": {
+        "status": "SUCCESS",
+        "online": true,
+        "on": true
+      }
+    }
+  }
+}

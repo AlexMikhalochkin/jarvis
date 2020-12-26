@@ -2,6 +2,7 @@ package com.mikhalochkin.jarvis.service.google;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
+import com.mikhalochkin.jarvis.repository.api.DeviceRepository;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,31 +31,23 @@ public class GoogleService implements SmartHomeService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GoogleService.class);
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
     @Autowired
     private PlcClient plcClient;
-    @Value("#{${jarvis.id.port.mapping}}")
-    private Map<String, Integer> deviceToPortMapping;
+    @Autowired
+    private DeviceRepository deviceRepository;
 
     @Override
     public List<Device> getAllDevices() {
-        ClassLoader classLoader = this.getClass().getClassLoader();
-        return deviceToPortMapping.keySet().stream()
-                .map(deviceId -> String.format("devices/%s.json", deviceId))
-                .map(classLoader::getResourceAsStream)
-                .map(this::readFile)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+        return deviceRepository.getAll();
     }
 
     @Override
     public Map<String, Object> getStatuses(List<String> deviceIds) {
         Map<Integer, Boolean> outPortsStatuses = plcClient.getOutPortsStatuses();
         return deviceIds.stream()
-                .map(id -> Pair.of(id, deviceToPortMapping.get(id)))
-                .map(pair -> Pair.of(pair.getLeft(), outPortsStatuses.get(pair.getRight())))
-                .map(pair -> Pair.of(pair.getLeft(), ImmutableMap.of("on", pair.getRight(), "online", true)))
+                .map(deviceRepository::getById)
+                .map(device -> Pair.of(device.getId(), outPortsStatuses.get(device.getPort())))
+                .map(pair -> Pair.of(pair.getLeft(), ImmutableMap.of("on", pair.getRight(), "online", true, "status", "SUCCESS")))
                 .collect(Collectors.toMap(Pair::getLeft, Pair::getRight));
     }
 
@@ -64,16 +57,8 @@ public class GoogleService implements SmartHomeService {
                 ? plcClient::turnOn
                 : plcClient::turnOff;
         deviceIds.stream()
-                .map(deviceToPortMapping::get)
+                .map(deviceRepository::getById)
+                .map(Device::getPort)
                 .forEach(idsConsumer);
-    }
-
-    private Device readFile(InputStream inputStream) {
-        try {
-            return objectMapper.readValue(inputStream, Device.class);
-        } catch (IOException e) {
-            LOGGER.error("Cannot read file with device info.");
-            return null;
-        }
     }
 }

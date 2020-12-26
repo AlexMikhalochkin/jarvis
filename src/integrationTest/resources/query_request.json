@@ -1,0 +1,15 @@
+{
+  "requestId": "6894439706274654514",
+  "inputs": [
+    {
+      "intent": "action.devices.QUERY",
+      "payload": {
+        "devices": [
+          {
+            "id": "kitchen-light-0"
+          }
+        ]
+      }
+    }
+  ]
+}

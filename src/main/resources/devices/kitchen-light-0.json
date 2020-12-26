@@ -25,5 +25,6 @@
   "otherDeviceIds": null,
   "customData": {
     "fooValue": 74
-  }
+  },
+  "port": 7
 }

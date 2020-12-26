@@ -1,5 +1,6 @@
 package com.mikhalochkin.jarvis.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -27,6 +28,7 @@ public class Device {
     private Map<String, String> deviceInfo;
     private List<Object> otherDeviceIds;
     private Map<String, Object> customData;
+    private int port;
 
     public String getId() {
         return id;
@@ -106,6 +108,14 @@ public class Device {
 
     public void setCustomData(Map<String, Object> customData) {
         this.customData = customData;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 
     @Override

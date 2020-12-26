@@ -21,5 +21,6 @@
   },
   "customData": {
     "fooValue": 74
-  }
+  },
+  "port": 8
 }
