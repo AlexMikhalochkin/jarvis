@@ -28,10 +28,8 @@ class JarvisApplicationTest {
 
     @Autowired
     private MockMvc mvc;
-
     @Autowired
     private TestService testService;
-
     @MockBean
     private PlcClient plcClient;
 
@@ -39,12 +37,7 @@ class JarvisApplicationTest {
     public void testSyncRequest() throws Exception {
         String request = testService.getPayloadFromFile("sync_request.json");
         String expectedResponse = testService.getPayloadFromFile("sync_response.json");
-        ResultActions resultActions = mvc.perform(post("/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(request));
-        resultActions
-                .andExpect(status().isOk())
-                .andExpect(content().json(expectedResponse));
+        verifyResponse(request, expectedResponse, false);
     }
 
     @Test
@@ -52,12 +45,24 @@ class JarvisApplicationTest {
         String request = testService.getPayloadFromFile("query_request.json");
         String expectedResponse = testService.getPayloadFromFile("query_response.json");
         Mockito.when(plcClient.getOutPortsStatuses()).thenReturn(Collections.singletonMap(7, true));
-        ResultActions resultActions = mvc.perform(post("/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(request));
-        resultActions
-                .andExpect(status().isOk())
-                .andExpect(content().json(expectedResponse));
+        verifyResponse(request, expectedResponse, true);
         Mockito.verify(plcClient).getOutPortsStatuses();
+    }
+
+    @Test
+    public void testExecuteRequest() throws Exception {
+        String request = testService.getPayloadFromFile("execute_request.json");
+        String expectedResponse = testService.getPayloadFromFile("execute_response.json");
+        Mockito.doNothing().when(plcClient).turnOn(7);
+        verifyResponse(request, expectedResponse, true);
+        Mockito.verify(plcClient).turnOn(7);
+    }
+
+    private void verifyResponse(String request, String expectedResponse, boolean isStrict) throws Exception {
+        mvc.perform(post("/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedResponse, isStrict));
     }
 }
