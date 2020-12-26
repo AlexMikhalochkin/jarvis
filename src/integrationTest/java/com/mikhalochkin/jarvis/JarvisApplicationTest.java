@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Collections;
 
@@ -35,30 +34,26 @@ class JarvisApplicationTest {
 
     @Test
     public void testSyncRequest() throws Exception {
-        String request = testService.getPayloadFromFile("sync_request.json");
-        String expectedResponse = testService.getPayloadFromFile("sync_response.json");
-        verifyResponse(request, expectedResponse, false);
+        verifyResponse("sync_request.json", "sync_response.json", false);
     }
 
     @Test
     public void testQueryRequest() throws Exception {
-        String request = testService.getPayloadFromFile("query_request.json");
-        String expectedResponse = testService.getPayloadFromFile("query_response.json");
         Mockito.when(plcClient.getOutPortsStatuses()).thenReturn(Collections.singletonMap(7, true));
-        verifyResponse(request, expectedResponse, true);
+        verifyResponse("query_request.json", "query_response.json", true);
         Mockito.verify(plcClient).getOutPortsStatuses();
     }
 
     @Test
     public void testExecuteRequest() throws Exception {
-        String request = testService.getPayloadFromFile("execute_request.json");
-        String expectedResponse = testService.getPayloadFromFile("execute_response.json");
         Mockito.doNothing().when(plcClient).turnOn(7);
-        verifyResponse(request, expectedResponse, true);
+        verifyResponse("execute_request.json", "execute_response.json", true);
         Mockito.verify(plcClient).turnOn(7);
     }
 
-    private void verifyResponse(String request, String expectedResponse, boolean isStrict) throws Exception {
+    private void verifyResponse(String requestPath, String responsePath, boolean isStrict) throws Exception {
+        String request = testService.getPayloadFromFile(requestPath);
+        String expectedResponse = testService.getPayloadFromFile(responsePath);
         mvc.perform(post("/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(request))

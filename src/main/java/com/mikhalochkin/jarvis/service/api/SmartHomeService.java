@@ -1,6 +1,7 @@
 package com.mikhalochkin.jarvis.service.api;
 
 import com.mikhalochkin.jarvis.model.Device;
+import com.mikhalochkin.jarvis.model.google.status.Status;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public interface SmartHomeService {
      * @param deviceIds {@link List} of {@link Device} ids.
      * @return {@link Map} where key is id of the {@link Device} and values is state of the {@link Device}.
      */
-    Map<String, Object> getStatuses(List<String> deviceIds);
+    Map<String, ? extends Status> getStatuses(List<String> deviceIds);
 
     /**
      * Changes statuses for the specified devices.
