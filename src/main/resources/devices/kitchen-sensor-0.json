@@ -1,0 +1,15 @@
+{
+  "id": "kitchen-sensor-0",
+  "type": "action.devices.types.SENSOR",
+  "traits": [
+    "action.devices.traits.TemperatureControl"
+  ],
+  "name": {
+    "name": "Temperature sensor"
+  },
+  "willReportState": true,
+  "attributes": {
+    "queryOnlyTemperatureControl": true
+  },
+  "port": 10
+}

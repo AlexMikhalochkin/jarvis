@@ -51,6 +51,13 @@ class JarvisApplicationTest {
         Mockito.verify(plcClient).turnOn(7);
     }
 
+    @Test
+    public void testQueryRequestForSensor() throws Exception {
+        Mockito.when(plcClient.getOutPortsStatuses()).thenReturn(Collections.singletonMap(10, true));
+        verifyResponse("query_request_sensor.json", "query_response_sensor.json", true);
+        Mockito.verify(plcClient).getOutPortsStatuses();
+    }
+
     private void verifyResponse(String requestPath, String responsePath, boolean isStrict) throws Exception {
         String request = testService.getPayloadFromFile(requestPath);
         String expectedResponse = testService.getPayloadFromFile(responsePath);
