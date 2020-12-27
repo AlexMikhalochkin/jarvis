@@ -1,0 +1,33 @@
+# This workflow will deploy a Java project to the remote server
+# It copies source code and build it on the remoter server to reduce time for deployment
+
+name: Deploy source code
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Run a script on remote server (start the application)
+        if: always()
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            echo ${GITHUB_REF##*/}
+            curl -LJO https://github.com/AlexMikhalochkin/jarvis/archive/${GITHUB_REF##*/}.zip
+            unzip jarvis-${GITHUB_REF##*/}.zip
+            rm jarvis-${GITHUB_REF##*/}.zip
+            cd jarvis-${GITHUB_REF##*/}/
+            ./gradlew bootJar
+            cd ..
+            mv jarvis-${GITHUB_REF##*/}/build/libs/jarvis-*.jar jarvis.jar
+            rm -r jarvis-${GITHUB_REF##*/}
+            kill $(ps aux | grep '/jarvis/jarvis.jar' | grep -v grep | awk '{print $2}')
+            java -jar ~/jarvis/jarvis.jar &
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          user: ${{ secrets.SSH_USER }}
+          pass: ${{ secrets.SSH_PASSWORD }}
+          args: "-tt"
