@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Zip source code
-        run: zip -r jarvis.zip gradle/ src/ gradlew build.gradle settings.gradle
+        run: zip -r jarvis.zip gradle/ src/ gradlew build.gradle settings.gradle tools/
       - name: Deploy the package to the remote server
         uses: garygrossgarten/github-action-scp@release
         with:
@@ -27,15 +27,11 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           command: |
-            unzip jarvis.zip -d extracted
+            cd jarvis
+            unzip -o jarvis.zip -d extracted
             rm jarvis.zip
-            cd extracted/
-            ./gradlew bootJar
-            cd ..
-            mv extracted/build/libs/jarvis-*.jar jarvis.jar
-            rm -r extracted
-            kill $(ps aux | grep '/jarvis/jarvis.jar' | grep -v grep | awk '{print $2}')
-            java -jar ~/jarvis/jarvis.jar &
+            cd extracted/tools
+            ./deploy_src.sh &
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           user: ${{ secrets.SSH_USER }}
