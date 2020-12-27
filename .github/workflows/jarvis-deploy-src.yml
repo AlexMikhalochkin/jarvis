@@ -10,20 +10,30 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     steps:
+      - uses: actions/checkout@v2
+      - name: Zip source code
+        run: zip -r jarvis.zip gradle/ src/ gradlew build.gradle settings.gradle
+      - name: Deploy the package to the remote server
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: jarvis.zip
+          remote: jarvis/jarvis.zip
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
       - name: Run a script on remote server (start the application)
         if: always()
         uses: fifsky/ssh-action@master
         with:
           command: |
-            echo ${GITHUB_REF##*/}
-            curl -LJO https://github.com/AlexMikhalochkin/jarvis/archive/${GITHUB_REF##*/}.zip
-            unzip jarvis-${GITHUB_REF##*/}.zip
-            rm jarvis-${GITHUB_REF##*/}.zip
-            cd jarvis-${GITHUB_REF##*/}/
+            unzip jarvis.zip -d extracted
+            rm jarvis.zip
+            cd extracted/
             ./gradlew bootJar
             cd ..
-            mv jarvis-${GITHUB_REF##*/}/build/libs/jarvis-*.jar jarvis.jar
-            rm -r jarvis-${GITHUB_REF##*/}
+            mv extracted/build/libs/jarvis-*.jar jarvis.jar
+            rm -r extracted
             kill $(ps aux | grep '/jarvis/jarvis.jar' | grep -v grep | awk '{print $2}')
             java -jar ~/jarvis/jarvis.jar &
           host: ${{ secrets.SSH_HOST }}
