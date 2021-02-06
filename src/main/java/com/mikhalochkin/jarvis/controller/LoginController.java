@@ -18,27 +18,25 @@ public class LoginController {
     private final String code = "711ecb4f-200b-406b-967b-1b1db0953bd8";
     private final String token = "ca3e4771-a0e8-4de3-ba63-a3545d15bfb2";
 
-    @RequestMapping(path = "/auth", method = RequestMethod.GET)
-    public RedirectView login(@RequestParam(value = "username", required = false) String username,
-                              @RequestParam(value = "password", required = false) String password,
-                              @RequestParam(value = "state", required = false) String state,
+    @RequestMapping(path = "/smartthings/auth", method = RequestMethod.GET)
+    public RedirectView login(@RequestParam(value = "scope", required = false) String scope,
                               @RequestParam(value = "response_type", required = false) String responseType,
                               @RequestParam(value = "redirect_uri", required = false) String redirectUri,
                               @RequestParam(value = "client_id", required = false) String clientId) {
-        logger.info("Auth post. started. username={}, password={}, state={}, responseType={}, redirectUri={}, clientId={},",
-                username, password, state, responseType, redirectUri, clientId);
+        logger.info("Auth post. started. scope={}, responseType={}, redirectUri={}, clientId={},",
+                scope, responseType, redirectUri, clientId);
         RedirectView redirectView = new RedirectView();
         String redirectUriFull = UriComponentsBuilder.fromHttpUrl(redirectUri)
-                .queryParam("state", state)
+                //.queryParam("state", state)
                 .queryParam("code", code)
                 .toUriString();
         redirectView.setUrl(redirectUriFull);
-        logger.info("Auth post. finished. username={}, password={}, state={}, responseType={}, redirectUri={}, clientId={}, redirectUriFull={},",
-                username, password, state, responseType, redirectUri, clientId, redirectUriFull);
+        logger.info("Auth post. finished. scope={}, responseType={}, redirectUri={}, clientId={}, redirectUriFull={},",
+                scope, responseType, redirectUri, clientId, redirectUriFull);
         return redirectView;
     }
 
-    @RequestMapping(path = "/token", method = RequestMethod.POST)
+    @RequestMapping(path = "/smartthings/token", method = RequestMethod.POST)
     public ModelAndView getToken(@RequestParam(value = "client_secret", required = false) String clientSecret,
                                  @RequestParam(value = "client_id", required = false) String clientId,
                                  @RequestParam(value = "grant_type", required = false) String grantType,
