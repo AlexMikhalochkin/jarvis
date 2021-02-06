@@ -19,20 +19,20 @@ public class LoginController {
     private final String token = "ca3e4771-a0e8-4de3-ba63-a3545d15bfb2";
 
     @RequestMapping(path = "/smartthings/auth", method = RequestMethod.GET)
-    public RedirectView login(@RequestParam(value = "scope", required = false) String scope,
+    public RedirectView login(@RequestParam(value = "state", required = false) String state,
                               @RequestParam(value = "response_type", required = false) String responseType,
                               @RequestParam(value = "redirect_uri", required = false) String redirectUri,
                               @RequestParam(value = "client_id", required = false) String clientId) {
-        logger.info("Auth post. started. scope={}, responseType={}, redirectUri={}, clientId={},",
-                scope, responseType, redirectUri, clientId);
+        logger.info("Auth post. started. state={}, responseType={}, redirectUri={}, clientId={},",
+                state, responseType, redirectUri, clientId);
         RedirectView redirectView = new RedirectView();
         String redirectUriFull = UriComponentsBuilder.fromHttpUrl(redirectUri)
-                //.queryParam("state", state)
+                .queryParam("state", state)
                 .queryParam("code", code)
                 .toUriString();
         redirectView.setUrl(redirectUriFull);
-        logger.info("Auth post. finished. scope={}, responseType={}, redirectUri={}, clientId={}, redirectUriFull={},",
-                scope, responseType, redirectUri, clientId, redirectUriFull);
+        logger.info("Auth post. finished. state={}, responseType={}, redirectUri={}, clientId={}, redirectUriFull={},",
+                state, responseType, redirectUri, clientId, redirectUriFull);
         return redirectView;
     }
 
@@ -47,7 +47,10 @@ public class LoginController {
                 clientSecret, clientId, grantType, refreshToken, redirectUri, code);
         ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
         modelAndView.addObject("access_token", token);
-        modelAndView.addObject("token_type", "Bearer");
+        modelAndView.addObject("expires_in", 1576799999);
+        modelAndView.addObject("token_type", "bearer");
+        modelAndView.addObject("refresh_token", "5d8rr9d7-a988-0a45-955c-74068fh8ur0l");
+        modelAndView.addObject("scope", "x:devices:* r:devices:*");
         logger.info("token post. finished. clientSecret={}, clientId={}, grantType={}, refreshToken={}, redirectUri={}, code={},",
                 clientSecret, clientId, grantType, refreshToken, redirectUri, code);
         return modelAndView;
