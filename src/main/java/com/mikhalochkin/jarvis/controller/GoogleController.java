@@ -1,12 +1,14 @@
 package com.mikhalochkin.jarvis.controller;
 
 import com.mikhalochkin.jarvis.model.*;
+import com.mikhalochkin.jarvis.service.api.SmartHomeService;
 import com.mikhalochkin.jarvis.service.google.GoogleService;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +27,8 @@ public class GoogleController {
     private static final Logger logger = LoggerFactory.getLogger(GoogleController.class);
 
     @Autowired
-    private GoogleService googleService;
+    @Qualifier("googleService")
+    private SmartHomeService googleService;
 
     @RequestMapping(path = "/", method = RequestMethod.POST)
     public ModelAndView fullfill(@RequestBody GoogleRequest googleRequest) {

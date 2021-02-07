@@ -6,6 +6,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.mikhalochkin.jarvis.model.Device;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
  * @author Alex Mikhalochkin
  */
 @Service
+@Qualifier("googleService")
 public class GoogleService implements SmartHomeService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GoogleService.class);
