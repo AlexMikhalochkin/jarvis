@@ -1,11 +1,13 @@
 package com.mega.demo
 
 import com.mega.demo.integration.MegaDClient
+import java.util.Locale
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.springframework.http.HttpStatus
@@ -15,54 +17,58 @@ import reactor.test.StepVerifier
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class MegaDClientTest {
 
-    var mockBackEnd: MockWebServer = MockWebServer()
+    private lateinit var megaDClient: MegaDClient
+    private lateinit var mockWebServer: MockWebServer
 
     @BeforeAll
     fun setUp() {
-        mockBackEnd.start()
+        mockWebServer = MockWebServer()
+        mockWebServer.start()
     }
 
     @AfterAll
     fun tearDown() {
-        mockBackEnd.shutdown()
+        mockWebServer.shutdown()
+    }
+
+    @BeforeEach
+    internal fun init() {
+        val baseUrl = String.format(Locale.getDefault(), "http://localhost:%s", mockWebServer.port)
+        val webClient = WebClient.create(baseUrl)
+        megaDClient = MegaDClient(webClient)
     }
 
     @Test
     fun testTurnOn() {
-        val baseUrl = String.format("http://localhost:%s", mockBackEnd.port)
-        val webClient = WebClient.create(baseUrl)
-        val megaDClient = MegaDClient(webClient)
-        mockBackEnd.enqueue(MockResponse().setResponseCode(HttpStatus.OK.value()))
+        mockWebServer.enqueue(MockResponse().setResponseCode(HttpStatus.OK.value()))
         val mono = megaDClient.turnOn(1)
         StepVerifier.create(mono)
             .verifyComplete()
-        val takeRequest = mockBackEnd.takeRequest()
+        val takeRequest = mockWebServer.takeRequest()
         assertEquals("GET", takeRequest.method)
         assertEquals("/?cmd=1:1", takeRequest.path)
     }
 
     @Test
     fun testTurnOff() {
-        val baseUrl = String.format("http://localhost:%s", mockBackEnd.port)
-        val webClient = WebClient.create(baseUrl)
-        val megaDClient = MegaDClient(webClient)
-        mockBackEnd.enqueue(MockResponse().setResponseCode(HttpStatus.OK.value()))
+        mockWebServer.enqueue(MockResponse().setResponseCode(HttpStatus.OK.value()))
         val mono = megaDClient.turnOff(1)
         StepVerifier.create(mono)
             .verifyComplete()
-        val takeRequest = mockBackEnd.takeRequest()
-        assertEquals("GET", takeRequest.method)
-        assertEquals("/?cmd=1:0", takeRequest.path)
+        val request = mockWebServer.takeRequest()
+        assertEquals("GET", request.method)
+        assertEquals("/?cmd=1:0", request.path)
     }
 
     @Test
     fun testGetPortStatuses() {
-        val baseUrl = String.format("http://localhost:%s", mockBackEnd.port)
-        val webClient = WebClient.create(baseUrl)
-        val megaDClient = MegaDClient(webClient)
-        mockBackEnd.enqueue(
+        mockWebServer.enqueue(
             MockResponse().setResponseCode(HttpStatus.OK.value())
-                .setBody("OFF/10;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;ON;OFF;OFF;OFF;OFF;OFF;OFF;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;OFF;OFF;OFF;OFF;OFF;OFF;OFF;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;ON/1;ON/1;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;OFF")
+                .setBody(
+                    "OFF/10;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;ON;OFF;OFF;OFF;OFF;OFF;OFF;OFF/0;OFF/0;OFF/0;" +
+                            "OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;OFF;OFF;OFF;OFF;OFF;OFF;OFF;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;" +
+                            "OFF/0;OFF/0;ON/1;ON/1;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;OFF/0;OFF"
+                )
         )
         val mono = megaDClient.getPortStatuses()
         val map = mapOf(
@@ -84,8 +90,8 @@ internal class MegaDClientTest {
         StepVerifier.create(mono)
             .expectNext(map)
             .verifyComplete()
-        val takeRequest = mockBackEnd.takeRequest()
-        assertEquals("GET", takeRequest.method)
-        assertEquals("/?cmd=all", takeRequest.path)
+        val request = mockWebServer.takeRequest()
+        assertEquals("GET", request.method)
+        assertEquals("/?cmd=all", request.path)
     }
 }

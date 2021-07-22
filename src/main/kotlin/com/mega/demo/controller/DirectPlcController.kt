@@ -8,9 +8,11 @@ import reactor.core.publisher.Mono
 @RestController
 class DirectPlcController(val megaDClient: MegaDClient) {
 
+    private val port = 7
+
     @GetMapping("/ports")
     fun turnOn(): Mono<Void> {
-        return megaDClient.turnOn(7)
+        return megaDClient.turnOn(port)
     }
 
     @GetMapping("/ports2")

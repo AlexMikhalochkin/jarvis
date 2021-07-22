@@ -1,0 +1,23 @@
+  style:
+    MagicNumber:
+      active: true
+      excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
+      ignoreNumbers:
+        - '-1'
+        - '0'
+        - '1'
+        - '2'
+      ignoreHashCodeFunction: true
+      ignorePropertyDeclaration: true
+      ignoreLocalVariableDeclaration: false
+      ignoreConstantDeclaration: true
+      ignoreCompanionObjectPropertyDeclaration: true
+      ignoreAnnotation: false
+      ignoreNamedArgument: true
+      ignoreEnums: false
+      ignoreRanges: false
+      ignoreExtensionFunctions: true
+  performance:
+    SpreadOperator:
+      excludes: ['**/DemoApplication.kt' ]
+

@@ -2,7 +2,6 @@ package com.mega.demo.controller
 
 import com.mega.demo.integration.MegaDClient
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
@@ -13,7 +12,7 @@ internal class DirectPlcControllerTest {
 
     @Test
     fun testTurnOn() {
-        val megaDClient : MegaDClient = mock()
+        val megaDClient: MegaDClient = mock()
         val controller = DirectPlcController(megaDClient)
         controller.turnOn()
         verify(megaDClient).turnOn(7)
@@ -21,7 +20,7 @@ internal class DirectPlcControllerTest {
 
     @Test
     fun testGetStatuses() {
-        val megaDClient : MegaDClient = mock()
+        val megaDClient: MegaDClient = mock()
         val controller = DirectPlcController(megaDClient)
         val response = Mono.just(emptyMap<Int, String>())
         whenever(megaDClient.getPortStatuses()).thenReturn(response)
