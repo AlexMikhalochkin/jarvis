@@ -1,28 +1,29 @@
-package com.mega.demo.integration
+package com.mega.demo.integration.impl
 
+import com.mega.demo.integration.api.PlcClient
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 
 /**
- * MegaDClient.
+ * Implementation of [PlcClient] for MegaD controller.
  *
  * @author Alex Mikhalochkin
  */
 @Component
-class MegaDClient(val webClient: WebClient) {
+class MegaDClient(val webClient: WebClient) : PlcClient {
 
     private val outPorts = setOf(7, 8, 9, 10, 11, 12, 13, 22, 23, 24, 25, 26, 27, 28)
 
-    fun turnOn(portNumber: Int): Mono<Void> {
-        return changePortStatus(portNumber, 1)
+    override fun turnOn(port: Int): Mono<Void> {
+        return changePortStatus(port, 1)
     }
 
-    fun turnOff(portNumber: Int): Mono<Void> {
-        return changePortStatus(portNumber, 0)
+    override fun turnOff(port: Int): Mono<Void> {
+        return changePortStatus(port, 0)
     }
 
-    fun getPortStatuses(): Mono<Map<Int, String>> {
+    override fun getPortStatuses(): Mono<Map<Int, String>> {
         return sendRequest(String::class.java, "all")
             .map { response -> response.split(";") }
             .map { statuses -> outPorts.associateWith { statuses[it] } }

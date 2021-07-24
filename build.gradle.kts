@@ -11,7 +11,7 @@ plugins {
 
 group = "com.mega"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_16
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
@@ -25,11 +25,13 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.junit.jupiter:junit-jupiter:5.7.0")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
     testImplementation("com.squareup.okhttp3:okhttp:4.0.1")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.0.1")
+
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.18.0-RC2")
 }
 
@@ -39,25 +41,21 @@ tasks.withType<KotlinCompile> {
         jvmTarget = "11"
     }
 }
-
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-
 tasks.test {
     finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
 }
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
 }
-
 tasks.check {
     dependsOn(tasks.jacocoTestCoverageVerification) // tests are required to run before generating the report
 }
 
 jacoco {
     toolVersion = "0.8.7"
-    //reportsDirectory.set(layout.buildDirectory.dir("customJacocoReportDir"))
 }
 
 tasks.jacocoTestReport {

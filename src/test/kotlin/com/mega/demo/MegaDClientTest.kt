@@ -1,6 +1,6 @@
 package com.mega.demo
 
-import com.mega.demo.integration.MegaDClient
+import com.mega.demo.integration.impl.MegaDClient
 import java.util.Locale
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
