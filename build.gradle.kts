@@ -70,7 +70,12 @@ tasks.jacocoTestCoverageVerification {
     violationRules {
         rule {
             element = "CLASS"
-            excludes = listOf("com.mega.demo.DemoApplicationKt")
+            excludes = listOf(
+                "com.mega.demo.DemoApplicationKt",
+                "com.mega.demo.model.*",
+                "com.mega.demo.exception.*",
+                "com.mega.demo.controller.model.*"
+            )
             limit {
                 minimum = "0.9".toBigDecimal()
             }
