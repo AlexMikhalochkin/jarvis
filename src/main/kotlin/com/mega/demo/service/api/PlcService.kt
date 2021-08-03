@@ -1,7 +1,5 @@
 package com.mega.demo.service.api
 
-import reactor.core.publisher.Mono
-
 /**
  * Service for programmable logic controller.
  *
@@ -9,9 +7,9 @@ import reactor.core.publisher.Mono
  */
 interface PlcService {
 
-    fun turnOn(port: Int): Mono<Void>
+    fun turnOn(port: Int)
 
-    fun turnOff(port: Int): Mono<Void>
+    fun turnOff(port: Int)
 
-    fun getPortStatuses(): Mono<Map<Int, String>>
+    fun getPortStatuses(): Map<Int, Boolean>
 }

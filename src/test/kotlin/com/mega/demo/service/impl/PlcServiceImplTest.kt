@@ -5,7 +5,14 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
+import reactor.core.publisher.Mono
 
+/**
+ * Verifies [PlcServiceImpl].
+ *
+ * @author Alex Mikhalochkin
+ */
 internal class PlcServiceImplTest {
 
     private lateinit var service: PlcServiceImpl
@@ -31,6 +38,7 @@ internal class PlcServiceImplTest {
 
     @Test
     fun getPortStatuses() {
+        whenever(plcClient.getPortStatuses()).thenReturn(Mono.empty())
         service.getPortStatuses()
         verify(plcClient).getPortStatuses()
     }

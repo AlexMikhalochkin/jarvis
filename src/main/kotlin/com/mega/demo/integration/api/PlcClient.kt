@@ -13,5 +13,5 @@ interface PlcClient {
 
     fun turnOff(port: Int): Mono<Void>
 
-    fun getPortStatuses(): Mono<Map<Int, String>>
+    fun getPortStatuses(): Mono<Map<Int, Boolean>>
 }

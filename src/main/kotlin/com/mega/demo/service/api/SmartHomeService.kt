@@ -10,9 +10,9 @@ import com.mega.demo.model.DeviceStatus
  */
 interface SmartHomeService {
 
-    fun getStatuses(listOf: List<String>): List<DeviceStatus>
+    fun getStatuses(deviceIds: List<String>): List<DeviceStatus>
 
-    fun changeStatus(listOf: List<String>, on: Boolean)
+    fun changeStatus(listOf: List<String>, on: Boolean): List<DeviceStatus>
 
     fun getAllDevices(): List<Device>
 }

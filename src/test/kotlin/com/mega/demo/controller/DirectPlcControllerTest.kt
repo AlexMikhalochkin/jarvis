@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import reactor.core.publisher.Mono
 
 /**
  * Verifies [DirectPlcController].
@@ -33,7 +32,7 @@ internal class DirectPlcControllerTest {
 
     @Test
     fun testGetStatuses() {
-        val response = Mono.just(emptyMap<Int, String>())
+        val response = emptyMap<Int, Boolean>()
         whenever(plcService.getPortStatuses()).thenReturn(response)
         assertSame(response, controller.getStatuses())
         verify(plcService).getPortStatuses()

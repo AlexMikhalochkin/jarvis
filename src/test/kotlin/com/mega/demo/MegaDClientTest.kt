@@ -72,20 +72,20 @@ internal class MegaDClientTest {
         )
         val mono = megaDClient.getPortStatuses()
         val map = mapOf(
-            7 to "ON",
-            8 to "OFF",
-            9 to "OFF",
-            10 to "OFF",
-            11 to "OFF",
-            12 to "OFF",
-            13 to "OFF",
-            22 to "OFF",
-            23 to "OFF",
-            24 to "OFF",
-            25 to "OFF",
-            26 to "OFF",
-            27 to "OFF",
-            28 to "OFF"
+            7 to true,
+            8 to false,
+            9 to false,
+            10 to false,
+            11 to false,
+            12 to false,
+            13 to false,
+            22 to false,
+            23 to false,
+            24 to false,
+            25 to false,
+            26 to false,
+            27 to false,
+            28 to false
         )
         StepVerifier.create(mono)
             .expectNext(map)

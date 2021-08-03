@@ -64,12 +64,12 @@ class SmartThingsController(val smartThingsService: SmartHomeService, val conver
     }
 
     private fun handleDiscoveryRequest(request: SmartThingsRequest): SmartThingsResponse {
-        val dev = smartThingsService.getAllDevices()
+        val devices = smartThingsService.getAllDevices()
             .map { conversionService.convert(it, SmartThingsDevice::class.java) }
         return SmartThingsResponse(
             createHeaders(request, "discoveryResponse"),
             true,
-            dev
+            devices
         )
     }
 

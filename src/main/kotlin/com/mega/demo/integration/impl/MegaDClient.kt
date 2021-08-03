@@ -23,10 +23,10 @@ class MegaDClient(val webClient: WebClient) : PlcClient {
         return changePortStatus(port, 0)
     }
 
-    override fun getPortStatuses(): Mono<Map<Int, String>> {
+    override fun getPortStatuses(): Mono<Map<Int, Boolean>> {
         return sendRequest(String::class.java, "all")
-            .map { response -> response.split(";") }
-            .map { statuses -> outPorts.associateWith { statuses[it] } }
+            .map { it.split(";") }
+            .map { statuses -> outPorts.associateWith { "ON" == statuses[it] } }
     }
 
     private fun changePortStatus(portNumber: Int, portStatus: Int): Mono<Void> {

@@ -1,7 +1,7 @@
 package com.mega.demo.repository.impl
 
 import com.mega.demo.model.Device
-import com.mega.demo.repository.DeviceRepository
+import com.mega.demo.repository.api.DeviceRepository
 import org.springframework.stereotype.Repository
 
 /**
@@ -29,5 +29,9 @@ class DeviceRepositoryImpl : DeviceRepository {
                 "unique identifier of device"
             )
         )
+    }
+
+    override fun findPorts(deviceIds: List<String>): Map<String, Int> {
+        return mapOf(deviceIds[0] to 1)
     }
 }
