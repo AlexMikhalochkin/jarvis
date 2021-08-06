@@ -1,7 +1,7 @@
 package com.mega.demo.service.api
 
-import com.mega.demo.model.Device
-import com.mega.demo.model.DeviceStatus
+import com.mega.demo.controller.model.smartthings.DeviceState
+import com.mega.demo.controller.model.smartthings.SmartThingsDevice
 
 /**
  * Smart home service.
@@ -10,9 +10,9 @@ import com.mega.demo.model.DeviceStatus
  */
 interface SmartHomeService {
 
-    fun getStatuses(deviceIds: List<String>): List<DeviceStatus>
+    fun getDeviceStates(deviceIds: List<String>): List<DeviceState>
 
-    fun changeStatus(listOf: List<String>, on: Boolean): List<DeviceStatus>
+    fun executeCommands(devicesWithCommands: List<SmartThingsDevice>): List<DeviceState>
 
-    fun getAllDevices(): List<Device>
+    fun getAllDevices(): List<SmartThingsDevice>
 }

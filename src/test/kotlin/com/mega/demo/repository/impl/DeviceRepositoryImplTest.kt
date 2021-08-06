@@ -16,4 +16,11 @@ internal class DeviceRepositoryImplTest {
         val devices = deviceRepository.findAll()
         assertNotNull(devices)
     }
+
+    @Test
+    fun findPorts() {
+        val deviceRepository = DeviceRepositoryImpl()
+        val ports = deviceRepository.findPorts(listOf("test"))
+        assertNotNull(ports)
+    }
 }

@@ -17,7 +17,7 @@ interface DeviceRepository {
     fun findAll(): List<Device>
 
     /**
-     * Finds all available devices.
+     * Finds ports for specified devices.
      *
      * @param deviceIds [List] of ids.
      * @return [Map] where key is id and value is port of this device.

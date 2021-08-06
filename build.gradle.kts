@@ -29,6 +29,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
+    testImplementation ("org.mockito:mockito-inline:2.13.0")
     testImplementation("com.squareup.okhttp3:okhttp:4.0.1")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.0.1")
 
