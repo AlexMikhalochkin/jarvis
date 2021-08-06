@@ -51,9 +51,6 @@ tasks.test {
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
 }
-tasks.check {
-    dependsOn(tasks.jacocoTestCoverageVerification) // tests are required to run before generating the report
-}
 
 jacoco {
     toolVersion = "0.8.7"
@@ -65,23 +62,6 @@ tasks.jacocoTestReport {
         csv.required.set(false)
         xml.outputLocation.set(file("$buildDir/reports/jacoco/report.xml"))
         html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco"))
-    }
-}
-
-tasks.jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            element = "CLASS"
-            excludes = listOf(
-                "com.mega.demo.DemoApplicationKt",
-                "com.mega.demo.model.*",
-                "com.mega.demo.exception.*",
-                "com.mega.demo.controller.model.*"
-            )
-            limit {
-                minimum = "0.9".toBigDecimal()
-            }
-        }
     }
 }
 
