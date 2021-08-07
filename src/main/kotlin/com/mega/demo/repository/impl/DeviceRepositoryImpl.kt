@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository
 @Repository
 class DeviceRepositoryImpl : DeviceRepository {
 
+    private val port = 7
+
     override fun findAll(): List<Device> {
         val deviceContext = mapOf(
             "roomName" to "Kitchen",
@@ -32,6 +34,6 @@ class DeviceRepositoryImpl : DeviceRepository {
     }
 
     override fun findPorts(deviceIds: List<String>): Map<String, Int> {
-        return mapOf(deviceIds[0] to 1)
+        return mapOf(deviceIds[0] to port)
     }
 }

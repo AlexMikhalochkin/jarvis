@@ -4,9 +4,12 @@ import com.mega.demo.controller.model.smartthings.Headers
 import com.mega.demo.controller.model.smartthings.SmartThingsRequest
 import com.mega.demo.controller.model.smartthings.SmartThingsResponse
 import com.mega.demo.service.api.SmartHomeService
+import mu.KotlinLogging
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+
+private val logger = KotlinLogging.logger {}
 
 /**
  * SmartThings controller.
@@ -24,8 +27,10 @@ class SmartThingsController(val smartThingsService: SmartHomeService) {
 
     @PostMapping(path = ["/smartthings"])
     fun handle(@RequestBody request: SmartThingsRequest): SmartThingsResponse {
-        return requestHandlers.getValue(request.headers.interactionType)
-            .invoke(request)
+        logger.info("Handle SmartThings request. Started. Request ={}", request)
+        val response = requestHandlers.getValue(request.headers.interactionType).invoke(request)
+        logger.info("Handle SmartThings request. Finished. Response ={}", response)
+        return response
     }
 
     private fun handleCommandRequest(request: SmartThingsRequest): SmartThingsResponse {
@@ -50,7 +55,7 @@ class SmartThingsController(val smartThingsService: SmartHomeService) {
     private fun handleDiscoveryRequest(request: SmartThingsRequest): SmartThingsResponse {
         return SmartThingsResponse(
             createHeaders(request, "discoveryResponse"),
-            true,
+            false,
             smartThingsService.getAllDevices()
         )
     }

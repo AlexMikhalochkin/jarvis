@@ -1,6 +1,7 @@
 package com.mega.demo.integration.impl
 
 import com.mega.demo.integration.api.PlcClient
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
@@ -11,6 +12,7 @@ import reactor.core.publisher.Mono
  * @author Alex Mikhalochkin
  */
 @Component
+@Profile("!dev")
 class MegaDClient(val webClient: WebClient) : PlcClient {
 
     private val outPorts = setOf(7, 8, 9, 10, 11, 12, 13, 22, 23, 24, 25, 26, 27, 28)
