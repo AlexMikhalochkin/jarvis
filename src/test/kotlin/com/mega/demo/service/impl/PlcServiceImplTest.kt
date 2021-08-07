@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import reactor.core.publisher.Mono
 
 /**
  * Verifies [PlcServiceImpl].
@@ -38,7 +37,7 @@ internal class PlcServiceImplTest {
 
     @Test
     fun getPortStatuses() {
-        whenever(plcClient.getPortStatuses()).thenReturn(Mono.empty())
+        whenever(plcClient.getPortStatuses()).thenReturn(emptyMap())
         service.getPortStatuses()
         verify(plcClient).getPortStatuses()
     }

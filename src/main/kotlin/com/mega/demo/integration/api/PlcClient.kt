@@ -1,7 +1,5 @@
 package com.mega.demo.integration.api
 
-import reactor.core.publisher.Mono
-
 /**
  * Http client for programmable logic controller.
  *
@@ -9,9 +7,9 @@ import reactor.core.publisher.Mono
  */
 interface PlcClient {
 
-    fun turnOn(port: Int): Mono<Void>
+    fun turnOn(port: Int)
 
-    fun turnOff(port: Int): Mono<Void>
+    fun turnOff(port: Int)
 
-    fun getPortStatuses(): Mono<Map<Int, Boolean>>
+    fun getPortStatuses(): Map<Int, Boolean>
 }

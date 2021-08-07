@@ -21,6 +21,6 @@ class PlcServiceImpl(val plcClient: PlcClient) : PlcService {
     }
 
     override fun getPortStatuses(): Map<Int, Boolean> {
-        return plcClient.getPortStatuses().block().orEmpty()
+        return plcClient.getPortStatuses()
     }
 }

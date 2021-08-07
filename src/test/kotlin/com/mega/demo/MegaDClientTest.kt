@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.springframework.http.HttpStatus
 import org.springframework.web.reactive.function.client.WebClient
-import reactor.test.StepVerifier
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class MegaDClientTest {
@@ -41,9 +40,7 @@ internal class MegaDClientTest {
     @Test
     fun testTurnOn() {
         mockWebServer.enqueue(MockResponse().setResponseCode(HttpStatus.OK.value()))
-        val mono = megaDClient.turnOn(1)
-        StepVerifier.create(mono)
-            .verifyComplete()
+        megaDClient.turnOn(1)
         val takeRequest = mockWebServer.takeRequest()
         assertEquals("GET", takeRequest.method)
         assertEquals("/?cmd=1:1", takeRequest.path)
@@ -52,9 +49,7 @@ internal class MegaDClientTest {
     @Test
     fun testTurnOff() {
         mockWebServer.enqueue(MockResponse().setResponseCode(HttpStatus.OK.value()))
-        val mono = megaDClient.turnOff(1)
-        StepVerifier.create(mono)
-            .verifyComplete()
+        megaDClient.turnOff(1)
         val request = mockWebServer.takeRequest()
         assertEquals("GET", request.method)
         assertEquals("/?cmd=1:0", request.path)
@@ -87,9 +82,7 @@ internal class MegaDClientTest {
             27 to false,
             28 to false
         )
-        StepVerifier.create(mono)
-            .expectNext(map)
-            .verifyComplete()
+        assertEquals(map, mono)
         val request = mockWebServer.takeRequest()
         assertEquals("GET", request.method)
         assertEquals("/?cmd=all", request.path)

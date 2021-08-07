@@ -15,22 +15,23 @@ class MegaDClient(val webClient: WebClient) : PlcClient {
 
     private val outPorts = setOf(7, 8, 9, 10, 11, 12, 13, 22, 23, 24, 25, 26, 27, 28)
 
-    override fun turnOn(port: Int): Mono<Void> {
+    override fun turnOn(port: Int) {
         return changePortStatus(port, 1)
     }
 
-    override fun turnOff(port: Int): Mono<Void> {
+    override fun turnOff(port: Int) {
         return changePortStatus(port, 0)
     }
 
-    override fun getPortStatuses(): Mono<Map<Int, Boolean>> {
-        return sendRequest(String::class.java, "all")
-            .map { it.split(";") }
-            .map { statuses -> outPorts.associateWith { "ON" == statuses[it] } }
+    override fun getPortStatuses(): Map<Int, Boolean> {
+        val statuses = sendRequest(String::class.java, "all")
+            .block()!!
+            .split(";")
+        return outPorts.associateWith { ("ON" == statuses[it]) }
     }
 
-    private fun changePortStatus(portNumber: Int, portStatus: Int): Mono<Void> {
-        return sendRequest(Void::class.java, "{port}:{status}", portNumber, portStatus)
+    private fun changePortStatus(portNumber: Int, portStatus: Int) {
+        sendRequest(Void::class.java, "{port}:{status}", portNumber, portStatus).block()
     }
 
     private fun <T> sendRequest(clazz: Class<T>, commandTemplate: String, vararg params: Any): Mono<T> {
