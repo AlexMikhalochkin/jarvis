@@ -5,15 +5,15 @@ import com.mega.demo.controller.model.smartthings.Command
 import com.mega.demo.controller.model.smartthings.Headers
 import com.mega.demo.controller.model.smartthings.SmartThingsDevice
 import com.mega.demo.controller.model.smartthings.SmartThingsRequest
+import com.mega.demo.generateUuid
 import com.mega.demo.service.impl.smartthings.SmartThingsService
-import java.util.UUID
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
 
 internal class SmartThingsControllerTest {
 
-    private val deviceId = UUID.randomUUID().toString()
+    private val deviceId = generateUuid()
 
     private lateinit var controller: SmartThingsController
     private lateinit var service: SmartThingsService
@@ -48,10 +48,10 @@ internal class SmartThingsControllerTest {
         return SmartThingsRequest(
             Headers(
                 interactionType,
-                UUID.randomUUID().toString()
+                generateUuid()
             ),
-            Authentication(UUID.randomUUID().toString()),
-            devices
+            devices = devices,
+            authentication = Authentication(generateUuid())
         )
     }
 }

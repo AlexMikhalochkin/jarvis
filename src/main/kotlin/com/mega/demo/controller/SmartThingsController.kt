@@ -22,7 +22,8 @@ class SmartThingsController(val smartThingsService: SmartHomeService) {
     private val requestHandlers = mapOf(
         "discoveryRequest" to ::handleDiscoveryRequest,
         "stateRefreshRequest" to ::handleStateRefreshRequest,
-        "commandRequest" to ::handleCommandRequest
+        "commandRequest" to ::handleCommandRequest,
+        "grantCallbackAccess" to ::handleGrantCallbackAccess,
     )
 
     @PostMapping(path = ["/smartthings"])
@@ -33,11 +34,11 @@ class SmartThingsController(val smartThingsService: SmartHomeService) {
         return response
     }
 
-    private fun handleCommandRequest(request: SmartThingsRequest): SmartThingsResponse {
-        val deviceStates = smartThingsService.executeCommands(request.devices!!)
+    private fun handleDiscoveryRequest(request: SmartThingsRequest): SmartThingsResponse {
         return SmartThingsResponse(
-            createHeaders(request, "commandResponse"),
-            deviceState = deviceStates
+            createHeaders(request, "discoveryResponse"),
+            true,
+            smartThingsService.getAllDevices()
         )
     }
 
@@ -52,11 +53,17 @@ class SmartThingsController(val smartThingsService: SmartHomeService) {
         )
     }
 
-    private fun handleDiscoveryRequest(request: SmartThingsRequest): SmartThingsResponse {
+    private fun handleCommandRequest(request: SmartThingsRequest): SmartThingsResponse {
+        val deviceStates = smartThingsService.executeCommands(request.devices!!)
         return SmartThingsResponse(
-            createHeaders(request, "discoveryResponse"),
-            false,
-            smartThingsService.getAllDevices()
+            createHeaders(request, "commandResponse"),
+            deviceState = deviceStates
+        )
+    }
+
+    private fun handleGrantCallbackAccess(request: SmartThingsRequest): SmartThingsResponse {
+        return SmartThingsResponse(
+            createHeaders(request, "grantCallbackAccess")
         )
     }
 

@@ -7,6 +7,9 @@ package com.mega.demo.controller.model.smartthings
  */
 data class SmartThingsRequest(
     val headers: Headers,
-    val authentication: Authentication,
-    val devices: List<SmartThingsDevice>?
+    val callbackAuthentication: CallbackAuthentication? = null,
+    val devices: List<SmartThingsDevice>? = null,
+    val deviceState: List<DeviceState>? = null,
+    val authentication: Authentication? = null,
+    val callbackUrls: CallbackUrls? = null
 )

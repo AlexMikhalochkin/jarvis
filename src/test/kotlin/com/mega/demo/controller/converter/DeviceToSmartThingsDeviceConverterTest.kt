@@ -1,8 +1,8 @@
 package com.mega.demo.controller.converter
 
 import com.mega.demo.controller.model.smartthings.SmartThingsDevice
+import com.mega.demo.generateUuid
 import com.mega.demo.model.Device
-import java.util.UUID
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test
  */
 internal class DeviceToSmartThingsDeviceConverterTest {
 
-    private val externalDeviceId = UUID.randomUUID().toString()
-    private val deviceUniqueId = UUID.randomUUID().toString()
+    private val externalDeviceId = generateUuid()
+    private val deviceUniqueId = generateUuid()
 
     @Test
     fun testConvert() {

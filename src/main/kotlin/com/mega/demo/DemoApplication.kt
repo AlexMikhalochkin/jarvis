@@ -12,14 +12,27 @@ class DemoApplication {
     @Value("\${plc.url}")
     private lateinit var plcUrl: String
 
+    @Value("\${smart.things.url}")
+    private lateinit var smartThingsUrl: String
+
     /**
      * WebClient for MegaD controller.
      *
      * @return instance of [WebClient].
      */
-    @Bean
-    fun webClient(): WebClient {
+    @Bean("megaDWebClient")
+    fun megaDWebClient(): WebClient {
         return WebClient.create(plcUrl)
+    }
+
+    /**
+     * WebClient for SmartThings callbacks.
+     *
+     * @return instance of [WebClient].
+     */
+    @Bean("smartThingsWebClient")
+    fun smartThingsWebClient(): WebClient {
+        return WebClient.create(smartThingsUrl)
     }
 }
 
