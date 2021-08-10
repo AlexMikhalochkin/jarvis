@@ -6,7 +6,7 @@ import com.mega.demo.controller.model.smartthings.Headers
 import com.mega.demo.controller.model.smartthings.SmartThingsDevice
 import com.mega.demo.controller.model.smartthings.SmartThingsRequest
 import com.mega.demo.generateUuid
-import com.mega.demo.service.impl.smartthings.SmartThingsService
+import com.mega.demo.service.api.SmartThingsService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock

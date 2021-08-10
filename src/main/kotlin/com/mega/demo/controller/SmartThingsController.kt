@@ -3,7 +3,7 @@ package com.mega.demo.controller
 import com.mega.demo.controller.model.smartthings.Headers
 import com.mega.demo.controller.model.smartthings.SmartThingsRequest
 import com.mega.demo.controller.model.smartthings.SmartThingsResponse
-import com.mega.demo.service.api.SmartHomeService
+import com.mega.demo.service.api.SmartThingsService
 import mu.KotlinLogging
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -17,7 +17,7 @@ private val logger = KotlinLogging.logger {}
  * @author Alex Mikhalochkin
  */
 @RestController
-class SmartThingsController(val smartThingsService: SmartHomeService) {
+class SmartThingsController(val smartThingsService: SmartThingsService) {
 
     private val requestHandlers = mapOf(
         "discoveryRequest" to ::handleDiscoveryRequest,
@@ -54,7 +54,7 @@ class SmartThingsController(val smartThingsService: SmartHomeService) {
     }
 
     private fun handleCommandRequest(request: SmartThingsRequest): SmartThingsResponse {
-        val deviceStates = smartThingsService.executeCommands(request.devices!!)
+        val deviceStates = smartThingsService.changeState(request.devices!!)
         return SmartThingsResponse(
             createHeaders(request, "commandResponse"),
             deviceState = deviceStates

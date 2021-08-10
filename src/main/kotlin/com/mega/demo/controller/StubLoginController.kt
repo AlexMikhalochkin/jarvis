@@ -13,16 +13,18 @@ import org.springframework.web.util.UriComponentsBuilder
 private val logger = KotlinLogging.logger {}
 
 /**
- * Yandex login controller.
+ * Stub login controller for development.
+ * Must be reimplemented using Spring Security.
  *
  * @author Alex Mikhalochkin
  */
 @Controller
-class YandexLoginController {
+class StubLoginController {
+
     private val code = "711ecb4f-200b-406b-967b-1b1db0953bd8"
     private val token = "ca3e4771-a0e8-4de3-ba63-a3545d15bfb2"
 
-    @RequestMapping(path = ["/yandex/auth"], method = [RequestMethod.GET])
+    @RequestMapping(path = ["/smartthings/auth"], method = [RequestMethod.GET])
     fun login(
         @RequestParam(value = "state", required = false) state: String?,
         @RequestParam(value = "response_type", required = false) responseType: String?,
@@ -49,7 +51,7 @@ class YandexLoginController {
     private val i = 1576799999
 
     @Suppress("LongParameterList")
-    @RequestMapping(path = ["/yandex/token"], method = [RequestMethod.POST])
+    @RequestMapping(path = ["/smartthings/token"], method = [RequestMethod.POST])
     fun getToken(
         @RequestParam(value = "client_secret", required = false) clientSecret: String?,
         @RequestParam(value = "client_id", required = false) clientId: String?,

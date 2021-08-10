@@ -6,7 +6,6 @@ import com.mega.demo.controller.model.smartthings.SmartThingsDevice
 import com.mega.demo.model.Device
 import com.mega.demo.repository.api.DeviceRepository
 import com.mega.demo.service.api.PlcService
-import com.mega.demo.service.impl.smartthings.SmartThingsService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.BeforeEach
@@ -19,13 +18,13 @@ import org.mockito.kotlin.whenever
 import org.springframework.core.convert.ConversionService
 
 /**
- * Verification for [SmartThingsService].
+ * Verification for [SmartThingsServiceImpl].
  *
  * @author Alex Mikhalochkin
  */
-internal class SmartThingsServiceTest {
+internal class SmartThingsServiceImplTest {
 
-    private lateinit var service: SmartThingsService
+    private lateinit var service: SmartThingsServiceImpl
     private lateinit var deviceRepository: DeviceRepository
     private lateinit var plcService: PlcService
     private lateinit var conversionService: ConversionService
@@ -35,7 +34,7 @@ internal class SmartThingsServiceTest {
         deviceRepository = mock()
         plcService = mock()
         conversionService = mock()
-        service = SmartThingsService(deviceRepository, plcService, conversionService)
+        service = SmartThingsServiceImpl(deviceRepository, plcService, conversionService)
     }
 
     @Test
@@ -58,7 +57,7 @@ internal class SmartThingsServiceTest {
         val firstDevice = SmartThingsDevice("first", commands = listOf(firstCommand))
         val secondDevice = SmartThingsDevice("second", commands = listOf(secondCommand))
         whenever(deviceRepository.findPorts(listOf("first", "second"))).thenReturn(mapOf("first" to 1, "second" to 2))
-        val deviceStates = service.executeCommands(listOf(firstDevice, secondDevice))
+        val deviceStates = service.changeState(listOf(firstDevice, secondDevice))
         assertEquals(2, deviceStates.size)
         verifyDeviceState(deviceStates[0], "first", "on")
         verifyDeviceState(deviceStates[1], "second", "off")

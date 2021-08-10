@@ -1,18 +1,18 @@
 package com.mega.demo.service.api
 
-import com.mega.demo.controller.model.smartthings.DeviceState
-import com.mega.demo.controller.model.smartthings.SmartThingsDevice
-
 /**
  * Smart home service.
  *
  * @author Alex Mikhalochkin
+ *
+ * @param D the type of smart device.
+ * @param S the type of smart device's state.
  */
-interface SmartHomeService {
+interface SmartHomeService<D, S> {
 
-    fun getDeviceStates(deviceIds: List<String>): List<DeviceState>
+    fun getDeviceStates(deviceIds: List<String>): List<S>
 
-    fun executeCommands(devicesWithCommands: List<SmartThingsDevice>): List<DeviceState>
+    fun changeState(devicesWithStates: List<D>): List<S>
 
-    fun getAllDevices(): List<SmartThingsDevice>
+    fun getAllDevices(): List<D>
 }
