@@ -1,10 +1,10 @@
 package com.mega.demo.service.impl
 
-import com.mega.demo.controller.model.yandex.ActionResult
-import com.mega.demo.controller.model.yandex.Capability
-import com.mega.demo.controller.model.yandex.Device
-import com.mega.demo.controller.model.yandex.DeviceInfo
-import com.mega.demo.controller.model.yandex.State
+import com.mega.demo.model.yandex.ActionResult
+import com.mega.demo.model.yandex.Capability
+import com.mega.demo.model.yandex.Device
+import com.mega.demo.model.yandex.DeviceInfo
+import com.mega.demo.model.yandex.State
 import com.mega.demo.service.api.YandexService
 import org.springframework.stereotype.Service
 

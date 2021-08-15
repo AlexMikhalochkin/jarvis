@@ -1,0 +1,8 @@
+{
+  "apiPackage": "com.mega.demo.controller.generated.api",
+  "modelPackage": "com.mega.demo.controller.generated.model",
+  "invokerPackage": "com.mega.demo.controller.generated",
+  "delegatePattern": true,
+  "gradleBuildFile": false,
+  "generateSupportingFiles": false
+}

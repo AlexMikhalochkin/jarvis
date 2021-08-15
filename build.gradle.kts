@@ -7,6 +7,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt").version("1.18.0-RC2")
     kotlin("jvm") version "1.5.20"
     kotlin("plugin.spring") version "1.5.20"
+    id("com.diffplug.spotless") version "5.14.2"
 }
 
 group = "com.mega"
@@ -27,6 +28,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.junit.jupiter:junit-jupiter:5.7.0")
+    implementation("javax.validation:validation-api:2.0.1.Final")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
@@ -77,4 +79,19 @@ detekt {
             destination = file("$buildDir/reports/detekt/report.html")
         }
     }
+}
+
+configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+    kotlin {
+        target("**/generated/*/*.kt")
+        ktfmt().dropboxStyle()    // has its own section below
+        ktlint()   // has its own section below
+        //diktat()   // has its own section below
+        //prettier() // has its own section below
+        //licenseHeader '/* (C)$YEAR */' // or licenseHeaderFile
+    }
+//    kotlinGradle {
+//        //target '*.gradle.kts' // default target for kotlinGradle
+//        ktlint() // or ktfmt() or prettier()
+//    }
 }
