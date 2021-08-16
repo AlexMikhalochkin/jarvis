@@ -25,7 +25,12 @@ class DeviceRepositoryImpl : DeviceRepository {
                 "kitchen-light-0",
                 mapOf("updatedcookie" to "old or new value"),
                 "Kitchen Bulb",
-                mapOf("manufacturerName" to "LIFX", "modelName" to "A19 Color Bulb"),
+                mapOf(
+                    "manufacturerName" to "LIFX",
+                    "modelName" to "A19 Color Bulb",
+                    "hwVersion" to "v1 US bulb",
+                    "swVersion" to "23.123.231"
+                ),
                 deviceContext,
                 "c2c-rgbw-color-bulb",
                 "unique identifier of device"

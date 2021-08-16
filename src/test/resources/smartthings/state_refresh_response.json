@@ -1,0 +1,22 @@
+{
+  "headers": {
+    "schema": "st-schema",
+    "version": "1.0",
+    "interactionType": "stateRefreshResponse",
+    "requestId": "abc-123-456"
+  },
+  "deviceState": [
+    {
+      "externalDeviceId": "kitchen-light-0",
+      "deviceCookie": {},
+      "states": [
+        {
+          "component": "main",
+          "capability": "st.switch",
+          "attribute": "switch",
+          "value": "off"
+        }
+      ]
+    }
+  ]
+}

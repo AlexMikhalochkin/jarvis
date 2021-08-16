@@ -1,0 +1,22 @@
+{
+  "headers": {
+    "schema": "st-schema",
+    "version": "1.0",
+    "interactionType": "grantCallbackAccess",
+    "requestId": "abc-123-456"
+  },
+  "authentication": {
+    "tokenType": "Bearer",
+    "token": "Token received during oauth from partner"
+  },
+  "callbackAuthentication": {
+    "grantType": "authorization_code",
+    "scope": "callback_access",
+    "code": "xxxxxxxxxxx",
+    "clientId": "Client ID given to partner in Workspace during app creation"
+  },
+  "callbackUrls": {
+    "oauthToken": "Callback URL for access-token-request.json and refresh-access-tokens.json requests",
+    "stateCallback": "Callback URL for state-callback.json updates"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "headers": {
+    "schema": "st-schema",
+    "version": "1.0",
+    "interactionType": "commandRequest",
+    "requestId": "abc-123-456"
+  },
+  "authentication": {
+    "tokenType": "Bearer",
+    "token": "token-received during oauth from partner"
+  },
+  "devices": [
+    {
+      "externalDeviceId": "kitchen-light-0",
+      "deviceCookie": {
+        "lastcookie": "cookie value"
+      },
+      "commands": [
+        {
+          "component": "main",
+          "capability": "st.switch",
+          "command": "on",
+          "arguments": []
+        }
+      ]
+    }
+  ]
+}
