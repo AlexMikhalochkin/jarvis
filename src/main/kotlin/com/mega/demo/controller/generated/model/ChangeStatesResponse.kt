@@ -5,10 +5,10 @@ import javax.validation.Valid
 
 /**
  * Response with changed states ofdevices
- * @property payload
  * @property requestId
+ * @property payload
  */
 data class ChangeStatesResponse(
-    @field:Valid @field:JsonProperty("payload") val payload: ChangeStatesResponsePayload? = null,
-    @field:JsonProperty("request_id") val requestId: kotlin.String? = null
+    @field:JsonProperty("request_id", required = true) val requestId: kotlin.String,
+    @field:Valid @field:JsonProperty("payload") val payload: ChangeStatesResponsePayload? = null
 )

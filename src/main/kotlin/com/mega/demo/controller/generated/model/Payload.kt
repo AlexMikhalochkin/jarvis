@@ -9,8 +9,8 @@ import javax.validation.Valid
  * @property devices
  */
 data class Payload(
-    @field:JsonProperty("user_id") val userId: kotlin.String? = null,
+    @field:JsonProperty("user_id", required = true) val userId: kotlin.String,
     @field:Valid
-    @field:JsonProperty("devices")
-    val devices: kotlin.collections.List<YandexDevice>? = null
+    @field:JsonProperty("devices", required = true)
+    val devices: kotlin.collections.List<YandexDevice>
 )

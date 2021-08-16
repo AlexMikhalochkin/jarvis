@@ -20,13 +20,13 @@ class DeviceToYandexDeviceConverter : Converter<Device, YandexDevice> {
 
     override fun convert(source: Device): YandexDevice {
         return YandexDevice(
-            source.name,
-            source.description,
-            source.room,
-            source.type,
+            source.name!!,
+            source.type!!,
             convertCapabilities(source.capabilities),
             convertDeviceInfo(source.deviceInfo),
             source.id,
+            source.description,
+            source.room,
             source.customData
         )
     }

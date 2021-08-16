@@ -42,7 +42,7 @@ class YandexApiDelegateImpl(val service: YandexService, val conversionService: C
         val mapNotNull = service.changeState(mapNotNull1)
             .mapNotNull { conversionService.convert(it, ChangeStatesResponseDevice::class.java) }
         val payload = ChangeStatesResponsePayload(mapNotNull)
-        val changeStatesResponse = ChangeStatesResponse(payload, xRequestId)
+        val changeStatesResponse = ChangeStatesResponse(xRequestId, payload)
         logger.info { "Yandex. Change states. Finished. RequestId=$xRequestId, DeviceIds=$deviceIds" }
         return ResponseEntity.ok(changeStatesResponse)
     }
@@ -67,7 +67,7 @@ class YandexApiDelegateImpl(val service: YandexService, val conversionService: C
         val devices = service.getDeviceStates(deviceIds)
             .mapNotNull { conversionService.convert(it, YandexDeviceWithCapabilities::class.java) }
         val payload = Payload2(devices)
-        val devicesResponse2 = DevicesResponse2(payload, xRequestId)
+        val devicesResponse2 = DevicesResponse2(xRequestId, payload)
         logger.info { "Yandex. Get states. Finished. RequestId=$xRequestId, DeviceIds=$deviceIds" }
         return ResponseEntity.ok(devicesResponse2)
     }

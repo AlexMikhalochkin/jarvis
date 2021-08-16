@@ -5,10 +5,10 @@ import javax.validation.Valid
 
 /**
  * Response with all user's devices
- * @property payload
  * @property requestId
+ * @property payload
  */
 data class DevicesResponse2(
-    @field:Valid @field:JsonProperty("payload") val payload: Payload2? = null,
-    @field:JsonProperty("request_id") val requestId: kotlin.String? = null
+    @field:JsonProperty("request_id", required = true) val requestId: kotlin.String,
+    @field:Valid @field:JsonProperty("payload") val payload: Payload2? = null
 )

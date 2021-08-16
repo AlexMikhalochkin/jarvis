@@ -1,0 +1,21 @@
+{
+  "request_id": "ff36a3cc-ec34-11e6-b1a0-64510650abcf",
+  "payload": {
+    "devices": [
+      {
+        "id": "id",
+        "capabilities": [
+          {
+            "type": "devices.capabilities.on_off",
+            "state": {
+              "instance": "on",
+              "action_result": {
+                "status": "DONE"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

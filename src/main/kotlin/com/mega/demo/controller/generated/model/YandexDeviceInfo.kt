@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @property swVersion
  */
 data class YandexDeviceInfo(
-    @field:JsonProperty("manufacturer") val manufacturer: kotlin.String? = null,
-    @field:JsonProperty("model") val model: kotlin.String? = null,
+    @field:JsonProperty("manufacturer", required = true) val manufacturer: kotlin.String,
+    @field:JsonProperty("model", required = true) val model: kotlin.String,
     @field:JsonProperty("hw_version") val hwVersion: kotlin.String? = null,
     @field:JsonProperty("sw_version") val swVersion: kotlin.String? = null
 )

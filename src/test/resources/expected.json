@@ -1,0 +1,29 @@
+{
+  "request_id": "ff36a3cc-ec34-11e6-b1a0-64510650abcf",
+  "payload": {
+    "user_id": "user-id",
+    "devices": [
+      {
+        "id": "id",
+        "name": "свет на кухне",
+        "description": "цветная лампа",
+        "room": "спальня",
+        "type": "devices.types.light",
+        "custom_data": {
+          "foo": "bar"
+        },
+        "capabilities": [
+          {
+            "type": "devices.capabilities.on_off"
+          }
+        ],
+        "device_info": {
+          "manufacturer": "Provider2",
+          "model": "hue g11",
+          "hw_version": "1.0",
+          "sw_version": "1.0"
+        }
+      }
+    ]
+  }
+}

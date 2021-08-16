@@ -156,6 +156,8 @@ components:
         request_id:
           type: string
           example: 748b33ef-7eb4-4bae-8ead-5047ce34238f
+      required:
+        - request_id
     DevicesResponse:
       description: Response with all user's devices
       type: object
@@ -164,6 +166,8 @@ components:
       properties:
         payload:
           $ref: '#/components/schemas/Payload'
+      required:
+        - payload
     DevicesResponse2:
       description: Response with all user's devices
       type: object
@@ -183,6 +187,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/YandexDevice'
+      required:
+        - user_id
+        - devices
     Payload2:
       description: Object with devices
       type: object
@@ -215,6 +222,12 @@ components:
             $ref: '#/components/schemas/ShortCapability'
         device_info:
           $ref: '#/components/schemas/YandexDeviceInfo'
+      required:
+        - id
+        - name
+        - type
+        - capabilities
+        - device_info
     YandexDeviceWithCapabilities:
       description: User's device with its capabilities
       type: object
@@ -260,6 +273,9 @@ components:
         sw_version:
           type: string
           example: 5.4
+      required:
+        - manufacturer
+        - model
     StatesRequest:
       description: Request to get states of devices
       type: object

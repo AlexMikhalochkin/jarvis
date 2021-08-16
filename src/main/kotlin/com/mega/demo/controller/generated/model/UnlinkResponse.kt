@@ -6,4 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * Unlink user response
  * @property requestId
  */
-data class UnlinkResponse(@field:JsonProperty("request_id") val requestId: kotlin.String? = null)
+data class UnlinkResponse(
+    @field:JsonProperty("request_id", required = true) val requestId: kotlin.String
+)
