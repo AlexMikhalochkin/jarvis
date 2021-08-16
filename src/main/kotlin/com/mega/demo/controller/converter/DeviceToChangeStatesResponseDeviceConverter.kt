@@ -5,20 +5,20 @@ import com.mega.demo.controller.generated.model.ChangeStatesResponseDevice
 import com.mega.demo.controller.generated.model.ChangeStatesResponseState
 import com.mega.demo.model.yandex.ActionResult
 import com.mega.demo.model.yandex.Capability
-import com.mega.demo.model.yandex.Device
+import com.mega.demo.model.yandex.DeviceStateHolder
 import com.mega.demo.model.yandex.State
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 
 /**
- * Converts [Device] to [ChangeStatesResponseDevice].
+ * Converts [DeviceStateHolder] to [ChangeStatesResponseDevice].
  *
  * @author Alex Mikhalochkin
  */
 @Component
-class DeviceToChangeStatesResponseDeviceConverter : Converter<Device, ChangeStatesResponseDevice> {
+class DeviceToChangeStatesResponseDeviceConverter : Converter<DeviceStateHolder, ChangeStatesResponseDevice> {
 
-    override fun convert(source: Device): ChangeStatesResponseDevice {
+    override fun convert(source: DeviceStateHolder): ChangeStatesResponseDevice {
         return ChangeStatesResponseDevice(
             id = source.id,
             capabilities = convertCapabilities(source.capabilities)

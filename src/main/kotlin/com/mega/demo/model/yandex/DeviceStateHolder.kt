@@ -5,7 +5,7 @@ package com.mega.demo.model.yandex
  *
  * @author Alex Mikhalochkin
  */
-data class Device(
+data class DeviceStateHolder(
     val id: String,
     val name: String? = null,
     val description: String? = null,
