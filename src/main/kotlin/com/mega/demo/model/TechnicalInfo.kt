@@ -1,7 +1,7 @@
 package com.mega.demo.model
 
 /**
- * Represents technical information about a [SmartDevice].
+ * Represents technical information about a [Device].
  *
  * @author Alex Mikhalochkin
  */

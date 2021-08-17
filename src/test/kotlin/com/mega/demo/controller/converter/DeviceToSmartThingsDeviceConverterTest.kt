@@ -4,7 +4,10 @@ import com.mega.demo.controller.generated.model.DeviceContext
 import com.mega.demo.controller.generated.model.ManufacturerInfo
 import com.mega.demo.controller.generated.model.SmartThingsDevice
 import com.mega.demo.generateUuid
+import com.mega.demo.model.Provider
 import com.mega.demo.model.Device
+import com.mega.demo.model.TechnicalInfo
+import com.mega.demo.model.yandex.Capability
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -16,7 +19,6 @@ import org.junit.jupiter.api.Test
 internal class DeviceToSmartThingsDeviceConverterTest {
 
     private val externalDeviceId = generateUuid()
-    private val deviceUniqueId = generateUuid()
 
     @Test
     fun testConvert() {
@@ -29,10 +31,10 @@ internal class DeviceToSmartThingsDeviceConverterTest {
             emptyMap(),
             "friendly name",
             ManufacturerInfo(
-                "LIFX",
-                "A19 Color Bulb",
-                "v1 US bulb",
-                "23.123.231"
+                "Provider2",
+                "hue g11",
+                "1.0",
+                "1.0"
             ),
             DeviceContext(
                 "Kitchen",
@@ -40,28 +42,22 @@ internal class DeviceToSmartThingsDeviceConverterTest {
                 listOf("light", "switch")
             ),
             "handler type",
-            deviceUniqueId
+            externalDeviceId
         )
     }
 
     private fun createSource(): Device {
         return Device(
             externalDeviceId,
+            mapOf(Provider.YANDEX to "спальня", Provider.SMART_THINGS to "Kitchen"),
+            mapOf(Provider.YANDEX to "devices.types.light", Provider.SMART_THINGS to "handler type"),
+            mapOf(Provider.YANDEX to "свет на кухне", Provider.SMART_THINGS to "friendly name"),
+            TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
             emptyMap(),
-            "friendly name",
-            mapOf(
-                "manufacturerName" to "LIFX",
-                "modelName" to "A19 Color Bulb",
-                "hwVersion" to "v1 US bulb",
-                "swVersion" to "23.123.231"
-            ),
-            mapOf(
-                "roomName" to "Kitchen",
-                "groups" to listOf("Kitchen Lights", "House Bulbs"),
-                "categories" to listOf("light", "switch")
-            ),
-            "handler type",
-            deviceUniqueId
+            "цветная лампа",
+            listOf(Capability("devices.capabilities.on_off")),
+            listOf("light", "switch"),
+            listOf("Kitchen Lights", "House Bulbs")
         )
     }
 }

@@ -4,21 +4,21 @@ import com.mega.demo.controller.generated.model.ShortCapability
 import com.mega.demo.controller.generated.model.YandexDevice
 import com.mega.demo.controller.generated.model.YandexDeviceInfo
 import com.mega.demo.model.Provider
-import com.mega.demo.model.SmartDevice
+import com.mega.demo.model.Device
 import com.mega.demo.model.TechnicalInfo
 import com.mega.demo.model.yandex.Capability
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 
 /**
- * Converts [SmartDevice] to [YandexDevice].
+ * Converts [Device] to [YandexDevice].
  *
  * @author Alex Mikhalochkin
  */
 @Component
-class DeviceToYandexDeviceConverter : Converter<SmartDevice, YandexDevice> {
+class DeviceToYandexDeviceConverter : Converter<Device, YandexDevice> {
 
-    override fun convert(source: SmartDevice): YandexDevice {
+    override fun convert(source: Device): YandexDevice {
         return YandexDevice(
             source.name.getValue(Provider.YANDEX),
             source.type.getValue(Provider.YANDEX),

@@ -10,14 +10,15 @@
     {
       "externalDeviceId": "kitchen-light-0",
       "deviceCookie": {
+        "foo": "bar",
         "updatedcookie": "old or new value"
       },
       "friendlyName": "Kitchen Bulb",
       "manufacturerInfo": {
-        "manufacturerName": "LIFX",
-        "modelName": "A19 Color Bulb",
-        "hwVersion": "v1 US bulb",
-        "swVersion": "23.123.231"
+        "manufacturerName": "Provider2",
+        "modelName": "hue g11",
+        "hwVersion": "1.0",
+        "swVersion": "1.0"
       },
       "deviceContext": {
         "roomName": "Kitchen",
@@ -31,7 +32,7 @@
         ]
       },
       "deviceHandlerType": "c2c-rgbw-color-bulb",
-      "deviceUniqueId": "unique identifier of device"
+      "deviceUniqueId": "kitchen-light-0"
     }
   ]
 }

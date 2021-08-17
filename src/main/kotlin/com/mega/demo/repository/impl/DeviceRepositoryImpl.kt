@@ -1,6 +1,9 @@
 package com.mega.demo.repository.impl
 
+import com.mega.demo.model.Provider
 import com.mega.demo.model.Device
+import com.mega.demo.model.TechnicalInfo
+import com.mega.demo.model.yandex.Capability
 import com.mega.demo.repository.api.DeviceRepository
 import org.springframework.stereotype.Repository
 
@@ -15,27 +18,19 @@ class DeviceRepositoryImpl : DeviceRepository {
     private val port = 7
 
     override fun findAll(): List<Device> {
-        val deviceContext = mapOf(
-            "roomName" to "Kitchen",
-            "groups" to listOf("Kitchen Lights", "House Bulbs"),
-            "categories" to listOf("light", "switch")
+        val device = Device(
+            "kitchen-light-0",
+            mapOf(Provider.YANDEX to "спальня", Provider.SMART_THINGS to "Kitchen"),
+            mapOf(Provider.YANDEX to "devices.types.light", Provider.SMART_THINGS to "c2c-rgbw-color-bulb"),
+            mapOf(Provider.YANDEX to "свет на кухне", Provider.SMART_THINGS to "Kitchen Bulb"),
+            TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
+            mapOf("foo" to "bar", "updatedcookie" to "old or new value"),
+            "цветная лампа",
+            listOf(Capability("devices.capabilities.on_off")),
+            listOf("light", "switch"),
+            listOf("Kitchen Lights", "House Bulbs")
         )
-        return listOf(
-            Device(
-                "kitchen-light-0",
-                mapOf("updatedcookie" to "old or new value"),
-                "Kitchen Bulb",
-                mapOf(
-                    "manufacturerName" to "LIFX",
-                    "modelName" to "A19 Color Bulb",
-                    "hwVersion" to "v1 US bulb",
-                    "swVersion" to "23.123.231"
-                ),
-                deviceContext,
-                "c2c-rgbw-color-bulb",
-                "unique identifier of device"
-            )
-        )
+        return listOf(device)
     }
 
     override fun findPorts(deviceIds: List<String>): Map<String, Int> {

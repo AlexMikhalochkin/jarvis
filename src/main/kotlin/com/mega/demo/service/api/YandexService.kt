@@ -1,6 +1,6 @@
 package com.mega.demo.service.api
 
-import com.mega.demo.model.SmartDevice
+import com.mega.demo.model.Device
 import com.mega.demo.model.yandex.DeviceStateHolder
 
 /**
@@ -14,5 +14,5 @@ interface YandexService {
 
     fun changeState(devicesWithStates: List<DeviceStateHolder>): List<DeviceStateHolder>
 
-    fun getAllDevices(): List<SmartDevice>
+    fun getAllDevices(): List<Device>
 }

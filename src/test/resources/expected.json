@@ -4,13 +4,14 @@
     "user_id": "user-id",
     "devices": [
       {
-        "id": "id",
+        "id": "kitchen-light-0",
         "name": "свет на кухне",
         "description": "цветная лампа",
         "room": "спальня",
         "type": "devices.types.light",
         "custom_data": {
-          "foo": "bar"
+          "foo": "bar",
+          "updatedcookie": "old or new value"
         },
         "capabilities": [
           {

@@ -1,12 +1,11 @@
 package com.mega.demo.service.impl
 
-import com.mega.demo.model.Provider
-import com.mega.demo.model.SmartDevice
-import com.mega.demo.model.TechnicalInfo
+import com.mega.demo.model.Device
 import com.mega.demo.model.yandex.ActionResult
 import com.mega.demo.model.yandex.Capability
 import com.mega.demo.model.yandex.DeviceStateHolder
 import com.mega.demo.model.yandex.State
+import com.mega.demo.repository.api.DeviceRepository
 import com.mega.demo.service.api.YandexService
 import org.springframework.stereotype.Service
 
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service
  * @author Alex Mikhalochkin
  */
 @Service
-class YandexServiceImpl : YandexService {
+class YandexServiceImpl(val deviceRepository: DeviceRepository) : YandexService {
 
     override fun getDeviceStates(deviceIds: List<String>): List<DeviceStateHolder> {
         val capability = Capability("devices.capabilities.on_off", State("on", true))
@@ -36,17 +35,7 @@ class YandexServiceImpl : YandexService {
         return listOf(device)
     }
 
-    override fun getAllDevices(): List<SmartDevice> {
-        val smartDevice = SmartDevice(
-            "id",
-            mapOf(Provider.YANDEX to "спальня"),
-            mapOf(Provider.YANDEX to "devices.types.light"),
-            mapOf(Provider.YANDEX to "свет на кухне"),
-            TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
-            mapOf("foo" to "bar"),
-            "цветная лампа",
-            listOf(Capability("devices.capabilities.on_off")),
-        )
-        return listOf(smartDevice)
+    override fun getAllDevices(): List<Device> {
+        return deviceRepository.findAll()
     }
 }
