@@ -1,6 +1,8 @@
 package com.mega.demo.controller.converter
 
-import com.mega.demo.controller.model.smartthings.SmartThingsDevice
+import com.mega.demo.controller.generated.model.DeviceContext
+import com.mega.demo.controller.generated.model.ManufacturerInfo
+import com.mega.demo.controller.generated.model.SmartThingsDevice
 import com.mega.demo.generateUuid
 import com.mega.demo.model.Device
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -26,8 +28,17 @@ internal class DeviceToSmartThingsDeviceConverterTest {
             externalDeviceId,
             emptyMap(),
             "friendly name",
-            emptyMap(),
-            emptyMap(),
+            ManufacturerInfo(
+                "LIFX",
+                "A19 Color Bulb",
+                "v1 US bulb",
+                "23.123.231"
+            ),
+            DeviceContext(
+                "Kitchen",
+                listOf("Kitchen Lights", "House Bulbs"),
+                listOf("light", "switch")
+            ),
             "handler type",
             deviceUniqueId
         )
@@ -38,8 +49,17 @@ internal class DeviceToSmartThingsDeviceConverterTest {
             externalDeviceId,
             emptyMap(),
             "friendly name",
-            emptyMap(),
-            emptyMap(),
+            mapOf(
+                "manufacturerName" to "LIFX",
+                "modelName" to "A19 Color Bulb",
+                "hwVersion" to "v1 US bulb",
+                "swVersion" to "23.123.231"
+            ),
+            mapOf(
+                "roomName" to "Kitchen",
+                "groups" to listOf("Kitchen Lights", "House Bulbs"),
+                "categories" to listOf("light", "switch")
+            ),
             "handler type",
             deviceUniqueId
         )

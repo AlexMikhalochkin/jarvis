@@ -1,8 +1,8 @@
 package com.mega.demo.service.impl
 
-import com.mega.demo.controller.model.smartthings.Command
-import com.mega.demo.controller.model.smartthings.DeviceState
-import com.mega.demo.controller.model.smartthings.SmartThingsDevice
+import com.mega.demo.controller.generated.model.Command
+import com.mega.demo.controller.generated.model.DeviceState
+import com.mega.demo.controller.generated.model.SmartThingsDevice
 import com.mega.demo.model.Device
 import com.mega.demo.repository.api.DeviceRepository
 import com.mega.demo.service.api.PlcService
@@ -52,8 +52,8 @@ internal class SmartThingsServiceImplTest {
 
     @Test
     fun changeStatus() {
-        val firstCommand = Command("st.switch", "on")
-        val secondCommand = Command("st.switch", "off")
+        val firstCommand = Command(capability = "st.switch", command = "on")
+        val secondCommand = Command(capability = "st.switch", command = "off")
         val firstDevice = SmartThingsDevice("first", commands = listOf(firstCommand))
         val secondDevice = SmartThingsDevice("second", commands = listOf(secondCommand))
         whenever(deviceRepository.findPorts(listOf("first", "second"))).thenReturn(mapOf("first" to 1, "second" to 2))
@@ -78,9 +78,9 @@ internal class SmartThingsServiceImplTest {
 
     private fun verifyDeviceState(deviceState: DeviceState, deviceId: String, expectedStateValue: String) {
         assertEquals(deviceId, deviceState.externalDeviceId)
-        assertEquals(emptyMap<String, String>(), deviceState.deviceCookie)
+        assertEquals(emptyMap<String, Any>(), deviceState.deviceCookie)
         val states = deviceState.states
-        assertEquals(1, states.size)
+        assertEquals(1, states!!.size)
         val state = states[0]
         assertEquals("main", state.component)
         assertEquals(expectedStateValue, state.value)

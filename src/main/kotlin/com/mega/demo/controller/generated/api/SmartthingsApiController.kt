@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller
 
 @Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
 @Controller
-class YandexApiController(@Autowired delegate: YandexApiDelegate) : YandexApi {
-    private val delegate: YandexApiDelegate = delegate
+class SmartthingsApiController(@Autowired delegate: SmartthingsApiDelegate) : SmartthingsApi {
+    private val delegate: SmartthingsApiDelegate = delegate
 
-    override fun getDelegate(): YandexApiDelegate = delegate
+    override fun getDelegate(): SmartthingsApiDelegate = delegate
 }

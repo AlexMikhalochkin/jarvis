@@ -1,23 +1,25 @@
 package com.mega.demo.controller
 
-import com.mega.demo.controller.model.smartthings.Headers
-import com.mega.demo.controller.model.smartthings.SmartThingsRequest
-import com.mega.demo.controller.model.smartthings.SmartThingsResponse
+import com.mega.demo.controller.generated.api.SmartthingsApiDelegate
+import com.mega.demo.controller.generated.model.Headers
+import com.mega.demo.controller.generated.model.SmartThingsRequest
+import com.mega.demo.controller.generated.model.SmartThingsResponse
 import com.mega.demo.service.api.SmartThingsService
 import mu.KotlinLogging
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.core.convert.ConversionService
+import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Component
 
 private val logger = KotlinLogging.logger {}
 
 /**
- * SmartThings controller.
+ * Implementation of generated [SmartthingsApiDelegate].
  *
  * @author Alex Mikhalochkin
  */
-@RestController
-class SmartThingsController(val smartThingsService: SmartThingsService) {
+@Component
+class SmartThingsApiDelegateImpl(val smartThingsService: SmartThingsService, val conversionService: ConversionService) :
+    SmartthingsApiDelegate {
 
     private val requestHandlers = mapOf(
         "discoveryRequest" to ::handleDiscoveryRequest,
@@ -26,12 +28,11 @@ class SmartThingsController(val smartThingsService: SmartThingsService) {
         "grantCallbackAccess" to ::handleGrantCallbackAccess,
     )
 
-    @PostMapping(path = ["/smartthings"])
-    fun handle(@RequestBody request: SmartThingsRequest): SmartThingsResponse {
-        logger.info("Handle SmartThings request. Started. Request ={}", request)
-        val response = requestHandlers.getValue(request.headers.interactionType).invoke(request)
+    override fun handleSmartThings(smartThingsRequest: SmartThingsRequest): ResponseEntity<SmartThingsResponse> {
+        logger.info("Handle SmartThings request. Started. Request ={}", smartThingsRequest)
+        val response = requestHandlers.getValue(smartThingsRequest.headers.interactionType).invoke(smartThingsRequest)
         logger.info("Handle SmartThings request. Finished. Response ={}", response)
-        return response
+        return ResponseEntity.ok(response)
     }
 
     private fun handleDiscoveryRequest(request: SmartThingsRequest): SmartThingsResponse {
@@ -43,8 +44,7 @@ class SmartThingsController(val smartThingsService: SmartThingsService) {
     }
 
     private fun handleStateRefreshRequest(request: SmartThingsRequest): SmartThingsResponse {
-        val ids = request.devices!!
-            .map { it.externalDeviceId }
+        val ids = request.devices!!.mapNotNull { it.externalDeviceId }
             .toList()
         val deviceStates = smartThingsService.getDeviceStates(ids)
         return SmartThingsResponse(
@@ -67,8 +67,9 @@ class SmartThingsController(val smartThingsService: SmartThingsService) {
         )
     }
 
-    private fun createHeaders(request: SmartThingsRequest, interactionType: String) = Headers(
-        interactionType,
-        request.headers.requestId
-    )
+    private fun createHeaders(request: SmartThingsRequest, interactionType: String) =
+        Headers(
+            interactionType = interactionType,
+            requestId = request.headers.requestId
+        )
 }

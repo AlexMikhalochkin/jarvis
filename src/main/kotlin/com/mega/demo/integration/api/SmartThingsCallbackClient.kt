@@ -1,6 +1,6 @@
 package com.mega.demo.integration.api
 
-import com.mega.demo.controller.model.smartthings.DeviceState
+import com.mega.demo.controller.generated.model.DeviceState
 
 /**
  * Client to perform request to SmartThings.

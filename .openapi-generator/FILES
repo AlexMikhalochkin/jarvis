@@ -14,9 +14,9 @@ src/main/kotlin/com/mega/demo/controller/generated/model/ChangeStatesResponseCap
 src/main/kotlin/com/mega/demo/controller/generated/model/ChangeStatesResponseDevice.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/ChangeStatesResponsePayload.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/ChangeStatesResponseState.kt
-src/main/kotlin/com/mega/demo/controller/generated/model/Device.kt
+src/main/kotlin/com/mega/demo/controller/generated/model/Command.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/DeviceContext.kt
-src/main/kotlin/com/mega/demo/controller/generated/model/DeviceCookie.kt
+src/main/kotlin/com/mega/demo/controller/generated/model/DeviceState.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/DevicesResponse.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/DevicesResponse2.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/FullCapability.kt
@@ -26,8 +26,10 @@ src/main/kotlin/com/mega/demo/controller/generated/model/Payload.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/Payload2.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/ShortCapability.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/ShortYandexDevice.kt
+src/main/kotlin/com/mega/demo/controller/generated/model/SmartThingsDevice.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/SmartThingsRequest.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/SmartThingsResponse.kt
+src/main/kotlin/com/mega/demo/controller/generated/model/State.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/StatesRequest.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/UnlinkResponse.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/YandexDevice.kt

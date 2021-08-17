@@ -3,7 +3,6 @@ package {{package}};
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired
-import java.util.Optional;
 import javax.annotation.Generated;
 {{>generatedAnnotation}}
 
@@ -12,13 +11,9 @@ import javax.annotation.Generated;
 <%={{ }}=%>
 {{#operations}}
 class {{classname}}Controller(
-        @Autowired(required = false) delegate: {{classname}}Delegate?
+        @Autowired delegate: {{classname}}Delegate
 ) : {{classname}} {
-    private val delegate: {{classname}}Delegate
-
-    init {
-        this.delegate = Optional.ofNullable(delegate).orElse(object : {{classname}}Delegate {})
-    }
+    private val delegate: {{classname}}Delegate = delegate
 
     override fun getDelegate(): {{classname}}Delegate = delegate
 }

@@ -130,14 +130,19 @@ paths:
     post:
       tags:
         - smartthings
-      summary: Add a new pet to the store
-      operationId: addPet
+      summary: Handle SmartThings request
+      operationId: handleSmartThings
       requestBody:
         description: Request from SmartThings
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SmartThingsRequest'
+            # examples:
+            #   Discovery:
+            #     value:
+            #       id: 10
+            #       name: "{}"
         required: true
       responses:
         200:
@@ -388,13 +393,17 @@ components:
         payload:
           $ref: '#/components/schemas/ChangeStatesResponsePayload'
     SmartThingsRequest:
-      description: s
+      description: Request from SmartThings
       type: object
       properties:
         headers:
           $ref: '#/components/schemas/Headers'
         authentication:
           $ref: '#/components/schemas/Authentication'
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/SmartThingsDevice'
       required:
         - headers
         - authentication
@@ -409,8 +418,12 @@ components:
         devices:
           type: array
           items:
-            $ref: '#/components/schemas/Device'
-    Device:
+            $ref: '#/components/schemas/SmartThingsDevice'
+        deviceState:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceState'
+    SmartThingsDevice:
       type: object
       properties:
         externalDeviceId:
@@ -431,12 +444,63 @@ components:
         deviceUniqueId:
           type: string
           example: unique identifier of device
-    DeviceCookie:
+        commands:
+          type: array
+          items:
+            $ref: '#/components/schemas/Command'
+    DeviceState:
+      description: SmartThings device state
       type: object
       properties:
-        updatedcookie:
+        externalDeviceId:
           type: string
-          example: old or new value
+          example: pdevice-1
+        deviceCookie:
+          $ref: '#/components/schemas/DeviceCookie'
+        states:
+          type: array
+          items:
+            $ref: '#/components/schemas/State'
+    State:
+      description: SmartThings device state
+      type: object
+      properties:
+        component:
+          type: string
+          example: main
+          default: main
+        capability:
+          type: string
+          example: st.switch
+        attribute:
+          type: string
+          example: switch
+        value:
+          type: object
+          example: on
+    Command:
+      description: SmartThings command
+      type: object
+      properties:
+        component:
+          type: string
+          example: main
+          default: main
+        capability:
+          type: string
+          example: st.switch
+        command:
+          type: string
+          example: on
+        arguments:
+          type: array
+          items:
+            type: object
+          example: []
+    DeviceCookie:
+      additionalProperties:
+        type: object
+      example: {"foo": 1, "bar": "two"}
     ManufacturerInfo:
       type: object
       properties:
@@ -478,9 +542,11 @@ components:
         schema:
           type: string
           example: st-schema
+          default: st-schema
         version:
           type: string
           example: 1.0
+          default: 1.0
         #TODO: Enum?
         interactionType:
           type: string
@@ -488,6 +554,11 @@ components:
         requestId:
           type: string
           example: abc-123-456
+      required:
+        - schema
+        - version
+        - interactionType
+        - requestId
     Authentication:
       description: "asdasdas"
       type: object
