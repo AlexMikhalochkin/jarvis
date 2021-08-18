@@ -1,32 +1,22 @@
 package com.mega.demo.controller.converter
 
 import com.mega.demo.controller.generated.model.ChangeStateDevice
-import com.mega.demo.controller.generated.model.FullCapability
-import com.mega.demo.controller.generated.model.YandexState
-import com.mega.demo.model.yandex.Capability
-import com.mega.demo.model.yandex.DeviceStateHolder
-import com.mega.demo.model.yandex.State
+import com.mega.demo.model.DeviceState
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 
 /**
- * Converts [ChangeStateDevice] to [DeviceStateHolder].
+ * Converts [ChangeStateDevice] to [DeviceState].
  *
  * @author Alex Mikhalochkin
  */
 @Component
-class ChangeStateDeviceToDeviceConverter : Converter<ChangeStateDevice, DeviceStateHolder> {
+class ChangeStateDeviceToDeviceConverter : Converter<ChangeStateDevice, DeviceState> {
 
-    override fun convert(source: ChangeStateDevice): DeviceStateHolder {
-        return DeviceStateHolder(
-            id = source.id,
-            customData = source.customData,
-            capabilities = convertCapabilities(source.capabilities)
+    override fun convert(source: ChangeStateDevice): DeviceState {
+        return DeviceState(
+            deviceId = source.id,
+            isOn = source.capabilities[0].state.value
         )
     }
-
-    private fun convertCapabilities(capabilities: List<FullCapability>): List<Capability> =
-        capabilities.map { Capability(it.type, convertState(it.state)) }
-
-    private fun convertState(state: YandexState): State = State(state.instance, state.value)
 }

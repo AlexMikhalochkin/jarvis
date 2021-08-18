@@ -3,6 +3,7 @@ package com.mega.demo.service.impl
 import com.mega.demo.controller.generated.model.DeviceState
 import com.mega.demo.controller.generated.model.SmartThingsDevice
 import com.mega.demo.controller.generated.model.State
+import com.mega.demo.model.Device
 import com.mega.demo.repository.api.DeviceRepository
 import com.mega.demo.service.api.PlcService
 import com.mega.demo.service.api.SmartThingsService
@@ -37,9 +38,8 @@ class SmartThingsServiceImpl(
             .toList()
     }
 
-    override fun getAllDevices(): List<SmartThingsDevice> {
+    override fun getAllDevices(): List<Device> {
         return deviceRepository.findAll()
-            .mapNotNull { conversionService.convert(it, SmartThingsDevice::class.java) }
     }
 
     private fun deviceState(deviceId: String, portStatus: Boolean): DeviceState {

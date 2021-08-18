@@ -4,10 +4,9 @@ import com.mega.demo.controller.generated.model.DeviceContext
 import com.mega.demo.controller.generated.model.ManufacturerInfo
 import com.mega.demo.controller.generated.model.SmartThingsDevice
 import com.mega.demo.generateUuid
-import com.mega.demo.model.Provider
 import com.mega.demo.model.Device
+import com.mega.demo.model.Provider
 import com.mega.demo.model.TechnicalInfo
-import com.mega.demo.model.yandex.Capability
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -55,7 +54,7 @@ internal class DeviceToSmartThingsDeviceConverterTest {
             TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
             emptyMap(),
             "цветная лампа",
-            listOf(Capability("devices.capabilities.on_off")),
+            listOf("devices.capabilities.on_off"),
             listOf("light", "switch"),
             listOf("Kitchen Lights", "House Bulbs")
         )

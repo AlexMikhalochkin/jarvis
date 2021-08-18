@@ -13,7 +13,7 @@ import com.mega.demo.controller.generated.model.StatesRequest
 import com.mega.demo.controller.generated.model.UnlinkResponse
 import com.mega.demo.controller.generated.model.YandexDevice
 import com.mega.demo.controller.generated.model.YandexDeviceWithCapabilities
-import com.mega.demo.model.yandex.DeviceStateHolder
+import com.mega.demo.model.DeviceState
 import com.mega.demo.service.api.YandexService
 import mu.KotlinLogging
 import org.springframework.core.convert.ConversionService
@@ -38,7 +38,7 @@ class YandexApiDelegateImpl(val service: YandexService, val conversionService: C
         val devices = changeStatesRequest.payload.devices
         val deviceIds = devices.map { it.id }
         logger.info { "Yandex. Change states. Started. RequestId=$xRequestId, DeviceIds=$deviceIds" }
-        val mapNotNull1 = devices.mapNotNull { conversionService.convert(it, DeviceStateHolder::class.java) }
+        val mapNotNull1 = devices.mapNotNull { conversionService.convert(it, DeviceState::class.java) }
         val mapNotNull = service.changeState(mapNotNull1)
             .mapNotNull { conversionService.convert(it, ChangeStatesResponseDevice::class.java) }
         val payload = ChangeStatesResponsePayload(mapNotNull)

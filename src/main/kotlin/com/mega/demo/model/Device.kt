@@ -1,7 +1,5 @@
 package com.mega.demo.model
 
-import com.mega.demo.model.yandex.Capability
-
 /**
  * Represents smart device.
  *
@@ -15,7 +13,7 @@ data class Device(
     val technicalInfo: TechnicalInfo,
     val customData: Map<String, Any>,
     val description: String,
-    val capabilities: List<Capability>,
+    val capabilities: List<String>,
     val categories: List<String>,
     val groups: List<String>
 )

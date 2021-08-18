@@ -1,10 +1,7 @@
 package com.mega.demo.service.impl
 
 import com.mega.demo.model.Device
-import com.mega.demo.model.yandex.ActionResult
-import com.mega.demo.model.yandex.Capability
-import com.mega.demo.model.yandex.DeviceStateHolder
-import com.mega.demo.model.yandex.State
+import com.mega.demo.model.DeviceState
 import com.mega.demo.repository.api.DeviceRepository
 import com.mega.demo.service.api.YandexService
 import org.springframework.stereotype.Service
@@ -17,22 +14,12 @@ import org.springframework.stereotype.Service
 @Service
 class YandexServiceImpl(val deviceRepository: DeviceRepository) : YandexService {
 
-    override fun getDeviceStates(deviceIds: List<String>): List<DeviceStateHolder> {
-        val capability = Capability("devices.capabilities.on_off", State("on", true))
-        val device = DeviceStateHolder(
-            "id",
-            capabilities = listOf(capability),
-        )
-        return listOf(device)
+    override fun getDeviceStates(deviceIds: List<String>): List<DeviceState> {
+        return listOf(DeviceState("id", isOn = true))
     }
 
-    override fun changeState(devicesWithStates: List<DeviceStateHolder>): List<DeviceStateHolder> {
-        val capability = Capability("devices.capabilities.on_off", State("on", true, ActionResult()))
-        val device = DeviceStateHolder(
-            "id",
-            capabilities = listOf(capability),
-        )
-        return listOf(device)
+    override fun changeState(devicesWithStates: List<DeviceState>): List<DeviceState> {
+        return listOf(DeviceState("id"))
     }
 
     override fun getAllDevices(): List<Device> {

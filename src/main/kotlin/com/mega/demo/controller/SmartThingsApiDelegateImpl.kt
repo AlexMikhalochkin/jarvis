@@ -2,6 +2,7 @@ package com.mega.demo.controller
 
 import com.mega.demo.controller.generated.api.SmartthingsApiDelegate
 import com.mega.demo.controller.generated.model.Headers
+import com.mega.demo.controller.generated.model.SmartThingsDevice
 import com.mega.demo.controller.generated.model.SmartThingsRequest
 import com.mega.demo.controller.generated.model.SmartThingsResponse
 import com.mega.demo.service.api.SmartThingsService
@@ -36,10 +37,12 @@ class SmartThingsApiDelegateImpl(val smartThingsService: SmartThingsService, val
     }
 
     private fun handleDiscoveryRequest(request: SmartThingsRequest): SmartThingsResponse {
+        val devices = smartThingsService.getAllDevices()
+            .mapNotNull { conversionService.convert(it, SmartThingsDevice::class.java) }
         return SmartThingsResponse(
             createHeaders(request, "discoveryResponse"),
             true,
-            smartThingsService.getAllDevices()
+            devices
         )
     }
 

@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.any
-import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
@@ -70,10 +68,7 @@ internal class SmartThingsServiceImplTest {
         val device = mock<Device>()
         val devices: List<Device> = listOf(device)
         whenever(deviceRepository.findAll()).thenReturn(devices)
-        val smartThingsDevice = mock<SmartThingsDevice>()
-        whenever(conversionService.convert(any(), eq(SmartThingsDevice::class.java))).thenReturn(smartThingsDevice)
-        assertSame(smartThingsDevice, service.getAllDevices()[0])
-        verify(conversionService).convert(device, SmartThingsDevice::class.java)
+        assertSame(device, service.getAllDevices()[0])
     }
 
     private fun verifyDeviceState(deviceState: DeviceState, deviceId: String, expectedStateValue: String) {

@@ -3,35 +3,26 @@ package com.mega.demo.controller.converter
 import com.mega.demo.controller.generated.model.FullCapability
 import com.mega.demo.controller.generated.model.YandexDeviceWithCapabilities
 import com.mega.demo.controller.generated.model.YandexState
-import com.mega.demo.model.yandex.Capability
-import com.mega.demo.model.yandex.DeviceStateHolder
-import com.mega.demo.model.yandex.State
+import com.mega.demo.model.DeviceState
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 
 /**
- * Converts [DeviceStateHolder] to [YandexDeviceWithCapabilities].
+ * Converts [DeviceState] to [YandexDeviceWithCapabilities].
  *
  * @author Alex Mikhalochkin
  */
 @Component
-class DeviceToYandexDeviceWithCapabilitiesConverter : Converter<DeviceStateHolder, YandexDeviceWithCapabilities> {
+class DeviceToYandexDeviceWithCapabilitiesConverter : Converter<DeviceState, YandexDeviceWithCapabilities> {
 
-    override fun convert(source: DeviceStateHolder): YandexDeviceWithCapabilities {
+    override fun convert(source: DeviceState): YandexDeviceWithCapabilities {
         return YandexDeviceWithCapabilities(
-            source.id,
-            convertCapabilities(source.capabilities)
+            source.deviceId,
+            convertCapabilities(source.isOn!!)
         )
     }
 
-    private fun convertCapabilities(capabilities: List<Capability>?): List<FullCapability> {
-        return capabilities!!.map { FullCapability(convertState(it.state), it.type) }
-    }
-
-    private fun convertState(state: State?): YandexState {
-        return YandexState(
-            state!!.instance,
-            state.value as Boolean
-        )
+    private fun convertCapabilities(isOn: Boolean): List<FullCapability> {
+        return listOf(FullCapability(YandexState("on", isOn), "devices.capabilities.on_off"))
     }
 }

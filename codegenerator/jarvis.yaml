@@ -138,11 +138,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SmartThingsRequest'
-            # examples:
-            #   Discovery:
-            #     value:
-            #       id: 10
-            #       name: "{}"
+            examples:
+              Discovery:
+                $ref: '#/components/examples/discoveryRequest'
+              StateRefresh:
+                $ref: '#/components/examples/stateRefreshRequest'
+              Command:
+                $ref: '#/components/examples/commandRequest'
         required: true
       responses:
         200:
@@ -151,7 +153,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SmartThingsResponse'
-
 components:
   schemas:
     UnlinkResponse:
@@ -584,3 +585,46 @@ components:
       example: 62376c99-5a12-41a9-9599-0866e3bd7b98
       schema:
         type: string
+  examples:
+    discoveryRequest:
+      value:
+        headers:
+          schema: st-schema
+          version: 1
+          interactionType: discoveryRequest
+          requestId: abc-123-456
+        authentication:
+          tokenType: Bearer
+          token: token received during oauth from partner
+    stateRefreshRequest:
+      value:
+        headers:
+          schema: st-schema
+          version: 1
+          interactionType: stateRefreshRequest
+          requestId: abc-123-456
+        authentication:
+          tokenType: Bearer
+          token: token received during oauth from partner
+        devices:
+          - externalDeviceId: partner-device-id-1
+          - externalDeviceId: partner-device-id-2
+    commandRequest:
+      value:
+        headers:
+          schema: st-schema
+          version: 1
+          interactionType: commandRequest
+          requestId: abc-123-456
+        authentication:
+          tokenType: Bearer
+          token: token received during oauth from partner
+        devices:
+          - externalDeviceId: partner-device-id-1
+            deviceCookie:
+              lastcookie: cookie value
+            commands:
+              - component: main
+                capability: st.switch
+                command: on
+                arguments: []

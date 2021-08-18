@@ -2,6 +2,7 @@ package com.mega.demo.service.api
 
 import com.mega.demo.controller.generated.model.DeviceState
 import com.mega.demo.controller.generated.model.SmartThingsDevice
+import com.mega.demo.model.Device
 
 /**
  * SmartThings service.
@@ -14,5 +15,5 @@ interface SmartThingsService {
 
     fun changeState(devicesWithStates: List<SmartThingsDevice>): List<DeviceState>
 
-    fun getAllDevices(): List<SmartThingsDevice>
+    fun getAllDevices(): List<Device>
 }

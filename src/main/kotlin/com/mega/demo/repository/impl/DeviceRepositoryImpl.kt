@@ -1,9 +1,8 @@
 package com.mega.demo.repository.impl
 
-import com.mega.demo.model.Provider
 import com.mega.demo.model.Device
+import com.mega.demo.model.Provider
 import com.mega.demo.model.TechnicalInfo
-import com.mega.demo.model.yandex.Capability
 import com.mega.demo.repository.api.DeviceRepository
 import org.springframework.stereotype.Repository
 
@@ -26,7 +25,7 @@ class DeviceRepositoryImpl : DeviceRepository {
             TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
             mapOf("foo" to "bar", "updatedcookie" to "old or new value"),
             "цветная лампа",
-            listOf(Capability("devices.capabilities.on_off")),
+            listOf("devices.capabilities.on_off"),
             listOf("light", "switch"),
             listOf("Kitchen Lights", "House Bulbs")
         )
