@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 @Validated
 interface SmartthingsApi {
 
-    fun getDelegate(): SmartthingsApiDelegate = object : SmartthingsApiDelegate {}
+    fun getDelegate(): SmartthingsApiDelegate
 
     @RequestMapping(
         method = [RequestMethod.POST],

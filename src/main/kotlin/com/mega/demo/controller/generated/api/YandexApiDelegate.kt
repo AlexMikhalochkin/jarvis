@@ -7,7 +7,6 @@ import com.mega.demo.controller.generated.model.DevicesResponse2
 import com.mega.demo.controller.generated.model.StatesRequest
 import com.mega.demo.controller.generated.model.UnlinkResponse
 import javax.annotation.Generated
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
 /**
@@ -22,37 +21,27 @@ interface YandexApiDelegate {
         authorization: kotlin.String,
         xRequestId: kotlin.String,
         changeStatesRequest: ChangeStatesRequest
-    ): ResponseEntity<ChangeStatesResponse> {
-        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-    }
+    ): ResponseEntity<ChangeStatesResponse>
 
     /** @see YandexApi#getDevices */
     fun getDevices(
         authorization: kotlin.String,
         xRequestId: kotlin.String
-    ): ResponseEntity<DevicesResponse> {
-        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-    }
+    ): ResponseEntity<DevicesResponse>
 
     /** @see YandexApi#getDevicesStates */
     fun getDevicesStates(
         authorization: kotlin.String,
         xRequestId: kotlin.String,
         statesRequest: StatesRequest?
-    ): ResponseEntity<DevicesResponse2> {
-        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-    }
+    ): ResponseEntity<DevicesResponse2>
 
     /** @see YandexApi#health */
-    fun health(): ResponseEntity<Unit> {
-        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-    }
+    fun health(): ResponseEntity<Unit>
 
     /** @see YandexApi#unlink */
     fun unlink(
         authorization: kotlin.String,
         xRequestId: kotlin.String
-    ): ResponseEntity<UnlinkResponse> {
-        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-    }
+    ): ResponseEntity<UnlinkResponse>
 }

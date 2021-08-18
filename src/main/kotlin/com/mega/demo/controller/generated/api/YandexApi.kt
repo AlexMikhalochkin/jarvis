@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 @Validated
 interface YandexApi {
 
-    fun getDelegate(): YandexApiDelegate = object : YandexApiDelegate {}
+    fun getDelegate(): YandexApiDelegate
 
     @RequestMapping(
         method = [RequestMethod.POST],

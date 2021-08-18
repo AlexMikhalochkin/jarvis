@@ -59,7 +59,7 @@ import kotlin.collections.Map
 interface {{classname}} {
 {{#isDelegate}}
 
-    fun getDelegate(): {{classname}}Delegate = object: {{classname}}Delegate {}
+    fun getDelegate(): {{classname}}Delegate
 {{/isDelegate}}
 {{#operation}}
 

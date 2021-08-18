@@ -3,7 +3,6 @@ package com.mega.demo.controller.generated.api
 import com.mega.demo.controller.generated.model.SmartThingsRequest
 import com.mega.demo.controller.generated.model.SmartThingsResponse
 import javax.annotation.Generated
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
 /**
@@ -16,7 +15,5 @@ interface SmartthingsApiDelegate {
     /** @see SmartthingsApi#handleSmartThings */
     fun handleSmartThings(
         smartThingsRequest: SmartThingsRequest
-    ): ResponseEntity<SmartThingsResponse> {
-        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-    }
+    ): ResponseEntity<SmartThingsResponse>
 }
