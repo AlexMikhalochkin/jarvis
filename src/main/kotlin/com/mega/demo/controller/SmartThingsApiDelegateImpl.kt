@@ -1,11 +1,12 @@
 package com.mega.demo.controller
 
 import com.mega.demo.controller.generated.api.SmartthingsApiDelegate
+import com.mega.demo.controller.generated.model.DeviceState
 import com.mega.demo.controller.generated.model.Headers
 import com.mega.demo.controller.generated.model.SmartThingsDevice
 import com.mega.demo.controller.generated.model.SmartThingsRequest
 import com.mega.demo.controller.generated.model.SmartThingsResponse
-import com.mega.demo.service.api.SmartThingsService
+import com.mega.demo.service.api.SmartHomeService
 import mu.KotlinLogging
 import org.springframework.core.convert.ConversionService
 import org.springframework.http.ResponseEntity
@@ -19,7 +20,7 @@ private val logger = KotlinLogging.logger {}
  * @author Alex Mikhalochkin
  */
 @Component
-class SmartThingsApiDelegateImpl(val smartThingsService: SmartThingsService, val conversionService: ConversionService) :
+class SmartThingsApiDelegateImpl(val smartHomeService: SmartHomeService, val conversionService: ConversionService) :
     SmartthingsApiDelegate {
 
     private val requestHandlers = mapOf(
@@ -37,7 +38,7 @@ class SmartThingsApiDelegateImpl(val smartThingsService: SmartThingsService, val
     }
 
     private fun handleDiscoveryRequest(request: SmartThingsRequest): SmartThingsResponse {
-        val devices = smartThingsService.getAllDevices()
+        val devices = smartHomeService.getAllDevices()
             .mapNotNull { conversionService.convert(it, SmartThingsDevice::class.java) }
         return SmartThingsResponse(
             createHeaders(request, "discoveryResponse"),
@@ -49,7 +50,8 @@ class SmartThingsApiDelegateImpl(val smartThingsService: SmartThingsService, val
     private fun handleStateRefreshRequest(request: SmartThingsRequest): SmartThingsResponse {
         val ids = request.devices!!.mapNotNull { it.externalDeviceId }
             .toList()
-        val deviceStates = smartThingsService.getDeviceStates(ids)
+        val deviceStates = smartHomeService.getDeviceStates(ids)
+            .mapNotNull { conversionService.convert(it, DeviceState::class.java) }
         return SmartThingsResponse(
             createHeaders(request, "stateRefreshResponse"),
             deviceState = deviceStates
@@ -57,7 +59,10 @@ class SmartThingsApiDelegateImpl(val smartThingsService: SmartThingsService, val
     }
 
     private fun handleCommandRequest(request: SmartThingsRequest): SmartThingsResponse {
-        val deviceStates = smartThingsService.changeState(request.devices!!)
+        val states =
+            request.devices!!.mapNotNull { conversionService.convert(it, com.mega.demo.model.DeviceState::class.java) }
+        val deviceStates = smartHomeService.changeState(states)
+            .mapNotNull { conversionService.convert(it, DeviceState::class.java) }
         return SmartThingsResponse(
             createHeaders(request, "commandResponse"),
             deviceState = deviceStates
