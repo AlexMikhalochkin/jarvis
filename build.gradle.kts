@@ -8,6 +8,7 @@ plugins {
     kotlin("jvm") version "1.5.20"
     kotlin("plugin.spring") version "1.5.20"
     id("com.diffplug.spotless") version "5.14.2"
+    id("org.openapi.generator") version "5.1.1"
 }
 
 group = "com.mega"
@@ -96,3 +97,21 @@ configure<com.diffplug.gradle.spotless.SpotlessExtension> {
 //        ktlint() // or ktfmt() or prettier()
 //    }
 }
+
+openApiGenerate {
+    generatorName.set("kotlin-spring")
+    inputSpec.set("$rootDir/codegenerator/jarvis.yaml")
+    outputDir.set("$rootDir")
+    templateDir.set("$rootDir/codegenerator/templates")
+    globalProperties.set(
+        mapOf(
+            "modelDocs" to "false",
+            "models" to "",
+            "apis" to "",
+            "supportingFiles" to "false"
+        )
+    )
+    configFile.set("$rootDir/codegenerator/config.json")
+}
+
+tasks.openApiGenerate{finalizedBy(tasks.spotlessApply)}

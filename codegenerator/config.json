@@ -4,5 +4,6 @@
   "invokerPackage": "com.mega.demo.controller.generated",
   "delegatePattern": true,
   "gradleBuildFile": false,
-  "generateSupportingFiles": false
+  "generateSupportingFiles": false,
+  "swaggerAnnotations": false
 }
