@@ -27,7 +27,7 @@ internal class DeviceToSmartThingsDeviceConverterTest {
     private fun createExpected(): SmartThingsDevice {
         return SmartThingsDevice(
             externalDeviceId,
-            emptyMap(),
+            mapOf("port" to 7),
             "friendly name",
             ManufacturerInfo(
                 "Provider2",
@@ -48,11 +48,11 @@ internal class DeviceToSmartThingsDeviceConverterTest {
     private fun createSource(): Device {
         return Device(
             externalDeviceId,
+            7,
             mapOf(Provider.YANDEX to "спальня", Provider.SMART_THINGS to "Kitchen"),
             mapOf(Provider.YANDEX to "devices.types.light", Provider.SMART_THINGS to "handler type"),
             mapOf(Provider.YANDEX to "свет на кухне", Provider.SMART_THINGS to "friendly name"),
             TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
-            emptyMap(),
             "цветная лампа",
             listOf("devices.capabilities.on_off"),
             listOf("light", "switch"),

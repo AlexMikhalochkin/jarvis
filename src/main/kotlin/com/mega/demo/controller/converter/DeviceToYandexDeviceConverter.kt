@@ -26,7 +26,7 @@ class DeviceToYandexDeviceConverter : Converter<Device, YandexDevice> {
             source.id,
             source.description,
             source.room.getValue(Provider.YANDEX),
-            source.customData
+            mapOf("port" to source.port)
         )
     }
 

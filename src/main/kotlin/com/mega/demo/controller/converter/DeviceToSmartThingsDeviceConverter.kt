@@ -20,7 +20,7 @@ class DeviceToSmartThingsDeviceConverter : Converter<Device, SmartThingsDevice> 
     override fun convert(source: Device): SmartThingsDevice {
         return SmartThingsDevice(
             source.id,
-            source.customData,
+            mapOf("port" to source.port),
             source.name[Provider.SMART_THINGS],
             convertManufacturer(source.technicalInfo),
             convertContext(source),

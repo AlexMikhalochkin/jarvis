@@ -3,7 +3,7 @@
   "payload": {
     "devices": [
       {
-        "id": "id",
+        "id": "kitchen-light-0",
         "capabilities": [
           {
             "type": "devices.capabilities.on_off",

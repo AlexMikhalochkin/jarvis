@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
  *
  * @author Alex Mikhalochkin
  */
-@Disabled
 internal class YandexRestTest : BaseRestTest() {
 
     @Test
@@ -56,6 +55,7 @@ internal class YandexRestTest : BaseRestTest() {
     }
 
     @Test
+    @Disabled
     fun testChangeDevicesStates() {
         val requestId = "ff36a3cc-ec34-11e6-b1a0-64510650abcf"
         val expectedResponse = getPayloadFromFile("change_states_response.json")

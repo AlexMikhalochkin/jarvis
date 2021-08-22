@@ -14,6 +14,10 @@ import org.springframework.stereotype.Component
 class SmartThingsDeviceToDeviceStateConverter : Converter<SmartThingsDevice, DeviceState> {
 
     override fun convert(source: SmartThingsDevice): DeviceState {
-        return DeviceState(source.externalDeviceId!!, source.commands!![0].command!! == "on")
+        return DeviceState(
+            source.externalDeviceId!!,
+            source.deviceCookie!!["port"] as Int,
+            source.commands!![0].command!! == "on"
+        )
     }
 }

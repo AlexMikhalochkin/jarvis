@@ -10,7 +10,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
  *
  * @author Alex Mikhalochkin
  */
-@Disabled
 internal class SmartThingsRestTest : BaseRestTest() {
 
     @Test
@@ -24,6 +23,7 @@ internal class SmartThingsRestTest : BaseRestTest() {
     }
 
     @Test
+    @Disabled
     fun testCommand() {
         testSmartThings("smartthings/command_request.json", "smartthings/command_response.json")
     }

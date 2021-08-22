@@ -11,11 +11,12 @@ import org.springframework.stereotype.Component
  * @author Alex Mikhalochkin
  */
 @Component
-class ChangeStateDeviceToDeviceConverter : Converter<ChangeStateDevice, DeviceState> {
+class ChangeStateDeviceToDeviceStateConverter : Converter<ChangeStateDevice, DeviceState> {
 
     override fun convert(source: ChangeStateDevice): DeviceState {
         return DeviceState(
             deviceId = source.id,
+            port = source.customData!!["port"] as Int,
             isOn = source.capabilities[0].state.value
         )
     }

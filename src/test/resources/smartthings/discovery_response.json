@@ -10,8 +10,7 @@
     {
       "externalDeviceId": "kitchen-light-0",
       "deviceCookie": {
-        "foo": "bar",
-        "updatedcookie": "old or new value"
+        "port": 7
       },
       "friendlyName": "Kitchen Bulb",
       "manufacturerInfo": {

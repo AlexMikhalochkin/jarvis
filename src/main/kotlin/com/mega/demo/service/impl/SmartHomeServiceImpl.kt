@@ -24,24 +24,17 @@ class SmartHomeServiceImpl(
     override fun getDeviceStates(deviceIds: List<String>): List<DeviceState> {
         val portStatuses = plcService.getPortStatuses()
         return deviceRepository.findPorts(deviceIds)
-            .map { (deviceId, port) -> DeviceState(deviceId, portStatuses.getValue(port)) }
+            .map { (deviceId, port) -> DeviceState(deviceId, null, portStatuses.getValue(port)) }
             .toList()
     }
 
     override fun changeState(states: List<DeviceState>): List<DeviceState> {
-        val idsToPorts = deviceRepository.findPorts(states.map { it.deviceId })
+        states.map { PortStatusMessage(it.port!!, it.isOn!!) }
+            .forEach(messageSender::send)
         return states
-            .associate { it.deviceId to it.isOn }
-            .onEach { (id, command) -> execute(idsToPorts[id]!!, command!!) }
-            .map { (id, command) -> DeviceState(id, command!!) }
-            .toList()
     }
 
     override fun getAllDevices(): List<Device> {
         return deviceRepository.findAll()
-    }
-
-    private fun execute(port: Int, command: Boolean) {
-        messageSender.send(PortStatusMessage(port, command))
     }
 }
