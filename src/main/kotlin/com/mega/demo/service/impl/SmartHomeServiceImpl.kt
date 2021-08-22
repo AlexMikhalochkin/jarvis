@@ -1,9 +1,11 @@
 package com.mega.demo.service.impl
 
+import com.mega.demo.integration.PortStatusMessage
 import com.mega.demo.model.Device
 import com.mega.demo.model.DeviceState
 import com.mega.demo.repository.api.DeviceRepository
 import com.mega.demo.service.api.PlcService
+import com.mega.demo.service.api.Sender
 import com.mega.demo.service.api.SmartHomeService
 import org.springframework.stereotype.Service
 
@@ -15,7 +17,8 @@ import org.springframework.stereotype.Service
 @Service
 class SmartHomeServiceImpl(
     val deviceRepository: DeviceRepository,
-    val plcService: PlcService
+    val plcService: PlcService,
+    val messageSender: Sender
 ) : SmartHomeService {
 
     override fun getDeviceStates(deviceIds: List<String>): List<DeviceState> {
@@ -39,6 +42,6 @@ class SmartHomeServiceImpl(
     }
 
     private fun execute(port: Int, command: Boolean) {
-        if (command) plcService.turnOn(port) else plcService.turnOff(port)
+        messageSender.send(PortStatusMessage(port, command))
     }
 }

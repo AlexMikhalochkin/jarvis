@@ -30,9 +30,7 @@ class DeviceToYandexDeviceConverter : Converter<Device, YandexDevice> {
         )
     }
 
-    private fun convertCapabilities(capabilities: List<String>?): List<ShortCapability> {
-        return capabilities!!.map { ShortCapability(it) }
-    }
+    private fun convertCapabilities(capabilities: List<String>?) = capabilities!!.map { ShortCapability(it) }
 
     private fun convertDeviceInfo(deviceInfo: TechnicalInfo): YandexDeviceInfo {
         return YandexDeviceInfo(

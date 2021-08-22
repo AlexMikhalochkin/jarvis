@@ -1,5 +1,6 @@
 package com.mega.demo
 
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpHeaders
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -12,6 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
  *
  * @author Alex Mikhalochkin
  */
+@Disabled
 internal class YandexRestTest : BaseRestTest() {
 
     @Test

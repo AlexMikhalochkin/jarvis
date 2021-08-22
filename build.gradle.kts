@@ -22,6 +22,9 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-activemq")
+    implementation("org.apache.activemq:activemq-broker")
+    implementation("org.apache.activemq:activemq-kahadb-store")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.github.microutils:kotlin-logging:1.12.5")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
@@ -114,4 +117,4 @@ openApiGenerate {
     configFile.set("$rootDir/codegenerator/config.json")
 }
 
-tasks.openApiGenerate{finalizedBy(tasks.spotlessApply)}
+tasks.openApiGenerate { finalizedBy(tasks.spotlessApply) }
