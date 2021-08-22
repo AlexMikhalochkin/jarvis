@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Profile
 import org.springframework.jms.annotation.EnableJms
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory
 import org.springframework.jms.config.JmsListenerContainerFactory
@@ -22,6 +23,9 @@ class DemoApplication {
 
     @Value("\${smart.things.url}")
     private lateinit var smartThingsUrl: String
+
+    @Value("\${spring.activemq.broker-url}")
+    private lateinit var queueUrl: String
 
     /**
      * WebClient for MegaD controller.
@@ -44,6 +48,7 @@ class DemoApplication {
     }
 
     @Bean
+    @Profile("consumer")
     fun queueListenerFactory(): JmsListenerContainerFactory<*>? {
         val factory = DefaultJmsListenerContainerFactory()
         factory.setMessageConverter(messageConverter())
@@ -59,9 +64,10 @@ class DemoApplication {
     }
 
     @Bean
+    @Profile("!consumer")
     fun broker(): BrokerService {
         val broker = BrokerService()
-        broker.addConnector("tcp://0.0.0.0:61616")
+        broker.addConnector(queueUrl)
         return broker
     }
 }

@@ -1,7 +1,7 @@
 package com.mega.demo.service.impl
 
 import com.mega.demo.integration.PortStatusMessage
-import com.mega.demo.integration.api.PlcClient
+import com.mega.demo.service.api.PlcService
 import mu.KotlinLogging
 import org.springframework.context.annotation.Profile
 import org.springframework.jms.annotation.JmsListener
@@ -17,13 +17,13 @@ private val logger = KotlinLogging.logger {}
  */
 @Component
 @Profile("consumer")
-class MessageConsumer(val plcClient: PlcClient) {
+class MessageConsumer(val plcService: PlcService) {
 
     @JmsListener(destination = "message-queue")
     fun consume(@Payload portStatusMessage: PortStatusMessage) {
         logger.info { "Consume message. Started. Message=$portStatusMessage" }
         val port = portStatusMessage.port!!
-        if (portStatusMessage.status!!) plcClient.turnOn(port) else plcClient.turnOn(port)
+        if (portStatusMessage.status!!) plcService.turnOn(port) else plcService.turnOff(port)
         logger.info { "Consume message. Finished. Message=$portStatusMessage" }
     }
 }
