@@ -19,24 +19,39 @@ repositories {
     mavenCentral()
 }
 
+subprojects {
+    repositories {
+        mavenCentral()
+    }
+
+    apply {
+        plugin("io.spring.dependency-management")
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+
+    apply {
+        plugin("io.spring.dependency-management")
+        plugin("org.jetbrains.kotlin.jvm")
+    }
+
+    dependencies {
+        implementation("io.github.microutils:kotlin-logging:1.12.5")
+
+        testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
+    }
+}
+
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation(project(":jarvis-integration"))
+    implementation(project(":jarvis-rest"))
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("io.github.microutils:kotlin-logging:1.12.5")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    implementation("org.junit.jupiter:junit-jupiter:5.7.0")
-    implementation("javax.validation:validation-api:2.0.1.Final")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.projectreactor:reactor-test")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
-    testImplementation("org.mockito:mockito-inline:2.13.0")
-    testImplementation("com.squareup.okhttp3:okhttp:4.0.1")
-    testImplementation("com.squareup.okhttp3:mockwebserver:4.0.1")
     testImplementation("commons-io:commons-io:2.11.0")
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.18.0-RC2")
@@ -114,4 +129,4 @@ openApiGenerate {
     configFile.set("$rootDir/codegenerator/config.json")
 }
 
-tasks.openApiGenerate{finalizedBy(tasks.spotlessApply)}
+tasks.openApiGenerate { finalizedBy(tasks.spotlessApply) }

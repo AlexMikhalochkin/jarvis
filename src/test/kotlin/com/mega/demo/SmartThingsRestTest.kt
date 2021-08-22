@@ -1,5 +1,6 @@
 package com.mega.demo
 
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
@@ -9,6 +10,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
  *
  * @author Alex Mikhalochkin
  */
+@Disabled
 internal class SmartThingsRestTest : BaseRestTest() {
 
     @Test
