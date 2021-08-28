@@ -1,7 +1,7 @@
 package com.mega.demo
 
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.verify
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 
@@ -23,9 +23,9 @@ internal class SmartThingsRestTest : BaseRestTest() {
     }
 
     @Test
-    @Disabled
     fun testCommand() {
         testSmartThings("smartthings/command_request.json", "smartthings/command_response.json")
+        verify(mqttClient).publish("megad/14/cmd", "7:1".toByteArray(), 0, true)
     }
 
     @Test

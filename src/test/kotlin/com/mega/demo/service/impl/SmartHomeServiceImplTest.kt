@@ -4,7 +4,7 @@ import com.mega.demo.model.Device
 import com.mega.demo.model.DeviceState
 import com.mega.demo.repository.api.DeviceRepository
 import com.mega.demo.service.api.PlcService
-import com.mega.demo.service.api.Sender
+import com.mega.demo.service.api.MessageSender
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.BeforeEach
@@ -23,7 +23,7 @@ internal class SmartHomeServiceImplTest {
     private lateinit var service: SmartHomeServiceImpl
     private lateinit var deviceRepository: DeviceRepository
     private lateinit var plcService: PlcService
-    private lateinit var messageSender: Sender
+    private lateinit var messageSender: MessageSender
 
     @BeforeEach
     fun init() {

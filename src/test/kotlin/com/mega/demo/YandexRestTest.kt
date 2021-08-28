@@ -1,7 +1,7 @@
 package com.mega.demo
 
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.verify
 import org.springframework.http.HttpHeaders
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.head
@@ -55,7 +55,6 @@ internal class YandexRestTest : BaseRestTest() {
     }
 
     @Test
-    @Disabled
     fun testChangeDevicesStates() {
         val requestId = "ff36a3cc-ec34-11e6-b1a0-64510650abcf"
         val expectedResponse = getPayloadFromFile("change_states_response.json")
@@ -66,6 +65,7 @@ internal class YandexRestTest : BaseRestTest() {
             .content(getPayloadFromFile("change_states_request.json"))
         performRequest(requestBuilder)
             .andExpect(content().json(expectedResponse, true))
+        verify(mqttClient).publish("megad/14/cmd", "7:0".toByteArray(), 0, true)
     }
 
     private fun createHeaders(requestId: String): HttpHeaders {

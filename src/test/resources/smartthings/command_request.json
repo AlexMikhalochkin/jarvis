@@ -13,7 +13,7 @@
     {
       "externalDeviceId": "kitchen-light-0",
       "deviceCookie": {
-        "lastcookie": "cookie value"
+        "port": 7
       },
       "commands": [
         {

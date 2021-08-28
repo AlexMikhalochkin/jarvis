@@ -7,7 +7,7 @@ import com.mega.demo.integration.PortStatusMessage
  *
  * @author Alex Mikhalochkin
  */
-interface Sender {
+interface MessageSender {
 
     /**
      * Sends [message].
