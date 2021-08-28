@@ -18,6 +18,22 @@ class InMemoryDeviceRepository : DeviceRepository {
     private lateinit var devices: List<Device>
     private lateinit var idsToPorts: Map<String, Int>
     private val port = 7
+    private val outPorts = mutableMapOf(
+        7 to false,
+        8 to false,
+        9 to false,
+        10 to false,
+        11 to false,
+        12 to false,
+        13 to false,
+        22 to false,
+        23 to false,
+        24 to false,
+        25 to false,
+        26 to false,
+        27 to false,
+        28 to false
+    )
 
     override fun findAll(): List<Device> {
         return devices
@@ -25,6 +41,10 @@ class InMemoryDeviceRepository : DeviceRepository {
 
     override fun findPorts(deviceIds: List<String>): Map<String, Int> {
         return deviceIds.associateWith { idsToPorts.getValue(it) }
+    }
+
+    override fun getStatuses(values: Collection<Int>): Map<Int, Boolean> {
+        return outPorts
     }
 
     @PostConstruct

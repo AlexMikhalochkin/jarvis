@@ -23,4 +23,5 @@ interface DeviceRepository {
      * @return [Map] where key is id and value is port of this device.
      */
     fun findPorts(deviceIds: List<String>): Map<String, Int>
+    fun getStatuses(values: Collection<Int>): Map<Int, Boolean>
 }

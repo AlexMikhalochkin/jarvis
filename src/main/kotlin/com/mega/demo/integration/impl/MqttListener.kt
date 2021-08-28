@@ -1,4 +1,4 @@
-package com.mega.demo.service.impl
+package com.mega.demo.integration.impl
 
 import mu.KotlinLogging
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken

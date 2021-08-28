@@ -1,14 +1,14 @@
 package com.mega.demo.service.impl
 
+import com.mega.demo.integration.api.MessageSender
 import com.mega.demo.model.Device
 import com.mega.demo.model.DeviceState
 import com.mega.demo.repository.api.DeviceRepository
-import com.mega.demo.service.api.PlcService
-import com.mega.demo.service.api.MessageSender
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
@@ -22,27 +22,24 @@ internal class SmartHomeServiceImplTest {
 
     private lateinit var service: SmartHomeServiceImpl
     private lateinit var deviceRepository: DeviceRepository
-    private lateinit var plcService: PlcService
     private lateinit var messageSender: MessageSender
 
     @BeforeEach
     fun init() {
         deviceRepository = mock()
-        plcService = mock()
         messageSender = mock()
-        service = SmartHomeServiceImpl(deviceRepository, plcService, messageSender)
+        service = SmartHomeServiceImpl(deviceRepository, messageSender)
     }
 
     @Test
     fun getDeviceStates() {
         val deviceIds = listOf("first", "second")
-        whenever(plcService.getPortStatuses()).thenReturn(mapOf(1 to true, 2 to false))
         whenever(deviceRepository.findPorts(deviceIds)).thenReturn(mapOf("first" to 1, "second" to 2))
+        whenever(deviceRepository.getStatuses(any())).thenReturn(mapOf(1 to true, 2 to false))
         val deviceStates = service.getDeviceStates(deviceIds)
         assertEquals(2, deviceStates.size)
         verifyDeviceState(deviceStates[0], "first", true)
         verifyDeviceState(deviceStates[1], "second", false)
-        verify(plcService).getPortStatuses()
         verify(deviceRepository).findPorts(deviceIds)
     }
 

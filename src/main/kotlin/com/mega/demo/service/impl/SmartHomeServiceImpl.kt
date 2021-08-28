@@ -1,11 +1,9 @@
 package com.mega.demo.service.impl
 
-import com.mega.demo.integration.PortStatusMessage
+import com.mega.demo.integration.api.MessageSender
 import com.mega.demo.model.Device
 import com.mega.demo.model.DeviceState
 import com.mega.demo.repository.api.DeviceRepository
-import com.mega.demo.service.api.PlcService
-import com.mega.demo.service.api.MessageSender
 import com.mega.demo.service.api.SmartHomeService
 import org.springframework.stereotype.Service
 
@@ -17,21 +15,29 @@ import org.springframework.stereotype.Service
 @Service
 class SmartHomeServiceImpl(
     val deviceRepository: DeviceRepository,
-    val plcService: PlcService,
     val messageSender: MessageSender
 ) : SmartHomeService {
 
     override fun getDeviceStates(deviceIds: List<String>): List<DeviceState> {
-        val portStatuses = plcService.getPortStatuses()
-        return deviceRepository.findPorts(deviceIds)
-            .map { (deviceId, port) -> DeviceState(deviceId, null, portStatuses.getValue(port)) }
+        val idsToPorts = deviceRepository.findPorts(deviceIds)
+        val portStatuses = getStatuses(idsToPorts.values)
+        return idsToPorts
+            .map { (deviceId, port) -> DeviceState(deviceId, port, portStatuses.getValue(port)) }
             .toList()
     }
 
+    private fun getStatuses(values: Collection<Int>): Map<Int, Boolean> {
+        return deviceRepository.getStatuses(values)
+    }
+
     override fun changeState(states: List<DeviceState>): List<DeviceState> {
-        states.map { PortStatusMessage(it.port!!, it.isOn!!) }
-            .forEach(messageSender::send)
+        states.forEach { sendChangeStateMessage(it.port!!, it.isOn!!) }
         return states
+    }
+
+    private fun sendChangeStateMessage(port: Int, isOn: Boolean) {
+        val status = if (isOn) 1 else 0
+        messageSender.send("$port:$status")
     }
 
     override fun getAllDevices(): List<Device> {
