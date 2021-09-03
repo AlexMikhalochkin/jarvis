@@ -59,6 +59,27 @@ tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
 }
 
+sourceSets {
+    create("testIntegration") {
+        kotlin {
+            compileClasspath += main.get().output + configurations.testRuntimeClasspath
+            runtimeClasspath += output + compileClasspath
+        }
+    }
+}
+
+val testIntegration = task<Test>("testIntegration") {
+    description = "Runs the integration tests"
+    group = "verification"
+    testClassesDirs = sourceSets["testIntegration"].output.classesDirs
+    classpath = sourceSets["testIntegration"].runtimeClasspath
+    mustRunAfter(tasks["test"])
+}
+
+tasks.check {
+    dependsOn(testIntegration)
+}
+
 jacoco {
     toolVersion = "0.8.7"
 }
