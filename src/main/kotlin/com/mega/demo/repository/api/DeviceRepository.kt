@@ -17,11 +17,23 @@ interface DeviceRepository {
     fun findAll(): List<Device>
 
     /**
-     * Finds ports for specified devices.
+     * Finds ports for specified [deviceIds].
      *
-     * @param deviceIds [List] of ids.
-     * @return [Map] where key is id and value is port of this device.
+     * @return [Map] where key is id and value is port of this [Device].
      */
     fun findPorts(deviceIds: List<String>): Map<String, Int>
-    fun getStatuses(values: Collection<Int>): Map<Int, Boolean>
+
+    /**
+     * Finds statuses for specified [ports].
+     *
+     * @return [Map] where key is port and value is its status.
+     */
+    fun findStatuses(ports: Collection<Int>): Map<Int, Boolean>
+
+    /**
+     * Finds id of the [Device] by specified [port].
+     *
+     * @return id of the [Device].
+     */
+    fun findIdByPort(port: Int): String
 }

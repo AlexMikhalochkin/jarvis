@@ -19,6 +19,9 @@ class DemoApplication {
     @Value("\${smart.things.url}")
     private lateinit var smartThingsUrl: String
 
+    @Value("\${yandex.notification.url}")
+    private lateinit var yandexUrl: String
+
     @Value("\${mqtt.server.url}")
     private lateinit var mqttServerUrl: String
 
@@ -40,6 +43,16 @@ class DemoApplication {
     @Bean("smartThingsWebClient")
     fun smartThingsWebClient(): WebClient {
         return WebClient.create(smartThingsUrl)
+    }
+
+    /**
+     * WebClient for Yandex callbacks.
+     *
+     * @return instance of [WebClient].
+     */
+    @Bean("yandexWebClient")
+    fun yandexWebClient(): WebClient {
+        return WebClient.create(yandexUrl)
     }
 
     @Bean

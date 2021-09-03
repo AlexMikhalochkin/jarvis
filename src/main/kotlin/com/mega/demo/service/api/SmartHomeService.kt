@@ -15,4 +15,11 @@ interface SmartHomeService {
     fun changeState(states: List<DeviceState>): List<DeviceState>
 
     fun getAllDevices(): List<Device>
+
+    /**
+     * Sends notification about change in device's state.
+     * @param port port.
+     * @param isOn is on flag.
+     */
+    fun sendNotification(port: Int, isOn: Boolean)
 }

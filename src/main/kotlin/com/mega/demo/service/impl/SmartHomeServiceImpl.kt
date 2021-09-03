@@ -1,6 +1,7 @@
 package com.mega.demo.service.impl
 
 import com.mega.demo.integration.api.MessageSender
+import com.mega.demo.integration.api.YandexCallbackClient
 import com.mega.demo.model.Device
 import com.mega.demo.model.DeviceState
 import com.mega.demo.repository.api.DeviceRepository
@@ -15,7 +16,8 @@ import org.springframework.stereotype.Service
 @Service
 class SmartHomeServiceImpl(
     val deviceRepository: DeviceRepository,
-    val messageSender: MessageSender
+    val messageSender: MessageSender,
+    val yandexCallbackClient: YandexCallbackClient
 ) : SmartHomeService {
 
     override fun getDeviceStates(deviceIds: List<String>): List<DeviceState> {
@@ -27,7 +29,7 @@ class SmartHomeServiceImpl(
     }
 
     private fun getStatuses(values: Collection<Int>): Map<Int, Boolean> {
-        return deviceRepository.getStatuses(values)
+        return deviceRepository.findStatuses(values)
     }
 
     override fun changeState(states: List<DeviceState>): List<DeviceState> {
@@ -42,5 +44,9 @@ class SmartHomeServiceImpl(
 
     override fun getAllDevices(): List<Device> {
         return deviceRepository.findAll()
+    }
+
+    override fun sendNotification(port: Int, isOn: Boolean) {
+        yandexCallbackClient.send(deviceRepository.findIdByPort(port), isOn)
     }
 }

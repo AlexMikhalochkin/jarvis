@@ -1,6 +1,7 @@
 package com.mega.demo.service.impl
 
 import com.mega.demo.integration.api.MessageSender
+import com.mega.demo.integration.api.YandexCallbackClient
 import com.mega.demo.model.Device
 import com.mega.demo.model.DeviceState
 import com.mega.demo.repository.api.DeviceRepository
@@ -23,19 +24,21 @@ internal class SmartHomeServiceImplTest {
     private lateinit var service: SmartHomeServiceImpl
     private lateinit var deviceRepository: DeviceRepository
     private lateinit var messageSender: MessageSender
+    private lateinit var yandexCallbackClient: YandexCallbackClient
 
     @BeforeEach
     fun init() {
         deviceRepository = mock()
         messageSender = mock()
-        service = SmartHomeServiceImpl(deviceRepository, messageSender)
+        yandexCallbackClient = mock()
+        service = SmartHomeServiceImpl(deviceRepository, messageSender, yandexCallbackClient)
     }
 
     @Test
     fun getDeviceStates() {
         val deviceIds = listOf("first", "second")
         whenever(deviceRepository.findPorts(deviceIds)).thenReturn(mapOf("first" to 1, "second" to 2))
-        whenever(deviceRepository.getStatuses(any())).thenReturn(mapOf(1 to true, 2 to false))
+        whenever(deviceRepository.findStatuses(any())).thenReturn(mapOf(1 to true, 2 to false))
         val deviceStates = service.getDeviceStates(deviceIds)
         assertEquals(2, deviceStates.size)
         verifyDeviceState(deviceStates[0], "first", true)

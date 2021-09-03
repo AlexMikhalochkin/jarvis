@@ -43,8 +43,12 @@ class InMemoryDeviceRepository : DeviceRepository {
         return deviceIds.associateWith { idsToPorts.getValue(it) }
     }
 
-    override fun getStatuses(values: Collection<Int>): Map<Int, Boolean> {
+    override fun findStatuses(ports: Collection<Int>): Map<Int, Boolean> {
         return outPorts
+    }
+
+    override fun findIdByPort(port: Int): String {
+        return idsToPorts.filter { it.value == port }.firstNotNullOf { it.key }
     }
 
     @PostConstruct
