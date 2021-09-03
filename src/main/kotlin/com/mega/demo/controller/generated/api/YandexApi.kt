@@ -10,6 +10,7 @@ import com.mega.demo.controller.generated.model.DevicesResponse
 import com.mega.demo.controller.generated.model.DevicesResponse2
 import com.mega.demo.controller.generated.model.StatesRequest
 import com.mega.demo.controller.generated.model.UnlinkResponse
+import javax.annotation.Generated
 import javax.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 
+@Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
 @Validated
 interface YandexApi {
 

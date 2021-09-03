@@ -39,6 +39,7 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
+import javax.annotation.Generated;
 {{/useBeanValidation}}
 
 {{#reactive}}
@@ -46,7 +47,7 @@ import kotlinx.coroutines.flow.Flow;
 {{/reactive}}
 import kotlin.collections.List
 import kotlin.collections.Map
-
+{{>generatedAnnotation}}
 {{#useBeanValidation}}
 @Validated
 {{/useBeanValidation}}

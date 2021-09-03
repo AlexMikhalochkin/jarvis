@@ -1,6 +1,7 @@
 package com.mega.demo.controller.generated.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import javax.annotation.Generated
 import javax.validation.Valid
 
 /**
@@ -14,6 +15,7 @@ import javax.validation.Valid
  * @property deviceUniqueId
  * @property commands
  */
+@Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
 data class SmartThingsDevice(
     @field:JsonProperty("externalDeviceId") val externalDeviceId: kotlin.String? = null,
     @field:Valid

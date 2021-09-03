@@ -1,3 +1,4 @@
+import javax.annotation.Generated;
 /**
  * {{{description}}}
 {{#vars}}
@@ -5,6 +6,7 @@
 {{/vars}}
  */{{#discriminator}}
 {{>typeInfoAnnotation}}{{/discriminator}}
+{{>generatedAnnotation}}
 {{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
 {{#requiredVars}}
 {{>dataClassReqVar}}{{^-last}},

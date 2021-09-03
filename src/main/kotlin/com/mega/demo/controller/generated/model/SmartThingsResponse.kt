@@ -1,6 +1,7 @@
 package com.mega.demo.controller.generated.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import javax.annotation.Generated
 import javax.validation.Valid
 
 /**
@@ -10,6 +11,7 @@ import javax.validation.Valid
  * @property devices
  * @property deviceState
  */
+@Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
 data class SmartThingsResponse(
     @field:Valid @field:JsonProperty("headers") val headers: Headers? = null,
     @field:JsonProperty("requestGrantCallbackAccess")

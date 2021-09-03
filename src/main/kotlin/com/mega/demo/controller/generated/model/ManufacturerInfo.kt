@@ -1,6 +1,7 @@
 package com.mega.demo.controller.generated.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import javax.annotation.Generated
 
 /**
  *
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @property hwVersion
  * @property swVersion
  */
+@Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
 data class ManufacturerInfo(
     @field:JsonProperty("manufacturerName") val manufacturerName: kotlin.String? = null,
     @field:JsonProperty("modelName") val modelName: kotlin.String? = null,

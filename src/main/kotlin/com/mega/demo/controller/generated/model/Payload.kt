@@ -1,6 +1,7 @@
 package com.mega.demo.controller.generated.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import javax.annotation.Generated
 import javax.validation.Valid
 
 /**
@@ -8,6 +9,7 @@ import javax.validation.Valid
  * @property userId
  * @property devices
  */
+@Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
 data class Payload(
     @field:JsonProperty("user_id", required = true) val userId: kotlin.String,
     @field:Valid

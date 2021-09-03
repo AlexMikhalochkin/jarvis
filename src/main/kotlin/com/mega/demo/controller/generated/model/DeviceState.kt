@@ -1,6 +1,7 @@
 package com.mega.demo.controller.generated.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import javax.annotation.Generated
 import javax.validation.Valid
 
 /**
@@ -9,6 +10,7 @@ import javax.validation.Valid
  * @property deviceCookie
  * @property states
  */
+@Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
 data class DeviceState(
     @field:JsonProperty("externalDeviceId") val externalDeviceId: kotlin.String? = null,
     @field:Valid

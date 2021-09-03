@@ -1,6 +1,7 @@
 package com.mega.demo.controller.generated.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import javax.annotation.Generated
 
 /**
  *
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @property interactionType
  * @property requestId
  */
+@Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
 data class Headers(
     @field:JsonProperty("schema", required = true) val schema: kotlin.String = "st-schema",
     @field:JsonProperty("version", required = true) val version: kotlin.String = "1.0",

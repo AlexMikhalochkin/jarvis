@@ -6,6 +6,7 @@ package com.mega.demo.controller.generated.api
 
 import com.mega.demo.controller.generated.model.SmartThingsRequest
 import com.mega.demo.controller.generated.model.SmartThingsResponse
+import javax.annotation.Generated
 import javax.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 
+@Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
 @Validated
 interface SmartthingsApi {
 
