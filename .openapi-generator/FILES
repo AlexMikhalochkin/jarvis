@@ -10,7 +10,7 @@ src/main/kotlin/com/mega/demo/controller/generated/model/ChangeStateDevice.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/ChangeStatesRequest.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/ChangeStatesRequestPayload.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/ChangeStatesResponse.kt
-src/main/kotlin/com/mega/demo/controller/generated/model/ChangeStatesResponseCapabity.kt
+src/main/kotlin/com/mega/demo/controller/generated/model/ChangeStatesResponseCapability.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/ChangeStatesResponseDevice.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/ChangeStatesResponsePayload.kt
 src/main/kotlin/com/mega/demo/controller/generated/model/ChangeStatesResponseState.kt

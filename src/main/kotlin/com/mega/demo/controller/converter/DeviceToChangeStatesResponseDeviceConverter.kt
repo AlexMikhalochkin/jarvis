@@ -1,7 +1,7 @@
 package com.mega.demo.controller.converter
 
 import com.mega.demo.controller.generated.model.ActionResult
-import com.mega.demo.controller.generated.model.ChangeStatesResponseCapabity
+import com.mega.demo.controller.generated.model.ChangeStatesResponseCapability
 import com.mega.demo.controller.generated.model.ChangeStatesResponseDevice
 import com.mega.demo.controller.generated.model.ChangeStatesResponseState
 import com.mega.demo.model.DeviceState
@@ -23,8 +23,8 @@ class DeviceToChangeStatesResponseDeviceConverter : Converter<DeviceState, Chang
         )
     }
 
-    private fun convertCapabilities(): List<ChangeStatesResponseCapabity> {
-        return listOf(ChangeStatesResponseCapabity("devices.capabilities.on_off", convertState()))
+    private fun convertCapabilities(): List<ChangeStatesResponseCapability> {
+        return listOf(ChangeStatesResponseCapability("devices.capabilities.on_off", convertState()))
     }
 
     private fun convertState(): ChangeStatesResponseState {

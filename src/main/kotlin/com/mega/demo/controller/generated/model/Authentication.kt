@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import javax.annotation.Generated
 
 /**
- * asdasdas
+ * Authentication information
  * @property tokenType
  * @property token
  */

@@ -5,7 +5,7 @@ import javax.annotation.Generated
 import javax.validation.Valid
 
 /**
- * Response with changed states ofdevices
+ * Response with changed states of devices
  * @property requestId
  * @property payload
  */

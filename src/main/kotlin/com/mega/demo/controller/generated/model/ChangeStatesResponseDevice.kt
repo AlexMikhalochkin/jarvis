@@ -14,5 +14,5 @@ data class ChangeStatesResponseDevice(
     @field:JsonProperty("id") val id: kotlin.String? = null,
     @field:Valid
     @field:JsonProperty("capabilities")
-    val capabilities: kotlin.collections.List<ChangeStatesResponseCapabity>? = null
+    val capabilities: kotlin.collections.List<ChangeStatesResponseCapability>? = null
 )

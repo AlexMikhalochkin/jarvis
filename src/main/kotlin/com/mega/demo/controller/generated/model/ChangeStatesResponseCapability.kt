@@ -10,7 +10,7 @@ import javax.validation.Valid
  * @property state
  */
 @Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
-data class ChangeStatesResponseCapabity(
+data class ChangeStatesResponseCapability(
     @field:JsonProperty("type") val type: kotlin.String? = null,
     @field:Valid @field:JsonProperty("state") val state: ChangeStatesResponseState? = null
 )
