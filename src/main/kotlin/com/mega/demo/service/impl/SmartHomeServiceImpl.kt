@@ -20,33 +20,26 @@ class SmartHomeServiceImpl(
     val yandexCallbackClient: YandexCallbackClient
 ) : SmartHomeService {
 
-    override fun getDeviceStates(deviceIds: List<String>): List<DeviceState> {
-        val idsToPorts = deviceRepository.findPorts(deviceIds)
-        val portStatuses = getStatuses(idsToPorts.values)
-        return idsToPorts
-            .map { (deviceId, port) -> DeviceState(deviceId, port, portStatuses.getValue(port)) }
-            .toList()
+    override fun getAllDevices(): List<Device> {
+        return deviceRepository.findAll()
     }
 
-    private fun getStatuses(values: Collection<Int>): Map<Int, Boolean> {
-        return deviceRepository.findStatuses(values)
+    override fun getDeviceStates(deviceIds: List<String>): List<DeviceState> {
+        return deviceRepository.findStates(deviceIds)
     }
 
     override fun changeState(states: List<DeviceState>): List<DeviceState> {
+        deviceRepository.updateStates(states)
         states.forEach { sendChangeStateMessage(it.port!!, it.isOn!!) }
         return states
+    }
+
+    override fun sendNotification(port: Int, isOn: Boolean) {
+        yandexCallbackClient.send(deviceRepository.findIdByPort(port), isOn)
     }
 
     private fun sendChangeStateMessage(port: Int, isOn: Boolean) {
         val status = if (isOn) 1 else 0
         messageSender.send("$port:$status")
-    }
-
-    override fun getAllDevices(): List<Device> {
-        return deviceRepository.findAll()
-    }
-
-    override fun sendNotification(port: Int, isOn: Boolean) {
-        yandexCallbackClient.send(deviceRepository.findIdByPort(port), isOn)
     }
 }

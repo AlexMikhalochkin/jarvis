@@ -1,6 +1,7 @@
 package com.mega.demo.repository.api
 
 import com.mega.demo.model.Device
+import com.mega.demo.model.DeviceState
 
 /**
  * Repository for devices.
@@ -24,11 +25,11 @@ interface DeviceRepository {
     fun findPorts(deviceIds: List<String>): Map<String, Int>
 
     /**
-     * Finds statuses for specified [ports].
+     * Finds states for specified [deviceIds].
      *
-     * @return [Map] where key is port and value is its status.
+     * @return [List] of [DeviceState].
      */
-    fun findStatuses(ports: Collection<Int>): Map<Int, Boolean>
+    fun findStates(deviceIds: List<String>): List<DeviceState>
 
     /**
      * Finds id of the [Device] by specified [port].
@@ -36,4 +37,9 @@ interface DeviceRepository {
      * @return id of the [Device].
      */
     fun findIdByPort(port: Int): String
+
+    /**
+     * Updates stored [DeviceState] with specified [states].
+     */
+    fun updateStates(states: List<DeviceState>)
 }

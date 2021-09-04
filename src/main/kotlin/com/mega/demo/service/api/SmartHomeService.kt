@@ -10,11 +10,11 @@ import com.mega.demo.model.DeviceState
  */
 interface SmartHomeService {
 
+    fun getAllDevices(): List<Device>
+
     fun getDeviceStates(deviceIds: List<String>): List<DeviceState>
 
     fun changeState(states: List<DeviceState>): List<DeviceState>
-
-    fun getAllDevices(): List<Device>
 
     /**
      * Sends notification about change in device's state.

@@ -1,6 +1,7 @@
 package com.mega.demo.repository.impl
 
 import com.mega.demo.model.Device
+import com.mega.demo.model.DeviceState
 import com.mega.demo.model.Provider
 import com.mega.demo.model.TechnicalInfo
 import com.mega.demo.repository.api.DeviceRepository
@@ -18,7 +19,7 @@ class InMemoryDeviceRepository : DeviceRepository {
     private lateinit var devices: List<Device>
     private lateinit var idsToPorts: Map<String, Int>
     private val port = 7
-    private val outPorts = mutableMapOf(
+    private val storedStates = mutableMapOf(
         7 to false,
         8 to false,
         9 to false,
@@ -43,12 +44,19 @@ class InMemoryDeviceRepository : DeviceRepository {
         return deviceIds.associateWith { idsToPorts.getValue(it) }
     }
 
-    override fun findStatuses(ports: Collection<Int>): Map<Int, Boolean> {
-        return outPorts
+    override fun findStates(deviceIds: List<String>): List<DeviceState> {
+        return deviceIds.map { it to storedStates.getValue(idsToPorts.getValue(it)) }
+            .map { (deviceId, status) -> DeviceState(deviceId, null, status) }
+            .toList()
     }
 
     override fun findIdByPort(port: Int): String {
         return idsToPorts.filter { it.value == port }.firstNotNullOf { it.key }
+    }
+
+    override fun updateStates(states: List<DeviceState>) {
+        val newStates = states.associate { (it.port ?: idsToPorts[it.deviceId])!! to it.isOn!! }
+        storedStates.putAll(newStates)
     }
 
     @PostConstruct

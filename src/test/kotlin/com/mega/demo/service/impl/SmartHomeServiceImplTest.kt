@@ -5,11 +5,9 @@ import com.mega.demo.integration.api.YandexCallbackClient
 import com.mega.demo.model.Device
 import com.mega.demo.model.DeviceState
 import com.mega.demo.repository.api.DeviceRepository
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
@@ -20,6 +18,9 @@ import org.mockito.kotlin.whenever
  * @author Alex Mikhalochkin
  */
 internal class SmartHomeServiceImplTest {
+
+    private val port = 7
+    private val deviceId = "first"
 
     private lateinit var service: SmartHomeServiceImpl
     private lateinit var deviceRepository: DeviceRepository
@@ -35,27 +36,35 @@ internal class SmartHomeServiceImplTest {
     }
 
     @Test
-    fun getDeviceStates() {
-        val deviceIds = listOf("first", "second")
-        whenever(deviceRepository.findPorts(deviceIds)).thenReturn(mapOf("first" to 1, "second" to 2))
-        whenever(deviceRepository.findStatuses(any())).thenReturn(mapOf(1 to true, 2 to false))
-        val deviceStates = service.getDeviceStates(deviceIds)
-        assertEquals(2, deviceStates.size)
-        verifyDeviceState(deviceStates[0], "first", true)
-        verifyDeviceState(deviceStates[1], "second", false)
-        verify(deviceRepository).findPorts(deviceIds)
+    fun getAllDevices() {
+        val devices: List<Device> = listOf(mock())
+        whenever(deviceRepository.findAll()).thenReturn(devices)
+        assertSame(devices, service.getAllDevices())
+        verify(deviceRepository).findAll()
     }
 
     @Test
-    fun getAllDevices() {
-        val device = mock<Device>()
-        val devices: List<Device> = listOf(device)
-        whenever(deviceRepository.findAll()).thenReturn(devices)
-        assertSame(device, service.getAllDevices()[0])
+    fun getDeviceStates() {
+        val deviceIds = listOf(deviceId, "second")
+        val states = listOf(DeviceState(deviceId, null, true), DeviceState("second", null, false))
+        whenever(deviceRepository.findStates(deviceIds)).thenReturn(states)
+        assertSame(states, service.getDeviceStates(deviceIds))
+        verify(deviceRepository).findStates(deviceIds)
     }
 
-    private fun verifyDeviceState(deviceState: DeviceState, deviceId: String, expectedStateValue: Boolean) {
-        assertEquals(deviceId, deviceState.deviceId)
-        assertEquals(expectedStateValue, deviceState.isOn)
+    @Test
+    fun testChangeState() {
+        val states = listOf(DeviceState(deviceId, port, true), DeviceState("second", 11, false))
+        service.changeState(states)
+        verify(deviceRepository).updateStates(states)
+        verify(messageSender).send("7:1")
+        verify(messageSender).send("11:0")
+    }
+
+    @Test
+    fun testSendNotification() {
+        whenever(deviceRepository.findIdByPort(port)).thenReturn(deviceId)
+        service.sendNotification(port, true)
+        verify(yandexCallbackClient).send(deviceId, true)
     }
 }
