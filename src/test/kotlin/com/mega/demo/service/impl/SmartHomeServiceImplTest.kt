@@ -1,10 +1,11 @@
 package com.mega.demo.service.impl
 
 import com.mega.demo.integration.api.MessageSender
-import com.mega.demo.integration.api.YandexCallbackClient
 import com.mega.demo.model.Device
 import com.mega.demo.model.DeviceState
+import com.mega.demo.model.Provider
 import com.mega.demo.repository.api.DeviceRepository
+import com.mega.demo.service.api.NotificationService
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -25,14 +26,14 @@ internal class SmartHomeServiceImplTest {
     private lateinit var service: SmartHomeServiceImpl
     private lateinit var deviceRepository: DeviceRepository
     private lateinit var messageSender: MessageSender
-    private lateinit var yandexCallbackClient: YandexCallbackClient
+    private lateinit var notificationService: NotificationService
 
     @BeforeEach
     fun init() {
         deviceRepository = mock()
         messageSender = mock()
-        yandexCallbackClient = mock()
-        service = SmartHomeServiceImpl(deviceRepository, messageSender, yandexCallbackClient)
+        notificationService = mock()
+        service = SmartHomeServiceImpl(deviceRepository, messageSender, notificationService)
     }
 
     @Test
@@ -53,18 +54,22 @@ internal class SmartHomeServiceImplTest {
     }
 
     @Test
-    fun testChangeState() {
+    fun testChangeStates() {
         val states = listOf(DeviceState(deviceId, port, true), DeviceState("second", 11, false))
-        service.changeState(states)
+        val provider = Provider.YANDEX
+        service.changeStates(states, provider)
         verify(deviceRepository).updateStates(states)
         verify(messageSender).send("7:1")
         verify(messageSender).send("11:0")
+        verify(notificationService).notifyProviders(states, provider)
     }
 
     @Test
-    fun testSendNotification() {
-        whenever(deviceRepository.findIdByPort(port)).thenReturn(deviceId)
-        service.sendNotification(port, true)
-        verify(yandexCallbackClient).send(deviceId, true)
+    fun testChangeState() {
+        val state = DeviceState(deviceId, port, true)
+        service.changeState(state)
+        val states = listOf(state)
+        verify(deviceRepository).updateStates(states)
+        verify(notificationService).notifyProviders(states)
     }
 }

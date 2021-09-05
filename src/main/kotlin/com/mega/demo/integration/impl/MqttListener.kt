@@ -1,6 +1,7 @@
 package com.mega.demo.integration.impl
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.mega.demo.model.DeviceState
 import com.mega.demo.service.api.SmartHomeService
 import java.nio.charset.Charset
 import mu.KotlinLogging
@@ -28,7 +29,10 @@ class MqttListener(val smartHomeService: SmartHomeService) : MqttCallback {
     override fun messageArrived(topic: String?, message: MqttMessage?) {
         logger.info { "Processing message. Started. Topic=$topic Message=$message" }
         val tree = mapper.readTree(message!!.payload.toString(Charset.defaultCharset()))
-        smartHomeService.sendNotification(tree.get("port").asInt(), tree.get("value").asBoolean())
+        val port = tree.get("port").asInt()
+        val isOn = tree.get("value").asBoolean()
+        val deviceState = DeviceState(null, port, isOn)
+        smartHomeService.changeState(deviceState)
         logger.info { "Processing message. Finished. Topic=$topic Message=$message" }
     }
 

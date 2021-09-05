@@ -14,6 +14,7 @@ import com.mega.demo.controller.generated.model.UnlinkResponse
 import com.mega.demo.controller.generated.model.YandexDevice
 import com.mega.demo.controller.generated.model.YandexDeviceWithCapabilities
 import com.mega.demo.model.DeviceState
+import com.mega.demo.model.Provider
 import com.mega.demo.service.api.SmartHomeService
 import mu.KotlinLogging
 import org.springframework.core.convert.ConversionService
@@ -40,7 +41,7 @@ class YandexApiDelegateImpl(val smartHomeService: SmartHomeService, val conversi
         val deviceIds = devices.map { it.id }
         logger.info { "Yandex. Change states. Started. RequestId=$xRequestId, DeviceIds=$deviceIds" }
         val mapNotNull1 = devices.mapNotNull { conversionService.convert(it, DeviceState::class.java) }
-        val mapNotNull = smartHomeService.changeState(mapNotNull1)
+        val mapNotNull = smartHomeService.changeStates(mapNotNull1, Provider.YANDEX)
             .mapNotNull { conversionService.convert(it, ChangeStatesResponseDevice::class.java) }
         val payload = ChangeStatesResponsePayload(mapNotNull)
         val changeStatesResponse = ChangeStatesResponse(xRequestId, payload)

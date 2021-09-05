@@ -15,7 +15,7 @@ class DeviceStateToSmartThingsDeviceStateConverter :
     Converter<DeviceState, com.mega.demo.controller.generated.model.DeviceState> {
 
     override fun convert(source: DeviceState): com.mega.demo.controller.generated.model.DeviceState {
-        return deviceState(source.deviceId, if (source.isOn!!) "on" else "off")
+        return deviceState(source.deviceId!!, if (source.isOn!!) "on" else "off")
     }
 
     private fun deviceState(

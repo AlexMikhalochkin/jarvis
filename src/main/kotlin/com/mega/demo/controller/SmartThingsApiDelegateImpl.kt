@@ -6,6 +6,7 @@ import com.mega.demo.controller.generated.model.Headers
 import com.mega.demo.controller.generated.model.SmartThingsDevice
 import com.mega.demo.controller.generated.model.SmartThingsRequest
 import com.mega.demo.controller.generated.model.SmartThingsResponse
+import com.mega.demo.model.Provider
 import com.mega.demo.service.api.SmartHomeService
 import mu.KotlinLogging
 import org.springframework.core.convert.ConversionService
@@ -61,7 +62,7 @@ class SmartThingsApiDelegateImpl(val smartHomeService: SmartHomeService, val con
     private fun handleCommandRequest(request: SmartThingsRequest): SmartThingsResponse {
         val states =
             request.devices!!.mapNotNull { conversionService.convert(it, com.mega.demo.model.DeviceState::class.java) }
-        val deviceStates = smartHomeService.changeState(states)
+        val deviceStates = smartHomeService.changeStates(states, Provider.SMART_THINGS)
             .mapNotNull { conversionService.convert(it, DeviceState::class.java) }
         return SmartThingsResponse(
             createHeaders(request, "commandResponse"),
