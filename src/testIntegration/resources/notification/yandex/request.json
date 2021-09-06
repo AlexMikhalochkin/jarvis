@@ -1,0 +1,20 @@
+{
+  "ts": 1630178238.1,
+  "payload": {
+    "user_id": "user-id",
+    "devices": [
+      {
+        "id": "kitchen-light-0",
+        "capabilities": [
+          {
+            "state": {
+              "instance": "on",
+              "value": true
+            },
+            "type": "devices.capabilities.on_off"
+          }
+        ]
+      }
+    ]
+  }
+}

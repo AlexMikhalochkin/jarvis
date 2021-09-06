@@ -1,7 +1,6 @@
 package com.mega.demo.integration.impl
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.mega.demo.controller.generated.model.ChangeStateDevice
 import com.mega.demo.controller.generated.model.FullCapability
 import com.mega.demo.controller.generated.model.YandexState
 import com.mega.demo.integration.api.SmartHomeProviderClient
@@ -65,4 +64,10 @@ data class YandexNotificationRequest(
 data class Payload(
     @field:JsonProperty("user_id", required = true) val userId: String,
     val devices: List<ChangeStateDevice>
+)
+
+data class ChangeStateDevice(
+    @field:JsonProperty("id") val id: String,
+    @field:JsonProperty("capabilities")
+    val capabilities: List<FullCapability>,
 )
