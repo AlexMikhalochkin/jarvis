@@ -1,5 +1,15 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: AWS CloudFormation Template for Jarvis application.
+Parameters:
+  Email:
+    Type: String
+    NoEcho: true
+  Password:
+    Type: String
+    NoEcho: true
+  Dns:
+    Type: String
+    NoEcho: true
 Resources:
   WebServer:
     Type: AWS::Lightsail::Instance
@@ -18,6 +28,10 @@ Resources:
             ToPort: 8080
             CommonName: Application port
           - AccessDirection: inbound
+            FromPort: 80
+            ToPort: 80
+            CommonName: Application port
+          - AccessDirection: inbound
             FromPort: 1883
             ToPort: 1883
             CommonName: MQTT topic port
@@ -25,14 +39,10 @@ Resources:
             FromPort: 22
             ToPort: 22
             CommonName: SSH port
-      UserData: |
+      UserData: !Sub |
         #!/bin/bash
         apt-get update -y
-        apt-get install default-jre -y
-        apt-get install make -y
-        apt-get install gcc -y
-        apt-get install expect -y
-        apt-get install mosquitto -y
+        apt-get install default-jre make gcc expect mosquitto -y
         touch /etc/mosquitto/conf.d/default.conf
         echo "listener 1883 0.0.0.0" >> /etc/mosquitto/conf.d/default.conf
         echo "set_tcp_nodelay true" >> /etc/mosquitto/conf.d/default.conf
@@ -44,10 +54,19 @@ Resources:
         tar xzf noip-duc-linux.tar.gz
         cd noip-2.1.9-1
         make
-        aws s3 cp s3://jarvis-alexmikhalochkin/noip-init . --region eu-central-1
+        wget https://raw.github.com/AlexMikhalochkin/jarvis/main/.cloudformation/noip-init
         chmod +x noip-init
-        ./noip-init
+        ./noip-init ${Email} ${Password} ${Dns}
         rm noip-init
         cd ..
         noip2
-        
+        wget https://raw.github.com/AlexMikhalochkin/jarvis/main/.cloudformation/certificate-init
+        chmod +x certificate-init
+        sleep 30
+        ./certificate-init ${Email} ${Dns}
+        cd /etc/letsencrypt/live/${Dns}/
+        wget https://raw.github.com/AlexMikhalochkin/jarvis/main/.cloudformation/certificate-generate
+        chmod +x certificate-generate
+        ./certificate-generate ${Password}
+        cp /etc/letsencrypt/live/${Dns}/keystore.p12 /home/ubuntu
+        chmod 777 /home/ubuntu/keystore.p12
