@@ -1,0 +1,26 @@
+name: Delete infrastructure
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Delete infrastructure
+    runs-on: ubuntu-latest
+    # These permissions are needed to interact with GitHub's OIDC Token endpoint.
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials from Test account
+      uses: aws-actions/configure-aws-credentials@master
+      with:
+        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/github-AlexMikhalochkin-${{ github.event.repository.name }}-role
+        aws-region: eu-central-1
+
+    - name: Copy files to the test website with the AWS CLI
+      run: |
+        aws cloudformation delete-stack --stack-name jarvis-stack --role-arn arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/CloudFormationJarvisRole
