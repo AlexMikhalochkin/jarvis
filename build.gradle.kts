@@ -93,6 +93,16 @@ tasks.jacocoTestReport {
     }
 }
 
+tasks.withType<JacocoReport> {
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.map {
+            fileTree(it).apply {
+                exclude("com/mega/demo/controller/generated/**")
+            }
+        }))
+    }
+}
+
 detekt {
     toolVersion = "1.18.0-RC2"
     config = files("config/detekt/detekt.yml")
