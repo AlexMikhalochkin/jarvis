@@ -36,12 +36,6 @@ class SmartHomeServiceImpl(
         return states
     }
 
-    override fun changeState(deviceState: DeviceState) {
-        val states = listOf(deviceState)
-        deviceRepository.updateStates(states)
-        notificationService.notifyProviders(states)
-    }
-
     private fun sendChangeStateMessage(port: Int, isOn: Boolean) {
         val status = if (isOn) 1 else 0
         messageSender.send("$port:$status")

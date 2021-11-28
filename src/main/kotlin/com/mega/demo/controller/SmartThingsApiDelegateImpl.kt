@@ -43,7 +43,7 @@ class SmartThingsApiDelegateImpl(val smartHomeService: SmartHomeService, val con
             .mapNotNull { conversionService.convert(it, SmartThingsDevice::class.java) }
         return SmartThingsResponse(
             createHeaders(request, "discoveryResponse"),
-            true,
+            false,
             devices
         )
     }

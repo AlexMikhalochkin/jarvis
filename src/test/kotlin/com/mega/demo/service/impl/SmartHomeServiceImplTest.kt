@@ -63,13 +63,4 @@ internal class SmartHomeServiceImplTest {
         verify(messageSender).send("11:0")
         verify(notificationService).notifyProviders(states, provider)
     }
-
-    @Test
-    fun testChangeState() {
-        val state = DeviceState(deviceId, port, true)
-        service.changeState(state)
-        val states = listOf(state)
-        verify(deviceRepository).updateStates(states)
-        verify(notificationService).notifyProviders(states)
-    }
 }

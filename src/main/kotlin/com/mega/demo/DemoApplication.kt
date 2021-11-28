@@ -13,6 +13,8 @@ import org.springframework.web.reactive.function.client.WebClient
 @SpringBootApplication
 class DemoApplication {
 
+    private val outPorts = setOf(7, 8, 9, 10, 11, 12, 13, 22, 23, 24, 25, 26, 27, 28)
+
     @Value("\${plc.url}")
     private lateinit var plcUrl: String
 
@@ -64,7 +66,10 @@ class DemoApplication {
         val mqttClient = MqttClient(mqttServerUrl, publisherId)
         mqttClient.setCallback(callback)
         mqttClient.connect(options)
-        mqttClient.subscribe("megad/14/#", 0)
+        val topicFilters = outPorts
+            .map { "megad/14/$it" }
+            .toTypedArray()
+        mqttClient.subscribe(topicFilters, IntArray(outPorts.size) { 0 })
         return mqttClient
     }
 }

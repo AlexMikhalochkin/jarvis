@@ -16,6 +16,4 @@ interface SmartHomeService {
     fun getDeviceStates(deviceIds: List<String>): List<DeviceState>
 
     fun changeStates(states: List<DeviceState>, provider: Provider): List<DeviceState>
-
-    fun changeState(deviceState: DeviceState)
 }

@@ -2,7 +2,8 @@ package com.mega.demo.integration.impl
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.mega.demo.model.DeviceState
-import com.mega.demo.service.api.SmartHomeService
+import com.mega.demo.repository.api.DeviceRepository
+import com.mega.demo.service.api.NotificationService
 import java.nio.charset.Charset
 import mu.KotlinLogging
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
@@ -18,7 +19,10 @@ private val logger = KotlinLogging.logger {}
  * @author Alex Mikhalochkin
  */
 @Component
-class MqttListener(val smartHomeService: SmartHomeService) : MqttCallback {
+class MqttListener(
+    private val deviceRepository: DeviceRepository,
+    private val notificationService: NotificationService
+) : MqttCallback {
 
     private val mapper = ObjectMapper()
 
@@ -32,7 +36,9 @@ class MqttListener(val smartHomeService: SmartHomeService) : MqttCallback {
         val port = tree.get("port").asInt()
         val isOn = tree.get("value").asBoolean()
         val deviceState = DeviceState(null, port, isOn)
-        smartHomeService.changeState(deviceState)
+        val states = listOf(deviceState)
+        deviceRepository.updateStates(states)
+        notificationService.notifyProviders(states)
         logger.info { "Processing message. Finished. Topic=$topic Message=$message" }
     }
 

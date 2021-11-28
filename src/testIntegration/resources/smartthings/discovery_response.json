@@ -5,7 +5,7 @@
     "interactionType": "discoveryResponse",
     "requestId": "abc-123-456"
   },
-  "requestGrantCallbackAccess": true,
+  "requestGrantCallbackAccess": false,
   "devices": [
     {
       "externalDeviceId": "kitchen-light-0",
