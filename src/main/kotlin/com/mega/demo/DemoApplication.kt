@@ -15,9 +15,6 @@ class DemoApplication {
 
     private val outPorts = setOf(7, 8, 9, 10, 11, 12, 13, 22, 23, 24, 25, 26, 27, 28)
 
-    @Value("\${plc.url}")
-    private lateinit var plcUrl: String
-
     @Value("\${smart.things.url}")
     private lateinit var smartThingsUrl: String
 
@@ -26,16 +23,6 @@ class DemoApplication {
 
     @Value("\${mqtt.server.url}")
     private lateinit var mqttServerUrl: String
-
-    /**
-     * WebClient for MegaD controller.
-     *
-     * @return instance of [WebClient].
-     */
-    @Bean("megaDWebClient")
-    fun megaDWebClient(): WebClient {
-        return WebClient.create(plcUrl)
-    }
 
     /**
      * WebClient for SmartThings callbacks.

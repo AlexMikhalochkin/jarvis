@@ -14,7 +14,7 @@ class DemoApplicationTests {
     @Test
     fun testWebClient() {
         val demoApplication = DemoApplication()
-        ReflectionTestUtils.setField(demoApplication, "plcUrl", "http://test.test/test")
-        assertNotNull(demoApplication.megaDWebClient())
+        ReflectionTestUtils.setField(demoApplication, "yandexUrl", "http://test.test/test")
+        assertNotNull(demoApplication.yandexWebClient())
     }
 }
