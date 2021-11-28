@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: AWS CloudFormation Template for Jarvis application.
+Parameters:
+  Email:
+    Type: String
+    NoEcho: true
+  Password:
+    Type: String
+    NoEcho: true
+  Dns:
+    Type: String
+    NoEcho: true
+Resources:
+  WebServer:
+    Type: AWS::Lightsail::Instance
+    CreationPolicy:
+      ResourceSignal:
+        Timeout: PT15M
+    Properties:
+      BlueprintId: ubuntu_20_04
+      BundleId: nano_2_0
+      InstanceName: jarvis-server
+      KeyPairName: jarvis-frankfurt
+      Networking:
+        Ports:
+          - AccessDirection: inbound
+            FromPort: 8080
+            ToPort: 8080
+            CommonName: Application port
+          - AccessDirection: inbound
+            FromPort: 80
+            ToPort: 80
+            CommonName: Application port
+          - AccessDirection: inbound
+            FromPort: 1883
+            ToPort: 1883
+            CommonName: MQTT topic port
+          - AccessDirection: inbound
+            FromPort: 22
+            ToPort: 22
+            CommonName: SSH port
+      UserData: !Sub |
+        #!/bin/bash
+        apt-get update -y
+        apt-get install default-jre make gcc expect mosquitto -y
+        touch /etc/mosquitto/conf.d/default.conf
+        echo "listener 1883 0.0.0.0" >> /etc/mosquitto/conf.d/default.conf
+        echo "set_tcp_nodelay true" >> /etc/mosquitto/conf.d/default.conf
+        service mosquitto restart
+        cd /usr/local/bin/
+        wget http://www.no-ip.com/client/linux/noip-duc-linux.tar.gz
+        tar xzf noip-duc-linux.tar.gz
+        cd noip-2.1.9-1
+        make
+        wget https://raw.github.com/AlexMikhalochkin/jarvis/main/.cloudformation/noip-init
+        chmod +x noip-init
+        ./noip-init ${Email} ${Password} ${Dns}
+        rm noip-init
+        cd ..
+        noip2

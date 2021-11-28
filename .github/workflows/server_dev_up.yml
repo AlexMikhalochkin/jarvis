@@ -1,0 +1,26 @@
+name: Create infrastructure for development
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Create infrastructure for development
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@master
+      with:
+        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/JarvisGithubRole
+        aws-region: eu-central-1
+
+    - name: Start creation of CloudFormation stack
+      run: |
+        aws cloudformation create-stack --stack-name jarvis-stack --template-body file://.cloudformation/jarvis-stack-dev.yaml --role-arn arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/JarvisCloudFormationLightsailRole --parameters ParameterKey=Email,ParameterValue=${{ secrets.EMAIL }} ParameterKey=Password,ParameterValue=${{ secrets.DNS_PASSWORD }} ParameterKey=Dns,ParameterValue=${{ secrets.DNS }}
+        aws cloudformation wait stack-create-complete --stack-name jarvis-stack
