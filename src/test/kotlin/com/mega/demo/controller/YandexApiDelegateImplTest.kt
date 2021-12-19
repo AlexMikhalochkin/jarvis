@@ -106,7 +106,7 @@ internal class YandexApiDelegateImplTest {
     @Test
     fun testGetDevicesStates() {
         val id = "id"
-        val statesRequest = StatesRequest(listOf(ShortYandexDevice(id)))
+        val statesRequest = StatesRequest(listOf(ShortYandexDevice(id), ShortYandexDevice(null)))
         val deviceState = DeviceState("id", 7, true)
         every { smartHomeService.getDeviceStates(listOf(id)) } returns listOf(deviceState)
         every {

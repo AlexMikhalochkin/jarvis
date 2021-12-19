@@ -40,9 +40,9 @@ class YandexApiDelegateImpl(val smartHomeService: SmartHomeService, val conversi
         val changeStateDevices = changeStatesRequest.payload.devices
         val deviceIds = changeStateDevices.map { it.id }
         logger.info { "Yandex. Change states. Started. RequestId=$xRequestId, DeviceIds=$deviceIds" }
-        val deviceStates = changeStateDevices.mapNotNull { conversionService.convert(it, DeviceState::class.java) }
+        val deviceStates = changeStateDevices.map { convert(it, DeviceState::class.java) }
         val changeStatesResponseDevices = smartHomeService.changeStates(deviceStates, Provider.YANDEX)
-            .mapNotNull { conversionService.convert(it, ChangeStatesResponseDevice::class.java) }
+            .map { convert(it, ChangeStatesResponseDevice::class.java) }
         val payload = ChangeStatesResponsePayload(changeStatesResponseDevices)
         val changeStatesResponse = ChangeStatesResponse(xRequestId, payload)
         logger.info { "Yandex. Change states. Finished. RequestId=$xRequestId, DeviceIds=$deviceIds" }
@@ -52,7 +52,7 @@ class YandexApiDelegateImpl(val smartHomeService: SmartHomeService, val conversi
     override fun getDevices(authorization: String, xRequestId: String): ResponseEntity<DevicesResponse> {
         logger.info { "Yandex. Get devices. Started. RequestId=$xRequestId" }
         val devices = smartHomeService.getAllDevices()
-            .mapNotNull { conversionService.convert(it, YandexDevice::class.java) }
+            .map { convert(it, YandexDevice::class.java) }
         val payload = Payload("user-id", devices)
         val devicesResponse = DevicesResponse(payload, xRequestId)
         logger.info { "Yandex. Get devices. Finished. RequestId=$xRequestId" }
@@ -67,7 +67,7 @@ class YandexApiDelegateImpl(val smartHomeService: SmartHomeService, val conversi
         val deviceIds = statesRequest!!.devices!!.mapNotNull { it.id }
         logger.info { "Yandex. Get states. Started. RequestId=$xRequestId, DeviceIds=$deviceIds" }
         val devices = smartHomeService.getDeviceStates(deviceIds)
-            .mapNotNull { conversionService.convert(it, YandexDeviceWithCapabilities::class.java) }
+            .map { convert(it, YandexDeviceWithCapabilities::class.java) }
         val payload = Payload2(devices)
         val devicesResponse2 = DevicesResponse2(xRequestId, payload)
         logger.info { "Yandex. Get states. Finished. RequestId=$xRequestId, DeviceIds=$deviceIds" }
@@ -85,4 +85,7 @@ class YandexApiDelegateImpl(val smartHomeService: SmartHomeService, val conversi
         logger.info { "Yandex. Account unlink. Finished. RequestId=$xRequestId" }
         return ResponseEntity.ok(unlinkResponse)
     }
+
+    private fun <T> convert(objectToConvert: Any, expectedType: Class<T>) =
+        conversionService.convert(objectToConvert, expectedType)!!
 }
