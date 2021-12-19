@@ -37,13 +37,13 @@ class YandexApiDelegateImpl(val smartHomeService: SmartHomeService, val conversi
         xRequestId: String,
         changeStatesRequest: ChangeStatesRequest
     ): ResponseEntity<ChangeStatesResponse> {
-        val devices = changeStatesRequest.payload.devices
-        val deviceIds = devices.map { it.id }
+        val changeStateDevices = changeStatesRequest.payload.devices
+        val deviceIds = changeStateDevices.map { it.id }
         logger.info { "Yandex. Change states. Started. RequestId=$xRequestId, DeviceIds=$deviceIds" }
-        val mapNotNull1 = devices.mapNotNull { conversionService.convert(it, DeviceState::class.java) }
-        val mapNotNull = smartHomeService.changeStates(mapNotNull1, Provider.YANDEX)
+        val deviceStates = changeStateDevices.mapNotNull { conversionService.convert(it, DeviceState::class.java) }
+        val changeStatesResponseDevices = smartHomeService.changeStates(deviceStates, Provider.YANDEX)
             .mapNotNull { conversionService.convert(it, ChangeStatesResponseDevice::class.java) }
-        val payload = ChangeStatesResponsePayload(mapNotNull)
+        val payload = ChangeStatesResponsePayload(changeStatesResponseDevices)
         val changeStatesResponse = ChangeStatesResponse(xRequestId, payload)
         logger.info { "Yandex. Change states. Finished. RequestId=$xRequestId, DeviceIds=$deviceIds" }
         return ResponseEntity.ok(changeStatesResponse)

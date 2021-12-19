@@ -5,4 +5,4 @@ package com.mega.demo.model
  *
  * @author Alex Mikhalochkin
  */
-data class DeviceState(val deviceId: String?, val port: Int?, val isOn: Boolean? = null)
+data class DeviceState(val deviceId: String?, val port: Int?, val isOn: Boolean?)
