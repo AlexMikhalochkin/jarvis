@@ -40,7 +40,7 @@ class SmartThingsApiDelegateImpl(val smartHomeService: SmartHomeService, val con
 
     private fun handleDiscoveryRequest(request: SmartThingsRequest): SmartThingsResponse {
         val devices = smartHomeService.getAllDevices()
-            .mapNotNull { conversionService.convert(it, SmartThingsDevice::class.java) }
+            .map { conversionService.convert(it, SmartThingsDevice::class.java)!! }
         return SmartThingsResponse(
             createHeaders(request, "discoveryResponse"),
             false,
@@ -49,10 +49,10 @@ class SmartThingsApiDelegateImpl(val smartHomeService: SmartHomeService, val con
     }
 
     private fun handleStateRefreshRequest(request: SmartThingsRequest): SmartThingsResponse {
-        val ids = request.devices!!.mapNotNull { it.externalDeviceId }
+        val ids = request.devices!!.map { it.externalDeviceId!! }
             .toList()
         val deviceStates = smartHomeService.getDeviceStates(ids)
-            .mapNotNull { conversionService.convert(it, DeviceState::class.java) }
+            .map { conversionService.convert(it, DeviceState::class.java)!! }
         return SmartThingsResponse(
             createHeaders(request, "stateRefreshResponse"),
             deviceState = deviceStates
@@ -61,9 +61,9 @@ class SmartThingsApiDelegateImpl(val smartHomeService: SmartHomeService, val con
 
     private fun handleCommandRequest(request: SmartThingsRequest): SmartThingsResponse {
         val states =
-            request.devices!!.mapNotNull { conversionService.convert(it, com.mega.demo.model.DeviceState::class.java) }
+            request.devices!!.map { conversionService.convert(it, com.mega.demo.model.DeviceState::class.java)!! }
         val deviceStates = smartHomeService.changeStates(states, Provider.SMART_THINGS)
-            .mapNotNull { conversionService.convert(it, DeviceState::class.java) }
+            .map { conversionService.convert(it, DeviceState::class.java)!! }
         return SmartThingsResponse(
             createHeaders(request, "commandResponse"),
             deviceState = deviceStates

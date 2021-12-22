@@ -12,23 +12,13 @@ import com.mega.demo.controller.generated.model.YandexDeviceInfo
 import com.mega.demo.controller.generated.model.YandexDeviceWithCapabilities
 import com.mega.demo.controller.generated.model.YandexState
 import com.mega.demo.generateUuid
-import com.mega.demo.model.Device
 import com.mega.demo.model.DeviceState
 import com.mega.demo.model.Provider
-import com.mega.demo.model.TechnicalInfo
-import com.mega.demo.service.api.SmartHomeService
-import io.mockk.confirmVerified
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
 import io.mockk.verifySequence
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.core.convert.ConversionService
 import org.springframework.http.HttpStatus
 
 /**
@@ -36,22 +26,7 @@ import org.springframework.http.HttpStatus
  *
  * @author Alex Mikhalochkin
  */
-@ExtendWith(MockKExtension::class)
-internal class YandexApiDelegateImplTest {
-
-    @MockK
-    private lateinit var conversionService: ConversionService
-
-    @MockK
-    private lateinit var smartHomeService: SmartHomeService
-
-    @InjectMockKs
-    private lateinit var delegate: YandexApiDelegateImpl
-
-    private val xRequestId = generateUuid()
-
-    @AfterEach
-    fun verify() = confirmVerified(conversionService, smartHomeService)
+internal class YandexApiDelegateImplTest : BaseDelegateTest<YandexApiDelegateImpl>() {
 
     @Test
     fun testChangeDevicesStates() {
@@ -68,10 +43,10 @@ internal class YandexApiDelegateImplTest {
                 ChangeStatesResponseDevice::class.java
             )
         } returns changeStatesResponseDevice
-        val response = delegate.changeDevicesStates(generateUuid(), xRequestId, changeStatesRequest)
+        val response = delegate.changeDevicesStates(generateUuid(), requestId, changeStatesRequest)
         assertEquals(HttpStatus.OK, response.statusCode)
         val body = response.body
-        assertEquals(xRequestId, body!!.requestId)
+        assertEquals(requestId, body!!.requestId)
         assertSame(changeStatesResponseDevice, body.payload!!.devices!![0])
         verifySequence {
             conversionService.convert(changeStateDevice, DeviceState::class.java)
@@ -91,10 +66,10 @@ internal class YandexApiDelegateImplTest {
                 YandexDevice::class.java
             )
         } returns yandexDevice
-        val response = delegate.getDevices(generateUuid(), xRequestId)
+        val response = delegate.getDevices(generateUuid(), requestId)
         assertEquals(HttpStatus.OK, response.statusCode)
         val body = response.body
-        assertEquals(xRequestId, body!!.requestId)
+        assertEquals(requestId, body!!.requestId)
         assertEquals("user-id", body.payload.userId)
         assertSame(yandexDevice, body.payload.devices[0])
         verifySequence {
@@ -115,10 +90,10 @@ internal class YandexApiDelegateImplTest {
                 YandexDeviceWithCapabilities::class.java
             )
         } returns YandexDeviceWithCapabilities()
-        val response = delegate.getDevicesStates(generateUuid(), xRequestId, statesRequest)
+        val response = delegate.getDevicesStates(generateUuid(), requestId, statesRequest)
         assertEquals(HttpStatus.OK, response.statusCode)
         val body = response.body
-        assertEquals(xRequestId, body!!.requestId)
+        assertEquals(requestId, body!!.requestId)
         assertEquals(YandexDeviceWithCapabilities(), body.payload!!.devices!![0])
         verifySequence {
             smartHomeService.getDeviceStates(listOf(id))
@@ -135,9 +110,9 @@ internal class YandexApiDelegateImplTest {
 
     @Test
     fun testUnlink() {
-        val response = delegate.unlink(generateUuid(), xRequestId)
+        val response = delegate.unlink(generateUuid(), requestId)
         assertEquals(HttpStatus.OK, response.statusCode)
-        assertEquals(xRequestId, response.body!!.requestId)
+        assertEquals(requestId, response.body!!.requestId)
     }
 
     private fun createYandexDevice() = YandexDevice(
@@ -149,18 +124,5 @@ internal class YandexApiDelegateImplTest {
             "model"
         ),
         "id",
-    )
-
-    private fun createDevice() = Device(
-        "id",
-        1,
-        emptyMap(),
-        emptyMap(),
-        emptyMap(),
-        TechnicalInfo("manufacturer", "model", "1.0", "1.0"),
-        "description",
-        emptyList(),
-        emptyList(),
-        emptyList()
     )
 }
