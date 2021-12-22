@@ -2,6 +2,7 @@ package com.mega.demo.controller
 
 import com.mega.demo.generateUuid
 import com.mega.demo.model.Device
+import com.mega.demo.model.DeviceState
 import com.mega.demo.model.TechnicalInfo
 import com.mega.demo.service.api.SmartHomeService
 import io.mockk.confirmVerified
@@ -31,11 +32,13 @@ open class BaseDelegateTest<T : Any> {
 
     val requestId = generateUuid()
 
+    val deviceId = generateUuid()
+
     @AfterEach
     fun verify() = confirmVerified(conversionService, smartHomeService)
 
     fun createDevice() = Device(
-        "id",
+        deviceId,
         1,
         emptyMap(),
         emptyMap(),
@@ -46,4 +49,6 @@ open class BaseDelegateTest<T : Any> {
         emptyList(),
         emptyList()
     )
+
+    fun createDeviceState() = DeviceState(deviceId, 1, true)
 }

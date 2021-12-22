@@ -34,7 +34,7 @@ internal class SmartThingsApiDelegateImplTest : BaseDelegateTest<SmartThingsApiD
         } returns smartThingsDevice
         val body = executeRequest("discoveryRequest")
         verifyHeaders(body, "discoveryResponse")
-        assertSame(smartThingsDevice, body!!.devices!![0])
+        assertSame(smartThingsDevice, body.devices!![0])
         verifySequence {
             smartHomeService.getAllDevices()
             conversionService.convert(device, SmartThingsDevice::class.java)
@@ -43,9 +43,8 @@ internal class SmartThingsApiDelegateImplTest : BaseDelegateTest<SmartThingsApiD
 
     @Test
     fun testHandleSmartThingsStateRefresh() {
-        val id = "id"
-        val deviceState = DeviceState("id", 7, true)
-        every { smartHomeService.getDeviceStates(listOf(id)) } returns listOf(deviceState)
+        val deviceState = createDeviceState()
+        every { smartHomeService.getDeviceStates(listOf(deviceId)) } returns listOf(deviceState)
         val deviceState1 = com.mega.demo.controller.generated.model.DeviceState()
         every {
             conversionService.convert(
@@ -53,20 +52,19 @@ internal class SmartThingsApiDelegateImplTest : BaseDelegateTest<SmartThingsApiD
                 com.mega.demo.controller.generated.model.DeviceState::class.java
             )
         } returns deviceState1
-        val body = executeRequest("stateRefreshRequest", listOf(SmartThingsDevice(id)))
+        val body = executeRequest("stateRefreshRequest", listOf(SmartThingsDevice(deviceId)))
         verifyHeaders(body, "stateRefreshResponse")
-        assertSame(deviceState1, body!!.deviceState!![0])
+        assertSame(deviceState1, body.deviceState!![0])
         verifySequence {
-            smartHomeService.getDeviceStates(listOf(id))
+            smartHomeService.getDeviceStates(listOf(deviceId))
             conversionService.convert(deviceState, com.mega.demo.controller.generated.model.DeviceState::class.java)
         }
     }
 
     @Test
     fun testHandleSmartThingsCommand() {
-        val id = "id"
-        val deviceState = DeviceState("id", 7, true)
-        val smartThingsDevice = SmartThingsDevice(id)
+        val deviceState = createDeviceState()
+        val smartThingsDevice = SmartThingsDevice(deviceId)
         every {
             conversionService.convert(
                 smartThingsDevice,
@@ -83,7 +81,7 @@ internal class SmartThingsApiDelegateImplTest : BaseDelegateTest<SmartThingsApiD
         } returns deviceState1
         val body = executeRequest("commandRequest", listOf(smartThingsDevice))
         verifyHeaders(body, "commandResponse")
-        assertSame(deviceState1, body!!.deviceState!![0])
+        assertSame(deviceState1, body.deviceState!![0])
         verifySequence {
             conversionService.convert(smartThingsDevice, DeviceState::class.java)
             smartHomeService.changeStates(listOf(deviceState), Provider.SMART_THINGS)
@@ -106,7 +104,7 @@ internal class SmartThingsApiDelegateImplTest : BaseDelegateTest<SmartThingsApiD
     private fun executeRequest(
         interactionType: String,
         smartThingsDevices: List<SmartThingsDevice>? = null
-    ): SmartThingsResponse? {
+    ): SmartThingsResponse {
         val smartThingsRequest = SmartThingsRequest(
             Headers(interactionType = interactionType, requestId = requestId),
             Authentication(),
@@ -114,6 +112,6 @@ internal class SmartThingsApiDelegateImplTest : BaseDelegateTest<SmartThingsApiD
         )
         val response = delegate.handleSmartThings(smartThingsRequest)
         assertEquals(HttpStatus.OK, response.statusCode)
-        return response.body
+        return response.body!!
     }
 }

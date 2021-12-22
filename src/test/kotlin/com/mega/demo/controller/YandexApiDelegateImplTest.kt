@@ -33,7 +33,7 @@ internal class YandexApiDelegateImplTest : BaseDelegateTest<YandexApiDelegateImp
         val fullCapability = FullCapability(YandexState("instance", true), "type")
         val changeStateDevice = ChangeStateDevice(generateUuid(), listOf(fullCapability))
         val changeStatesRequest = ChangeStatesRequest(ChangeStatesRequestPayload(listOf(changeStateDevice)))
-        val deviceState = DeviceState("id", 1, true)
+        val deviceState = createDeviceState()
         every { conversionService.convert(changeStateDevice, DeviceState::class.java) } returns deviceState
         every { smartHomeService.changeStates(listOf(deviceState), Provider.YANDEX) } returns listOf(deviceState)
         val changeStatesResponseDevice = ChangeStatesResponseDevice()
@@ -82,7 +82,7 @@ internal class YandexApiDelegateImplTest : BaseDelegateTest<YandexApiDelegateImp
     fun testGetDevicesStates() {
         val id = "id"
         val statesRequest = StatesRequest(listOf(ShortYandexDevice(id), ShortYandexDevice(null)))
-        val deviceState = DeviceState("id", 7, true)
+        val deviceState = createDeviceState()
         every { smartHomeService.getDeviceStates(listOf(id)) } returns listOf(deviceState)
         every {
             conversionService.convert(
