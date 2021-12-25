@@ -98,7 +98,10 @@ tasks.withType<JacocoReport> {
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.map {
             fileTree(it).apply {
-                exclude("com/mega/demo/controller/generated/**")
+                exclude(
+                    "com/mega/demo/controller/generated/**",
+                    "com/mega/demo/controller/StubLoginController**"
+                )
             }
         }))
     }
