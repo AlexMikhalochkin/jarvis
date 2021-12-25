@@ -109,7 +109,7 @@ tasks.withType<JacocoReport> {
 
 detekt {
     toolVersion = "1.18.0-RC2"
-    config = files("config/detekt/detekt.yml")
+    config = files("configuration/detekt/detekt.yml")
     buildUponDefaultConfig = true
     reports {
         html {
@@ -122,8 +122,8 @@ detekt {
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
     kotlin {
         target("**/generated/*/*.kt")
-        ktfmt().dropboxStyle()    // has its own section below
-        ktlint()   // has its own section below
+        ktfmt().dropboxStyle()
+        ktlint()
         //diktat()   // has its own section below
         //prettier() // has its own section below
         //licenseHeader '/* (C)$YEAR */' // or licenseHeaderFile
@@ -136,9 +136,9 @@ configure<com.diffplug.gradle.spotless.SpotlessExtension> {
 
 openApiGenerate {
     generatorName.set("kotlin-spring")
-    inputSpec.set("$rootDir/codegenerator/jarvis.yaml")
+    inputSpec.set("$rootDir/configuration/codegenerator/jarvis.yaml")
     outputDir.set("$rootDir")
-    templateDir.set("$rootDir/codegenerator/templates")
+    templateDir.set("$rootDir/configuration/codegenerator/templates")
     globalProperties.set(
         mapOf(
             "modelDocs" to "false",
@@ -147,7 +147,7 @@ openApiGenerate {
             "supportingFiles" to "false"
         )
     )
-    configFile.set("$rootDir/codegenerator/config.json")
+    configFile.set("$rootDir/configuration/codegenerator/config.json")
 }
 
 tasks.openApiGenerate { finalizedBy(tasks.spotlessApply) }
