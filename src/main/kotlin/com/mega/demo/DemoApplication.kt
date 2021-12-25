@@ -45,8 +45,8 @@ class DemoApplication {
     }
 
     @Bean
-    fun client(callback: MqttCallback): IMqttClient {
-        val publisherId = "Alex"
+    fun mqttClient(callback: MqttCallback): IMqttClient {
+        val publisherId = "jarvis"
         val options = MqttConnectOptions()
         options.isAutomaticReconnect = true
         options.isCleanSession = true
