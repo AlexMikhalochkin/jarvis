@@ -11,7 +11,7 @@ plugins {
     id("org.openapi.generator") version "5.1.1"
 }
 
-group = "com.mega"
+group = "com.am"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
@@ -99,8 +99,8 @@ tasks.withType<JacocoReport> {
         classDirectories.setFrom(files(classDirectories.files.map {
             fileTree(it).apply {
                 exclude(
-                    "com/mega/demo/controller/generated/**",
-                    "com/mega/demo/controller/StubLoginController**"
+                    "com/am/jarvis/controller/generated/**",
+                    "com/am/jarvis/controller/StubLoginController**"
                 )
             }
         }))

@@ -19,5 +19,5 @@
       ignoreExtensionFunctions: true
   performance:
     SpreadOperator:
-      excludes: ['**/DemoApplication.kt' ]
+      excludes: ['**/JarvisApplication.kt' ]
 

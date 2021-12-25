@@ -1,7 +1,7 @@
 {
-  "apiPackage": "com.mega.demo.controller.generated.api",
-  "modelPackage": "com.mega.demo.controller.generated.model",
-  "invokerPackage": "com.mega.demo.controller.generated",
+  "apiPackage": "com.am.jarvis.controller.generated.api",
+  "modelPackage": "com.am.jarvis.controller.generated.model",
+  "invokerPackage": "com.am.jarvis.controller.generated",
   "delegatePattern": true,
   "gradleBuildFile": false,
   "generateSupportingFiles": false,
