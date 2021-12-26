@@ -20,26 +20,21 @@ repositories {
 }
 
 dependencies {
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("io.github.microutils:kotlin-logging:2.1.21")
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+    implementation("javax.validation:validation-api:2.0.1.Final")
+    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("io.github.microutils:kotlin-logging:2.1.16")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    implementation("org.junit.jupiter:junit-jupiter:5.8.2")
-    implementation("javax.validation:validation-api:2.0.1.Final")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.projectreactor:reactor-test")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
-    testImplementation("io.mockk:mockk:1.12.1")
-    testImplementation("org.mockito:mockito-inline:4.1.0")
+    testImplementation("commons-io:commons-io:2.11.0")
     testImplementation("com.squareup.okhttp3:okhttp:4.9.3")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")
-    testImplementation("commons-io:commons-io:2.11.0")
+    testImplementation("io.mockk:mockk:1.12.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0")
 }

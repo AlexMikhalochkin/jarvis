@@ -4,12 +4,11 @@ import com.am.jarvis.generateUuid
 import com.am.jarvis.integration.api.SmartHomeProviderClient
 import com.am.jarvis.model.DeviceState
 import com.am.jarvis.model.Provider
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verifySequence
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.never
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.whenever
 
 /**
  * Verification for [NotificationServiceImpl].
@@ -24,30 +23,31 @@ internal class NotificationServiceImplTest {
 
     @BeforeEach
     fun init() {
-        yandexClient = mock()
-        smartThingsClient = mock()
+        yandexClient = mockk(relaxUnitFun = true)
+        smartThingsClient = mockk(relaxUnitFun = true)
         service = NotificationServiceImpl(listOf(yandexClient, smartThingsClient))
     }
 
     @Test
     fun testNotifyProviders() {
         val states = listOf(DeviceState(generateUuid(), 1, true))
-        whenever(yandexClient.getProvider()).thenReturn(Provider.YANDEX)
-        whenever(smartThingsClient.getProvider()).thenReturn(Provider.SMART_THINGS)
+        every { yandexClient.getProvider() } returns Provider.YANDEX
+        every { smartThingsClient.getProvider() } returns Provider.SMART_THINGS
         service.notifyProviders(states, Provider.SMART_THINGS)
-        verify(yandexClient).getProvider()
-        verify(smartThingsClient).getProvider()
-        verify(yandexClient).updateStates(states)
-        verify(smartThingsClient, never()).updateStates(states)
+        verifySequence {
+            yandexClient.getProvider()
+            smartThingsClient.getProvider()
+            yandexClient.updateStates(states)
+        }
     }
 
     @Test
     fun testNotifyAllProviders() {
         val states = listOf(DeviceState(generateUuid(), 1, true))
         service.notifyProviders(states)
-        verify(yandexClient, never()).getProvider()
-        verify(smartThingsClient, never()).getProvider()
-        verify(yandexClient).updateStates(states)
-        verify(smartThingsClient).updateStates(states)
+        verifySequence {
+            yandexClient.updateStates(states)
+            smartThingsClient.updateStates(states)
+        }
     }
 }
