@@ -13,75 +13,116 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-  # Added by API Auto Mocking Plugin
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/amikhalachkin/test/1.0.0
+- url: https://virtserver.swaggerhub.com/amikhalachkin/test/1.0.0
+  description: SwaggerHub API Auto Mocking
 tags:
-  - name: smartthings
-    externalDocs:
-      description: Documentation
-      url: https://smartthings.developer.samsung.com/docs/devices/smartthings-schema/smartthings-schema-reference.html
-  - name: yandex
-    externalDocs:
-      description: Documentation
-      url: https://yandex.ru/dev/dialogs/smart-home/doc/reference/
+- name: smartthings
+  externalDocs:
+    description: Documentation
+    url: https://smartthings.developer.samsung.com/docs/devices/smartthings-schema/smartthings-schema-reference.html
+- name: yandex
+  externalDocs:
+    description: Documentation
+    url: https://yandex.ru/dev/dialogs/smart-home/doc/reference/
 paths:
   /yandex/v1.0:
     head:
       tags:
-        - yandex
+      - yandex
       summary: Health check
       operationId: health
       responses:
-        200:
+        "200":
           description: OK
-        500:
+        "500":
           description: Internal Server Error
   /yandex/v1.0/user/unlink:
     post:
       tags:
-        - yandex
+      - yandex
       summary: Unlink user's account
       operationId: unlink
       parameters:
-        - $ref: '#/components/parameters/authorization'
-        - $ref: '#/components/parameters/requestId'
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: "12345"
+      - name: X-Request-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 62376c99-5a12-41a9-9599-0866e3bd7b98
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/UnlinkResponse'
-        500:
+        "500":
           description: Internal Server Error
   /yandex/v1.0/user/devices:
     get:
       tags:
-        - yandex
+      - yandex
       summary: Get all user's devices
       operationId: getDevices
       parameters:
-        - $ref: '#/components/parameters/authorization'
-        - $ref: '#/components/parameters/requestId'
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: "12345"
+      - name: X-Request-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 62376c99-5a12-41a9-9599-0866e3bd7b98
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/DevicesResponse'
-        404:
+        "404":
           description: Not Found
   /yandex/v1.0/user/devices/query:
     post:
       tags:
-        - yandex
+      - yandex
       summary: Get information about the state of user devices.
       operationId: getDevicesStates
       parameters:
-        - $ref: '#/components/parameters/authorization'
-        - $ref: '#/components/parameters/requestId'
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: "12345"
+      - name: X-Request-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 62376c99-5a12-41a9-9599-0866e3bd7b98
       requestBody:
         description: Get devices states request
         content:
@@ -89,44 +130,57 @@ paths:
             schema:
               $ref: '#/components/schemas/StatesRequest'
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/DevicesResponse2'
-        404:
+        "404":
           description: Not Found
   /yandex/v1.0/user/devices/action:
     post:
       tags:
-        - yandex
+      - yandex
       summary: Changes the current state of user devices.
       operationId: changeDevicesStates
       parameters:
-        - $ref: '#/components/parameters/authorization'
-        - $ref: '#/components/parameters/requestId'
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: "12345"
+      - name: X-Request-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 62376c99-5a12-41a9-9599-0866e3bd7b98
       requestBody:
         description: Change devices states request
-        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ChangeStatesRequest'
+        required: true
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ChangeStatesResponse'
-        404:
+        "404":
           description: Not Found
-
   /smartthings:
     post:
       tags:
-        - smartthings
+      - smartthings
       summary: Handle SmartThings request
       operationId: handleSmartThings
       requestBody:
@@ -144,7 +198,7 @@ paths:
                 $ref: '#/components/examples/commandRequest'
         required: true
       responses:
-        200:
+        "200":
           description: Response
           content:
             application/json:
@@ -153,34 +207,36 @@ paths:
 components:
   schemas:
     UnlinkResponse:
-      description: Unlink user response
+      required:
+      - request_id
       type: object
       properties:
         request_id:
           type: string
           example: 748b33ef-7eb4-4bae-8ead-5047ce34238f
-      required:
-        - request_id
+      description: Unlink user response
     DevicesResponse:
-      description: Response with all user's devices
+      required:
+      - payload
       type: object
-      allOf:
-        - $ref: '#/components/schemas/UnlinkResponse'
       properties:
         payload:
           $ref: '#/components/schemas/Payload'
-      required:
-        - payload
-    DevicesResponse2:
       description: Response with all user's devices
-      type: object
       allOf:
-        - $ref: '#/components/schemas/UnlinkResponse'
+      - $ref: '#/components/schemas/UnlinkResponse'
+    DevicesResponse2:
+      type: object
       properties:
         payload:
           $ref: '#/components/schemas/Payload2'
+      description: Response with all user's devices
+      allOf:
+      - $ref: '#/components/schemas/UnlinkResponse'
     Payload:
-      description: Object with devices
+      required:
+      - devices
+      - user_id
       type: object
       properties:
         user_id:
@@ -190,22 +246,23 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/YandexDevice'
-      required:
-        - user_id
-        - devices
-    Payload2:
       description: Object with devices
+    Payload2:
       type: object
       properties:
         devices:
           type: array
           items:
             $ref: '#/components/schemas/YandexDeviceWithCapabilities'
+      description: Object with devices
     YandexDevice:
-      description: User's device
+      required:
+      - capabilities
+      - device_info
+      - id
+      - name
+      - type
       type: object
-      allOf:
-        - $ref: '#/components/schemas/ShortYandexDevice'
       properties:
         name:
           type: string
@@ -225,14 +282,10 @@ components:
             $ref: '#/components/schemas/ShortCapability'
         device_info:
           $ref: '#/components/schemas/YandexDeviceInfo'
-      required:
-        - id
-        - name
-        - type
-        - capabilities
-        - device_info
+      description: User's device
+      allOf:
+      - $ref: '#/components/schemas/ShortYandexDevice'
     YandexDeviceWithCapabilities:
-      description: User's device with its capabilities
       type: object
       properties:
         id:
@@ -242,26 +295,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FullCapability'
+      description: User's device with its capabilities
     ShortCapability:
-      description: Device's capability
       type: object
       properties:
         type:
           type: string
           example: devices.capabilities.on_off
-    FullCapability:
       description: Device's capability
+    FullCapability:
+      required:
+      - state
+      - type
       type: object
-      allOf:
-        - $ref: '#/components/schemas/ShortCapability'
       properties:
         state:
           $ref: '#/components/schemas/YandexState'
-      required:
-        - type
-        - state
+      description: Device's capability
+      allOf:
+      - $ref: '#/components/schemas/ShortCapability'
     YandexDeviceInfo:
-      description: Additional technical information about the device
+      required:
+      - manufacturer
+      - model
       type: object
       properties:
         manufacturer:
@@ -272,34 +328,37 @@ components:
           example: hue g11
         hw_version:
           type: string
-          example: 1.2
+          example: "1.2"
         sw_version:
           type: string
-          example: 5.4
-      required:
-        - manufacturer
-        - model
+          example: "5.4"
+      description: Additional technical information about the device
     StatesRequest:
-      description: Request to get states of devices
       type: object
       properties:
         devices:
           type: array
           items:
             $ref: '#/components/schemas/ShortYandexDevice'
+      description: Request to get states of devices
     ShortYandexDevice:
-      description: User's device
       type: object
       properties:
         id:
           type: string
           example: abc-123
         custom_data:
+          type: object
           additionalProperties:
             type: object
-          example: {"foo": 1, "bar": "two"}
+          example:
+            foo: 1
+            bar: two
+      description: User's device
     YandexState:
-      description: State of Yandex device
+      required:
+      - instance
+      - value
       type: object
       properties:
         instance:
@@ -308,37 +367,34 @@ components:
         value:
           type: boolean
           example: true
-      required:
-        - instance
-        - value
+      description: State of Yandex device
     ChangeStatesRequest:
-      description: Request to change devices' states
+      required:
+      - payload
       type: object
       properties:
         payload:
           $ref: '#/components/schemas/ChangeStatesRequestPayload'
-      required:
-        - payload
+      description: Request to change devices' states
     ChangeStatesRequestPayload:
-      description: Object with devices
+      required:
+      - devices
       type: object
       properties:
         devices:
           type: array
           items:
             $ref: '#/components/schemas/ChangeStateDevice'
-      required:
-        - devices
-    ChangeStatesResponsePayload:
       description: Object with devices
+    ChangeStatesResponsePayload:
       type: object
       properties:
         devices:
           type: array
           items:
             $ref: '#/components/schemas/ChangeStatesResponseDevice'
+      description: Object with devices
     ChangeStatesResponseDevice:
-      description: Device's capability
       type: object
       properties:
         id:
@@ -348,50 +404,53 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ChangeStatesResponseCapability'
-    ChangeStatesResponseCapability:
       description: Device's capability
+    ChangeStatesResponseCapability:
       type: object
       properties:
         type:
           type: string
-          example: 'devices.capabilities.on_off'
+          example: devices.capabilities.on_off
         state:
           $ref: '#/components/schemas/ChangeStatesResponseState'
+      description: Device's capability
     ChangeStatesResponseState:
-      description: Device's state
       type: object
       properties:
         instance:
           type: string
-          example: 'on'
+          example: "on"
         action_result:
           $ref: '#/components/schemas/ActionResult'
+      description: Device's state
     ActionResult:
-      description: Result of change state action
       type: object
       properties:
         status:
           type: string
           example: DONE
+      description: Result of change state action
     ChangeStateDevice:
-      description: Device's capability
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/ShortYandexDevice'
-        - $ref: '#/components/schemas/YandexDeviceWithCapabilities'
       required:
-        - id
-        - capabilities
-    ChangeStatesResponse:
-      description: Response with changed states of devices
+      - capabilities
+      - id
       type: object
+      description: Device's capability
       allOf:
-        - $ref: '#/components/schemas/UnlinkResponse'
+      - $ref: '#/components/schemas/ShortYandexDevice'
+      - $ref: '#/components/schemas/YandexDeviceWithCapabilities'
+    ChangeStatesResponse:
+      type: object
       properties:
         payload:
           $ref: '#/components/schemas/ChangeStatesResponsePayload'
+      description: Response with changed states of devices
+      allOf:
+      - $ref: '#/components/schemas/UnlinkResponse'
     SmartThingsRequest:
-      description: Request from SmartThings
+      required:
+      - authentication
+      - headers
       type: object
       properties:
         headers:
@@ -402,9 +461,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SmartThingsDevice'
-      required:
-        - headers
-        - authentication
+      description: Request from SmartThings
     SmartThingsResponse:
       type: object
       properties:
@@ -447,7 +504,6 @@ components:
           items:
             $ref: '#/components/schemas/Command'
     DeviceState:
-      description: SmartThings device state
       type: object
       properties:
         externalDeviceId:
@@ -459,8 +515,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/State'
-    State:
       description: SmartThings device state
+    State:
       type: object
       properties:
         component:
@@ -475,9 +531,9 @@ components:
           example: switch
         value:
           type: object
-          example: on
+          example: true
+      description: SmartThings device state
     Command:
-      description: SmartThings command
       type: object
       properties:
         component:
@@ -489,16 +545,20 @@ components:
           example: st.switch
         command:
           type: string
-          example: on
+          example: "true"
         arguments:
           type: array
+          example: []
           items:
             type: object
-          example: []
+      description: SmartThings command
     DeviceCookie:
+      type: object
       additionalProperties:
         type: object
-      example: {"foo": 1, "bar": "two"}
+      example:
+        foo: 1
+        bar: two
     ManufacturerInfo:
       type: object
       properties:
@@ -522,19 +582,24 @@ components:
           example: Kitchen
         groups:
           type: array
+          example:
+          - Kitchen Lights
+          - House Bulbs
           items:
             type: string
-          example:
-            - Kitchen Lights
-            - House Bulbs
         categories:
           type: array
+          example:
+          - light
+          - switch
           items:
             type: string
-          example:
-            - light
-            - switch
     Headers:
+      required:
+      - interactionType
+      - requestId
+      - schema
+      - version
       type: object
       properties:
         schema:
@@ -543,22 +608,15 @@ components:
           default: st-schema
         version:
           type: string
-          example: 1.0
-          default: 1.0
-        #TODO: Enum?
+          example: "1.0"
+          default: "1.0"
         interactionType:
           type: string
           example: discoveryRequest
         requestId:
           type: string
           example: abc-123-456
-      required:
-        - schema
-        - version
-        - interactionType
-        - requestId
     Authentication:
-      description: Authentication information
       type: object
       properties:
         tokenType:
@@ -567,21 +625,26 @@ components:
         token:
           type: string
           example: token received during oauth from partner
+      description: Authentication information
   parameters:
     authorization:
       name: Authorization
       in: header
       required: true
-      example: "12345"
+      style: simple
+      explode: false
       schema:
         type: string
+      example: "12345"
     requestId:
       name: X-Request-Id
       in: header
       required: true
-      example: 62376c99-5a12-41a9-9599-0866e3bd7b98
+      style: simple
+      explode: false
       schema:
         type: string
+      example: 62376c99-5a12-41a9-9599-0866e3bd7b98
   examples:
     discoveryRequest:
       value:
@@ -604,8 +667,8 @@ components:
           tokenType: Bearer
           token: token received during oauth from partner
         devices:
-          - externalDeviceId: partner-device-id-1
-          - externalDeviceId: partner-device-id-2
+        - externalDeviceId: partner-device-id-1
+        - externalDeviceId: partner-device-id-2
     commandRequest:
       value:
         headers:
@@ -617,11 +680,11 @@ components:
           tokenType: Bearer
           token: token received during oauth from partner
         devices:
-          - externalDeviceId: partner-device-id-1
-            deviceCookie:
-              lastcookie: cookie value
-            commands:
-              - component: main
-                capability: st.switch
-                command: on
-                arguments: []
+        - externalDeviceId: partner-device-id-1
+          deviceCookie:
+            lastcookie: cookie value
+          commands:
+          - component: main
+            capability: st.switch
+            command: true
+            arguments: []
