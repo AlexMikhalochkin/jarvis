@@ -17,6 +17,7 @@ import com.am.jarvis.model.DeviceState
 import com.am.jarvis.model.Provider
 import com.am.jarvis.service.api.SmartHomeService
 import mu.KotlinLogging
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.convert.ConversionService
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
@@ -31,6 +32,9 @@ private val logger = KotlinLogging.logger {}
 @Component
 class YandexApiDelegateImpl(val smartHomeService: SmartHomeService, val conversionService: ConversionService) :
     YandexApiDelegate {
+
+    @Value("\${yandex.user.id}")
+    private lateinit var userId: String
 
     override fun changeDevicesStates(
         authorization: String,
@@ -53,7 +57,7 @@ class YandexApiDelegateImpl(val smartHomeService: SmartHomeService, val conversi
         logger.info { "Yandex. Get devices. Started. RequestId=$xRequestId" }
         val devices = smartHomeService.getAllDevices()
             .map { convert(it, YandexDevice::class.java) }
-        val payload = Payload("user-id", devices)
+        val payload = Payload(userId, devices)
         val devicesResponse = DevicesResponse(payload, xRequestId)
         logger.info { "Yandex. Get devices. Finished. RequestId=$xRequestId" }
         return ResponseEntity.ok(devicesResponse)

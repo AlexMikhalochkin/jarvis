@@ -18,8 +18,12 @@ import io.mockk.every
 import io.mockk.verifySequence
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
+import org.springframework.test.util.ReflectionTestUtils
+
+private const val USER_ID = "user-id"
 
 /**
  * Verification for [YandexApiDelegateImpl].
@@ -27,6 +31,11 @@ import org.springframework.http.HttpStatus
  * @author Alex Mikhalochkin
  */
 internal class YandexApiDelegateImplTest : BaseDelegateTest<YandexApiDelegateImpl>() {
+
+    @BeforeEach
+    fun init() {
+        ReflectionTestUtils.setField(delegate, "userId", USER_ID)
+    }
 
     @Test
     fun testChangeDevicesStates() {
@@ -70,7 +79,7 @@ internal class YandexApiDelegateImplTest : BaseDelegateTest<YandexApiDelegateImp
         assertEquals(HttpStatus.OK, response.statusCode)
         val body = response.body
         assertEquals(requestId, body!!.requestId)
-        assertEquals("user-id", body.payload.userId)
+        assertEquals(USER_ID, body.payload.userId)
         assertSame(yandexDevice, body.payload.devices[0])
         verifySequence {
             smartHomeService.getAllDevices()

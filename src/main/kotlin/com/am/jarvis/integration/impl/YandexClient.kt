@@ -1,11 +1,11 @@
 package com.am.jarvis.integration.impl
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.am.jarvis.controller.generated.model.FullCapability
 import com.am.jarvis.controller.generated.model.YandexState
 import com.am.jarvis.integration.api.SmartHomeProviderClient
 import com.am.jarvis.model.DeviceState
 import com.am.jarvis.model.Provider
+import com.fasterxml.jackson.annotation.JsonProperty
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
@@ -28,6 +28,9 @@ class YandexClient(val yandexWebClient: WebClient) : SmartHomeProviderClient {
     @Value("\${yandex.token}")
     private lateinit var yandexToken: String
 
+    @Value("\${yandex.user.id}")
+    private lateinit var userId: String
+
     override fun updateStates(states: List<DeviceState>) {
         logger.info { "Yandex. Send notification. Started" }
         val requestPayload = createRequest(states[0].deviceId!!, states[0].isOn!!)
@@ -48,7 +51,7 @@ class YandexClient(val yandexWebClient: WebClient) : SmartHomeProviderClient {
             deviceId,
             listOf(FullCapability(YandexState("on", isOn), "devices.capabilities.on_off"))
         )
-        val payload = Payload("user-id", listOf(changeStateDevice))
+        val payload = Payload(userId, listOf(changeStateDevice))
         return YandexNotificationRequest(
             System.currentTimeMillis().div(millisInSecond),
             payload

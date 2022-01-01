@@ -19,6 +19,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono
 
 private const val TOKEN = "token"
+private const val USER_ID = "user-id"
 
 /**
  * Verification for [YandexClient].
@@ -37,6 +38,7 @@ internal class YandexClientTest {
     @BeforeEach
     fun init() {
         ReflectionTestUtils.setField(yandexClient, "yandexToken", TOKEN)
+        ReflectionTestUtils.setField(yandexClient, "userId", USER_ID)
     }
 
     @Test
@@ -58,7 +60,7 @@ internal class YandexClientTest {
         val request = slot.captured
         assertNotNull(request.ts)
         val payload = request.payload
-        assertEquals("user-id", payload.userId)
+        assertEquals(USER_ID, payload.userId)
         val device = payload.devices[0]
         assertEquals("id", device.id)
         val capability = device.capabilities[0]
