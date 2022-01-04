@@ -93,10 +93,7 @@ tasks.withType<JacocoReport> {
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.map {
             fileTree(it).apply {
-                exclude(
-                    "com/am/jarvis/controller/generated/**",
-                    "com/am/jarvis/controller/StubLoginController**"
-                )
+                exclude("com/am/jarvis/controller/generated/**")
             }
         }))
     }
