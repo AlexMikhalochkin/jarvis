@@ -19,6 +19,13 @@ repositories {
     mavenCentral()
 }
 
+configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
+    imports(delegateClosureOf<io.spring.gradle.dependencymanagement.dsl.ImportsHandler> {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2020.0.3")
+        mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:2.3.1")
+    })
+}
+
 dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.github.microutils:kotlin-logging:2.1.21")
@@ -27,6 +34,10 @@ dependencies {
     implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("io.awspring.cloud:spring-cloud-starter-aws")
+    implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
+
+    runtimeOnly("io.awspring.cloud:spring-cloud-starter-aws-parameter-store-config")
 
     testImplementation("commons-io:commons-io:2.11.0")
     testImplementation("com.squareup.okhttp3:okhttp:4.9.3")
