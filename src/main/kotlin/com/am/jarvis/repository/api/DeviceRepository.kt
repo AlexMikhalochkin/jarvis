@@ -32,13 +32,6 @@ interface DeviceRepository {
     fun findStates(deviceIds: List<String>): List<DeviceState>
 
     /**
-     * Finds id of the [Device] by specified [port].
-     *
-     * @return id of the [Device].
-     */
-    fun findIdByPort(port: Int): String
-
-    /**
      * Updates stored [DeviceState] with specified [states].
      */
     fun updateStates(states: List<DeviceState>)

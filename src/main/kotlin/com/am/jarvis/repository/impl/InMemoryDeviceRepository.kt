@@ -50,10 +50,6 @@ class InMemoryDeviceRepository : DeviceRepository {
             .toList()
     }
 
-    override fun findIdByPort(port: Int): String {
-        return idsToPorts.filter { it.value == port }.firstNotNullOf { it.key }
-    }
-
     override fun updateStates(states: List<DeviceState>) {
         val newStates = states.associate { (it.port ?: idsToPorts[it.deviceId])!! to it.isOn!! }
         storedStates.putAll(newStates)
