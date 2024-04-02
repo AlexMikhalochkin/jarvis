@@ -33,8 +33,8 @@ class MqttListener(
     override fun messageArrived(topic: String?, message: MqttMessage?) {
         logger.info { "Processing message. Started. Topic=$topic Message=$message" }
         val tree = mapper.readTree(message!!.payload.toString(Charset.defaultCharset()))
-        val port = tree.get("port").asInt()
-        val isOn = tree.get("value").asBoolean()
+        val port = tree["port"].asInt()
+        val isOn = tree["value"].asBoolean()
         val deviceState = DeviceState(null, port, isOn)
         val states = listOf(deviceState)
         deviceRepository.updateStates(states)

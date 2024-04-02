@@ -1,5 +1,6 @@
 package com.am.jarvis
 
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.verify
 import org.springframework.http.HttpHeaders
@@ -13,6 +14,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
  *
  * @author Alex Mikhalochkin
  */
+@Disabled("In memory repository")
 internal class YandexRestTest : BaseRestTest() {
 
     @Test

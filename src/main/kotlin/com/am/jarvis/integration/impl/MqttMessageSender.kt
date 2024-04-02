@@ -3,6 +3,7 @@ package com.am.jarvis.integration.impl
 import com.am.jarvis.integration.api.MessageSender
 import mu.KotlinLogging
 import org.eclipse.paho.client.mqttv3.IMqttClient
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 private val logger = KotlinLogging.logger {}
@@ -13,9 +14,7 @@ private val logger = KotlinLogging.logger {}
  * @author Alex Mikhalochkin
  */
 @Component
-class MqttMessageSender(val client: IMqttClient) : MessageSender {
-
-    private val topic = "megad/14/cmd"
+class MqttMessageSender(val client: IMqttClient, @Value("\${megad.id}/cmd") val topic: String) : MessageSender {
 
     override fun send(message: String) {
         logger.info("Sending message. Started. Message=$message")

@@ -45,19 +45,34 @@ class JarvisApplication {
     }
 
     @Bean
-    fun mqttClient(callback: MqttCallback): IMqttClient {
+    fun mqttClient(
+        @Value("\${megad.id}") megadId: String,
+        @Value("\${mqtt.server.url}") mqttServerUrl: String,
+        callback: MqttCallback,
+        options: MqttConnectOptions
+    ): IMqttClient {
         val publisherId = "jarvis"
-        val options = MqttConnectOptions()
-        options.isAutomaticReconnect = true
-        options.isCleanSession = true
         val mqttClient = MqttClient(mqttServerUrl, publisherId)
         mqttClient.setCallback(callback)
         mqttClient.connect(options)
         val topicFilters = outPorts
-            .map { "megad/14/$it" }
+            .map { "$megadId/$it" }
             .toTypedArray()
         mqttClient.subscribe(topicFilters, IntArray(outPorts.size) { 0 })
         return mqttClient
+    }
+
+    @Bean
+    fun mqttConnectOptions(
+        @Value("\${mqtt.broker.username}") mqttBrokerPassword: String,
+        @Value("\${mqtt.broker.password}") mqttBrokerUsername: String
+    ): MqttConnectOptions {
+        val options = MqttConnectOptions()
+        options.isAutomaticReconnect = true
+        options.isCleanSession = true
+        options.password = mqttBrokerPassword.toCharArray()
+        options.userName = mqttBrokerUsername
+        return options
     }
 }
 
