@@ -1,13 +1,17 @@
 # Open/Close port for SSH access to the DigitalOcean droplet
 name: Infrastructure. SSH
+run-name: ${{ inputs.ssh_port_action }} SSH port
 
 on:
   workflow_dispatch:
     inputs:
-      open_port:
+      ssh_port_action:
         description: 'True to open SSH port, false to close'
         required: true
-        type: boolean
+        type: choice
+        options:
+          - Open
+          - Close
 
 jobs:
   build:
@@ -17,9 +21,9 @@ jobs:
           uses: digitalocean/action-doctl@v2
           with:
             token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-        - if:  ${{ inputs.open_port }} 
+        - if:  ${{ inputs.ssh_port_action == 'Open' }} 
           name: Open port for SSH access to the DigitalOcean droplet
           run: doctl compute firewall add-rules ${{ secrets.DIGITALOCEAN_FIREWALL_ID }} --inbound-rules "protocol:tcp,ports:22,address:0.0.0.0/0"
-        - if:  ${{ !inputs.open_port }} 
+        - if:  ${{ inputs.ssh_port_action == 'Close' }} 
           name: Close port for SSH access to the DigitalOcean droplet
           run: doctl compute firewall remove-rules ${{ secrets.DIGITALOCEAN_FIREWALL_ID }} --inbound-rules "protocol:tcp,ports:22,address:0.0.0.0/0"
