@@ -1,0 +1,25 @@
+# Open/Close port for SSH access to the DigitalOcean droplet
+name: Infrastructure. SSH
+
+on:
+  workflow_dispatch:
+    inputs:
+      open_port:
+        description: 'True to open SSH port, false to close'
+        required: true
+        type: boolean
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Install doctl
+          uses: digitalocean/action-doctl@v2
+          with:
+            token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+        - if:  ${{ inputs.open_port }} 
+          name: Open port for SSH access to the DigitalOcean droplet
+          run: doctl compute firewall add-rules ${{ secrets.DIGITALOCEAN_FIREWALL_ID }} --inbound-rules "protocol:tcp,ports:22,address:0.0.0.0/0"
+        - if:  ${{ !inputs.open_port }} 
+          name: Close port for SSH access to the DigitalOcean droplet
+          run: doctl compute firewall remove-rules ${{ secrets.DIGITALOCEAN_FIREWALL_ID }} --inbound-rules "protocol:tcp,ports:22,address:0.0.0.0/0"
