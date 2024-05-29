@@ -13,4 +13,4 @@ jobs:
           with:
             token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
         - name: Create a DigitalOcean droplet from the snapshot
-          run: doctl compute droplet create momomo-server --size s-1vcpu-512mb-10gb --image 157181598 --region fra1 --enable-monitoring
+          run: doctl compute droplet create momomo-server --size s-1vcpu-1gb --image 157181598 --region fra1 --enable-monitoring
