@@ -26,4 +26,4 @@ jobs:
           run: doctl compute droplet create momomo-server --size s-1vcpu-1gb --image 157181598 --region fra1 --enable-monitoring
         - if:  ${{ inputs.server_scaling_action == 'Down' }} 
           name: Scale Down
-          run: doctl compute droplet delete momomo-server -f
+          run: doctl compute droplet delete momomo-server -f -v
