@@ -1,0 +1,29 @@
+# Createor remove a droplet
+name: Infrastructure. Scale
+run-name: Scale ${{ inputs.server_scaling_action }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      server_scaling_action:
+        description: 'Up to create droplet, Down to remove it'
+        required: true
+        type: choice
+        options:
+          - Up
+          - Down
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Install doctl
+          uses: digitalocean/action-doctl@v2
+          with:
+            token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+        - if:  ${{ inputs.server_scaling_action == 'Up' }} 
+          name: Scale Up
+          run: doctl compute droplet create momomo-server --size s-1vcpu-1gb --image 157181598 --region fra1 --enable-monitoring
+        - if:  ${{ inputs.server_scaling_action == 'Down' }} 
+          name: Scale Down
+          run: doctl compute droplet delete momomo-server -f
