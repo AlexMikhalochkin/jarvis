@@ -1,4 +1,4 @@
-# Createor remove a droplet
+# Create or remove an infrastructure for the application
 name: Infrastructure. Scale
 run-name: Scale ${{ inputs.server_scaling_action }}
 
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       server_scaling_action:
-        description: 'Up to create droplet, Down to remove it'
+        description: 'Up to create an infrastructure, Down to remove it'
         required: true
         type: choice
         options:
@@ -23,7 +23,7 @@ jobs:
             token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
         - if:  ${{ inputs.server_scaling_action == 'Up' }} 
           name: Scale Up
-          run: doctl compute droplet create momomo-server --size s-1vcpu-1gb --image 157181598 --region fra1 --enable-monitoring
+          run: doctl compute droplet create momomo-server --size s-1vcpu-1gb --image 157181598 --region fra1 --enable-monitoring --ssh-keys 24:99:80:38:63:54:9a:a3:0e:98:8e:2c:f8:69:f1:9b
         - if:  ${{ inputs.server_scaling_action == 'Down' }} 
           name: Scale Down
           run: doctl compute droplet delete momomo-server -f -v
