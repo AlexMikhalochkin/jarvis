@@ -23,7 +23,10 @@ jobs:
             token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
         - if:  ${{ inputs.server_scaling_action == 'Up' }} 
           name: Scale Up
-          run: doctl compute droplet create momomo-server --size s-1vcpu-1gb --image 157181598 --region fra1 --enable-monitoring --ssh-keys 24:99:80:38:63:54:9a:a3:0e:98:8e:2c:f8:69:f1:9b
+          run: doctl compute droplet create momomo-server --size s-1vcpu-1gb --image 157634400 --region fra1 --enable-monitoring --ssh-keys 24:99:80:38:63:54:9a:a3:0e:98:8e:2c:f8:69:f1:9b
+        - if:  ${{ inputs.server_scaling_action == 'Up' }} 
+          name: Add firewall to the droplet
+          run: doctl compute firewall add-droplets ${{ secrets.DIGITALOCEAN_FIREWALL_ID }} --droplet-ids $(doctl compute droplet get momomo-server --format ID --no-header)
         - if:  ${{ inputs.server_scaling_action == 'Down' }} 
           name: Scale Down
           run: doctl compute droplet delete momomo-server -f -v
