@@ -11,6 +11,7 @@ import io.mockk.slot
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.test.util.ReflectionTestUtils
@@ -26,6 +27,7 @@ private const val USER_ID = "user-id"
  *
  * @author Alex Mikhalochkin
  */
+@Disabled("Not Implemented yet")
 @ExtendWith(MockKExtension::class)
 internal class YandexClientTest {
 

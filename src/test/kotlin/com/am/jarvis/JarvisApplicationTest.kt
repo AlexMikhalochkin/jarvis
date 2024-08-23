@@ -35,7 +35,7 @@ class JarvisApplicationTest {
     fun testMqttClient() {
         val url = "tcp://localhost"
         ReflectionTestUtils.setField(jarvisApplication, "mqttServerUrl", url)
-        val mqttClient = jarvisApplication.mqttClient(mockk())
+        val mqttClient = jarvisApplication.mqttClient(mockk(), "url", mockk(), mockk())
         assertNotNull(mqttClient)
         assertEquals("jarvis", mqttClient.clientId)
         assertEquals(url, mqttClient.serverURI)
