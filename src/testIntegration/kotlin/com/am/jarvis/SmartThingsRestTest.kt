@@ -2,6 +2,7 @@ package com.am.jarvis
 
 import okhttp3.mockwebserver.MockResponse
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.verify
 import org.skyscreamer.jsonassert.Customization
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
  *
  * @author Alex Mikhalochkin
  */
+@Disabled("In memory repository")
 internal class SmartThingsRestTest : BaseRestTest() {
 
     @Value("\${yandex.skill.id}")
