@@ -64,8 +64,8 @@ class JarvisApplication {
 
     @Bean
     fun mqttConnectOptions(
-        @Value("\${mqtt.broker.username}") mqttBrokerPassword: String,
-        @Value("\${mqtt.broker.password}") mqttBrokerUsername: String
+        @Value("\${mqtt.broker.username}") mqttBrokerUsername: String,
+        @Value("\${mqtt.broker.password}") mqttBrokerPassword: String
     ): MqttConnectOptions {
         val options = MqttConnectOptions()
         options.isAutomaticReconnect = true
