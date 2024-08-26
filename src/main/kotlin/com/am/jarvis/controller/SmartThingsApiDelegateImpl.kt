@@ -21,8 +21,10 @@ private val logger = KotlinLogging.logger {}
  * @author Alex Mikhalochkin
  */
 @Component
-class SmartThingsApiDelegateImpl(val smartHomeService: SmartHomeService, val conversionService: ConversionService) :
-    SmartthingsApiDelegate {
+class SmartThingsApiDelegateImpl(
+    private val smartHomeService: SmartHomeService,
+    private val conversionService: ConversionService
+) : SmartthingsApiDelegate {
 
     private val requestHandlers = mapOf(
         "discoveryRequest" to ::handleDiscoveryRequest,
@@ -49,8 +51,8 @@ class SmartThingsApiDelegateImpl(val smartHomeService: SmartHomeService, val con
     }
 
     private fun handleStateRefreshRequest(request: SmartThingsRequest): SmartThingsResponse {
-        val ids = request.devices!!.map { it.externalDeviceId!! }
-            .toList()
+        val ids = request.devices!!
+            .map { it.externalDeviceId!! }
         val deviceStates = smartHomeService.getDeviceStates(ids)
             .map { conversionService.convert(it, DeviceState::class.java)!! }
         return SmartThingsResponse(

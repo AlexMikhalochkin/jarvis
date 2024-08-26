@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
  *
  * @author Alex Mikhalochkin
  */
-@Disabled("In memory repository")
 internal class YandexRestTest : BaseRestTest() {
 
     @Test
@@ -32,6 +31,7 @@ internal class YandexRestTest : BaseRestTest() {
             .andExpect(content().json(expectedResponse, true))
     }
 
+    @Disabled("In memory repository")
     @Test
     fun testGetDevices() {
         val requestId = "ff36a3cc-ec34-11e6-b1a0-64510650abcf"
@@ -67,7 +67,7 @@ internal class YandexRestTest : BaseRestTest() {
             .content(getPayloadFromFile("change_states_request.json"))
         performRequest(requestBuilder)
             .andExpect(content().json(expectedResponse, true))
-        verify(mqttClient).publish("megad/14/cmd", "7:0".toByteArray(), 0, true)
+        verify(mqttClient).publish("megad-id/cmd", "7:0".toByteArray(), 0, true)
     }
 
     private fun createHeaders(requestId: String): HttpHeaders {

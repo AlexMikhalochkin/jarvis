@@ -1,5 +1,6 @@
 package com.am.jarvis.integration.impl
 
+import com.am.jarvis.integration.impl.megad.mqtt.MqttListener
 import com.am.jarvis.model.DeviceState
 import com.am.jarvis.repository.api.DeviceRepository
 import com.am.jarvis.service.api.NotificationService

@@ -1,4 +1,4 @@
-package com.am.jarvis.integration.impl
+package com.am.jarvis.integration.impl.megad.mqtt
 
 import com.am.jarvis.integration.api.MessageSender
 import mu.KotlinLogging

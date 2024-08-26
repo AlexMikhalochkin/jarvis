@@ -1,15 +1,15 @@
-package com.am.jarvis.integration.impl
+package com.am.jarvis.integration.impl.megad.mqtt
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.am.jarvis.model.DeviceState
 import com.am.jarvis.repository.api.DeviceRepository
 import com.am.jarvis.service.api.NotificationService
-import java.nio.charset.Charset
+import com.fasterxml.jackson.databind.ObjectMapper
 import mu.KotlinLogging
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.MqttCallback
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.springframework.stereotype.Component
+import java.nio.charset.Charset
 
 private val logger = KotlinLogging.logger {}
 
