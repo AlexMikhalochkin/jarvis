@@ -1,5 +1,6 @@
 package com.am.jarvis.integration.impl
 
+import com.am.jarvis.integration.impl.megad.mqtt.MqttMessageSender
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.verify
