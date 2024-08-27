@@ -2,6 +2,7 @@ package com.am.momomo.connector.megad.client.mqtt
 
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 /**
@@ -20,5 +21,7 @@ class MegaDMqttConnectOptionsTest {
 
         assertEquals(username, options.userName)
         assertArrayEquals(password.toCharArray(), options.password)
+        assertTrue(options.isAutomaticReconnect)
+        assertTrue(options.isCleanSession)
     }
 }
