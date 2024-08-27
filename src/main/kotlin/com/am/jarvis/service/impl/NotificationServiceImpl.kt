@@ -1,9 +1,9 @@
 package com.am.jarvis.service.impl
 
 import com.am.jarvis.integration.api.SmartHomeProviderClient
-import com.am.jarvis.model.DeviceState
-import com.am.jarvis.model.Provider
+import com.am.momomo.model.Provider
 import com.am.jarvis.service.api.NotificationService
+import com.am.momomo.model.DeviceState
 import org.springframework.stereotype.Service
 
 /**

@@ -1,7 +1,7 @@
 package com.am.jarvis.integration.impl
 
-import com.am.jarvis.model.DeviceState
-import com.am.jarvis.model.Provider
+import com.am.momomo.model.DeviceState
+import com.am.momomo.model.Provider
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK

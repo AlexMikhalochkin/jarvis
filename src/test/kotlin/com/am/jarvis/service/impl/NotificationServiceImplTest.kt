@@ -2,8 +2,8 @@ package com.am.jarvis.service.impl
 
 import com.am.jarvis.generateUuid
 import com.am.jarvis.integration.api.SmartHomeProviderClient
-import com.am.jarvis.model.DeviceState
-import com.am.jarvis.model.Provider
+import com.am.momomo.model.DeviceState
+import com.am.momomo.model.Provider
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verifySequence

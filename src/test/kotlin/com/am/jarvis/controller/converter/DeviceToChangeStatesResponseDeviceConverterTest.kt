@@ -4,7 +4,7 @@ import com.am.jarvis.controller.generated.model.ActionResult
 import com.am.jarvis.controller.generated.model.ChangeStatesResponseCapability
 import com.am.jarvis.controller.generated.model.ChangeStatesResponseDevice
 import com.am.jarvis.controller.generated.model.ChangeStatesResponseState
-import com.am.jarvis.model.DeviceState
+import com.am.momomo.model.DeviceState
 
 /**
  * Verification for [DeviceToChangeStatesResponseDeviceConverter].

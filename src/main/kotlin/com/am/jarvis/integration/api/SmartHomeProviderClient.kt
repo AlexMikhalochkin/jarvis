@@ -1,7 +1,7 @@
 package com.am.jarvis.integration.api
 
-import com.am.jarvis.model.DeviceState
-import com.am.jarvis.model.Provider
+import com.am.momomo.model.DeviceState
+import com.am.momomo.model.Provider
 
 /**
  * Client to perform request to smart home provider.

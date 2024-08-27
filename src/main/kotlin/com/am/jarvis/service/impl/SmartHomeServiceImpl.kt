@@ -1,12 +1,11 @@
 package com.am.jarvis.service.impl
 
-import com.am.jarvis.integration.api.MessageSender
-import com.am.jarvis.model.Device
-import com.am.jarvis.model.DeviceState
-import com.am.jarvis.model.Provider
-import com.am.jarvis.repository.api.DeviceRepository
 import com.am.jarvis.service.api.NotificationService
 import com.am.jarvis.service.api.SmartHomeService
+import com.am.momomo.connector.api.MomomoConnector
+import com.am.momomo.model.Device
+import com.am.momomo.model.DeviceState
+import com.am.momomo.model.Provider
 import org.springframework.stereotype.Service
 
 /**
@@ -16,28 +15,21 @@ import org.springframework.stereotype.Service
  */
 @Service
 class SmartHomeServiceImpl(
-    private val deviceRepository: DeviceRepository,
-    private val messageSender: MessageSender,
+    private val connectors: List<MomomoConnector>,
     private val notificationService: NotificationService
 ) : SmartHomeService {
 
     override fun getAllDevices(): List<Device> {
-        return deviceRepository.findAll()
+        return connectors.flatMap { it.getAllDevices() }
     }
 
     override fun getDeviceStates(deviceIds: List<String>): List<DeviceState> {
-        return deviceRepository.findStates(deviceIds)
+        return connectors.flatMap { it.getDeviceStates(deviceIds) }
     }
 
     override fun changeStates(states: List<DeviceState>, provider: Provider): List<DeviceState> {
-        deviceRepository.updateStates(states)
-        states.forEach { sendChangeStateMessage(it.port!!, it.isOn!!) }
+        connectors.flatMap { it.changeStates(states) }
         notificationService.notifyProviders(states, provider)
         return states
-    }
-
-    private fun sendChangeStateMessage(port: Int, isOn: Boolean) {
-        val status = if (isOn) 1 else 0
-        messageSender.send("$port:$status")
     }
 }

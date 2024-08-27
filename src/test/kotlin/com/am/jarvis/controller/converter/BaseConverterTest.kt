@@ -1,9 +1,9 @@
 package com.am.jarvis.controller.converter
 
 import com.am.jarvis.generateUuid
-import com.am.jarvis.model.Device
-import com.am.jarvis.model.Provider
-import com.am.jarvis.model.TechnicalInfo
+import com.am.momomo.model.Device
+import com.am.momomo.model.Provider
+import com.am.momomo.model.TechnicalInfo
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.core.convert.converter.Converter
