@@ -3,7 +3,7 @@ package com.am.jarvis.controller.converter
 import com.am.jarvis.controller.generated.model.DeviceContext
 import com.am.jarvis.controller.generated.model.ManufacturerInfo
 import com.am.jarvis.controller.generated.model.SmartThingsDevice
-import com.am.jarvis.model.Device
+import com.am.momomo.model.Device
 
 /**
  * Verification for [DeviceToSmartThingsDeviceConverter].

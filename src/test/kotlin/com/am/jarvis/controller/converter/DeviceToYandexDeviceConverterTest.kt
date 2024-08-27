@@ -3,7 +3,7 @@ package com.am.jarvis.controller.converter
 import com.am.jarvis.controller.generated.model.ShortCapability
 import com.am.jarvis.controller.generated.model.YandexDevice
 import com.am.jarvis.controller.generated.model.YandexDeviceInfo
-import com.am.jarvis.model.Device
+import com.am.momomo.model.Device
 
 /**
  * Verification for [DeviceToYandexDeviceConverter].

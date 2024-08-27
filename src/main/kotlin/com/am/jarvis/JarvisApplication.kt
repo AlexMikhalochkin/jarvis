@@ -1,12 +1,15 @@
 package com.am.jarvis
 
+import com.am.momomo.connector.megad.MegaDConnectorConfiguration
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Import
 import org.springframework.web.reactive.function.client.WebClient
 
 @SpringBootApplication
+@Import(MegaDConnectorConfiguration::class)
 class JarvisApplication {
 
     @Value("\${smart.things.url}")

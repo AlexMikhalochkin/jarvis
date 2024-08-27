@@ -2,8 +2,8 @@ package com.am.jarvis.integration.impl
 
 import com.am.jarvis.controller.generated.model.FullCapability
 import com.am.jarvis.integration.api.SmartHomeProviderClient
-import com.am.jarvis.model.DeviceState
-import com.am.jarvis.model.Provider
+import com.am.momomo.model.DeviceState
+import com.am.momomo.model.Provider
 import com.fasterxml.jackson.annotation.JsonProperty
 import mu.KotlinLogging
 import org.springframework.stereotype.Component

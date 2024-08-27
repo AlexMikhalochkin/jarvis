@@ -1,7 +1,7 @@
 package com.am.jarvis.controller.converter
 
 import com.am.jarvis.controller.generated.model.State
-import com.am.jarvis.model.DeviceState
+import com.am.momomo.model.DeviceState
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

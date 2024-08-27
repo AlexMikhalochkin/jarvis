@@ -1,9 +1,9 @@
 package com.am.jarvis.controller
 
 import com.am.jarvis.generateUuid
-import com.am.jarvis.model.Device
-import com.am.jarvis.model.DeviceState
-import com.am.jarvis.model.TechnicalInfo
+import com.am.momomo.model.Device
+import com.am.momomo.model.DeviceState
+import com.am.momomo.model.TechnicalInfo
 import com.am.jarvis.service.api.SmartHomeService
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.InjectMockKs

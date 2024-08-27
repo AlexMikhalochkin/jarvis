@@ -20,11 +20,10 @@ repositories {
 }
 
 dependencies {
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation(project(":momomo-megad-connector"))
     implementation("io.github.microutils:kotlin-logging:2.1.21")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("javax.validation:validation-api:2.0.1.Final")
-    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-web")
 
