@@ -1,10 +1,10 @@
 package com.am.momomo.connector.megad.repository.impl
 
+import com.am.momomo.connector.megad.repository.api.DeviceRepository
 import com.am.momomo.model.Device
 import com.am.momomo.model.DeviceState
 import com.am.momomo.model.Provider
 import com.am.momomo.model.TechnicalInfo
-import com.am.momomo.connector.megad.repository.api.DeviceRepository
 import org.springframework.stereotype.Repository
 import javax.annotation.PostConstruct
 
@@ -40,10 +40,6 @@ internal class InMemoryDeviceRepository : DeviceRepository {
         return devices
     }
 
-    override fun findPorts(deviceIds: List<String>): Map<String, Int> {
-        return deviceIds.associateWith { idsToPorts.getValue(it) }
-    }
-
     override fun findStates(deviceIds: List<String>): List<DeviceState> {
         return deviceIds.map { it to storedStates.getValue(idsToPorts.getValue(it)) }
                 .map { (deviceId, status) -> DeviceState(deviceId, null, status) }
@@ -53,6 +49,10 @@ internal class InMemoryDeviceRepository : DeviceRepository {
     override fun updateStates(states: List<DeviceState>) {
         val newStates = states.associate { (it.port ?: idsToPorts[it.deviceId])!! to it.isOn!! }
         storedStates.putAll(newStates)
+    }
+
+    override fun getDeviceByPort(port: Int): Device {
+        return devices.find { it.port == port }!!
     }
 
     @Suppress("LongMethod", "MagicNumber")

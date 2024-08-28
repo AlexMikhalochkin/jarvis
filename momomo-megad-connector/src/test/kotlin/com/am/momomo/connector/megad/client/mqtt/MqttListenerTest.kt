@@ -1,11 +1,10 @@
 package com.am.momomo.connector.megad.client.mqtt
 
-import com.am.momomo.connector.megad.repository.api.DeviceRepository
-import com.am.momomo.model.DeviceState
+import io.mockk.Called
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
-import io.mockk.verifySequence
+import io.mockk.verify
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -19,7 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class MqttListenerTest {
 
     @MockK(relaxUnitFun = true)
-    lateinit var deviceRepository: DeviceRepository
+    lateinit var service: MqttSomeService
 
     @InjectMockKs
     lateinit var mqttListener: MqttListener
@@ -27,6 +26,8 @@ internal class MqttListenerTest {
     @Test
     fun testConnectionLost() {
         mqttListener.connectionLost(Exception())
+
+        verify { service wasNot Called }
     }
 
     @Test
@@ -34,14 +35,13 @@ internal class MqttListenerTest {
         val message = MqttMessage()
         message.payload = "{\"port\": 1, \"value\": true}".toByteArray()
         mqttListener.messageArrived("topic", message)
-        val states = listOf(DeviceState(null, 1, true))
-        verifySequence {
-            deviceRepository.updateStates(states)
-        }
+        verify { service.process(1, true) }
     }
 
     @Test
     fun testDeliveryComplete() {
         mqttListener.deliveryComplete(null)
+
+        verify { service wasNot Called }
     }
 }

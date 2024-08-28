@@ -4,7 +4,7 @@ plugins {
     id("org.springframework.boot") version "2.5.2"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("jacoco")
-    id("io.gitlab.arturbosch.detekt").version("1.18.0-RC2")
+    id("io.gitlab.arturbosch.detekt") version "1.18.0-RC2"
     kotlin("jvm") version "1.5.20"
     kotlin("plugin.spring") version "1.5.20"
     id("com.diffplug.spotless") version "5.14.2"

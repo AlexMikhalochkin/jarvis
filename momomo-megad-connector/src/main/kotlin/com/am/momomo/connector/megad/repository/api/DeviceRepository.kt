@@ -18,13 +18,6 @@ interface DeviceRepository {
     fun findAll(): List<Device>
 
     /**
-     * Finds ports for specified [deviceIds].
-     *
-     * @return [Map] where key is id and value is port of this [Device].
-     */
-    fun findPorts(deviceIds: List<String>): Map<String, Int>
-
-    /**
      * Finds states for specified [deviceIds].
      *
      * @return [List] of [DeviceState].
@@ -35,4 +28,9 @@ interface DeviceRepository {
      * Updates stored [DeviceState] with specified [states].
      */
     fun updateStates(states: List<DeviceState>)
+
+    /**
+     * Returns [Device] by specified [port].
+     */
+    fun getDeviceByPort(port: Int): Device
 }

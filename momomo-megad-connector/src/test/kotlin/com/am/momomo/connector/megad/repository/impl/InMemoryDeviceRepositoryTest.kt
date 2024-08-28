@@ -31,15 +31,6 @@ internal class InMemoryDeviceRepositoryTest {
         Assertions.assertEquals(1, devices.size)
     }
 
-    @Disabled("Custom set of devices")
-    @Test
-    fun findPorts() {
-        val ports = deviceRepository.findPorts(listOf(deviceId))
-        Assertions.assertNotNull(ports)
-        Assertions.assertEquals(1, ports.size)
-        Assertions.assertEquals(7, ports[deviceId])
-    }
-
     @Test
     fun testFindStates() {
         val states = deviceRepository.findStates(listOf(deviceId))

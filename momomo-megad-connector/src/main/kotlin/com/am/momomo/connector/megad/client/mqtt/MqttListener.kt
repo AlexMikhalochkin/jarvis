@@ -1,7 +1,5 @@
 package com.am.momomo.connector.megad.client.mqtt
 
-import com.am.momomo.model.DeviceState
-import com.am.momomo.connector.megad.repository.api.DeviceRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import mu.KotlinLogging
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
@@ -19,7 +17,7 @@ private val logger = KotlinLogging.logger {}
  */
 @Component
 internal class MqttListener(
-    private val deviceRepository: DeviceRepository
+    private val service: MqttSomeService
 ) : MqttCallback {
 
     private val mapper = ObjectMapper()
@@ -29,14 +27,12 @@ internal class MqttListener(
     }
 
     override fun messageArrived(topic: String?, message: MqttMessage?) {
-        logger.info { "Processing message. Started. Topic=$topic Message=$message" }
+        logger.debug { "Processing message. Started. Topic=$topic Message=$message" }
         val tree = mapper.readTree(message!!.payload.toString(Charset.defaultCharset()))
         val port = tree["port"].asInt()
         val isOn = tree["value"].asBoolean()
-        val deviceState = DeviceState(null, port, isOn)
-        val states = listOf(deviceState)
-        deviceRepository.updateStates(states)
-        logger.info { "Processing message. Finished. Topic=$topic Message=$message" }
+        service.process(port, isOn)
+        logger.debug { "Processing message. Finished. Topic=$topic Message=$message" }
     }
 
     override fun deliveryComplete(token: IMqttDeliveryToken?) {
