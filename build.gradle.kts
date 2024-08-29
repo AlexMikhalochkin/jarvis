@@ -63,6 +63,10 @@ sourceSets {
     }
 }
 
+sourceSets.getByName("main")
+    .java
+    .srcDirs("${buildDir}/generated/src/main/kotlin")
+
 val testIntegration = task<Test>("testIntegration") {
     description = "Runs the integration tests"
     group = "verification"
@@ -93,7 +97,6 @@ tasks.withType<JacocoReport> {
         classDirectories.setFrom(files(classDirectories.files.map {
             fileTree(it).apply {
                 exclude(
-                    "com/am/jarvis/controller/generated/**",
                     "com/am/jarvis/controller/StubLoginController**"
                 )
             }
@@ -131,7 +134,7 @@ configure<com.diffplug.gradle.spotless.SpotlessExtension> {
 openApiGenerate {
     generatorName.set("kotlin-spring")
     inputSpec.set("$rootDir/configuration/codegenerator/jarvis.yaml")
-    outputDir.set("$rootDir")
+    outputDir.set("$rootDir/build/generated")
     templateDir.set("$rootDir/configuration/codegenerator/templates")
     globalProperties.set(
         mapOf(
@@ -145,3 +148,9 @@ openApiGenerate {
 }
 
 tasks.openApiGenerate { finalizedBy(tasks.spotlessApply) }
+
+gradle.projectsEvaluated {
+    tasks.withType<KotlinCompile> {
+        dependsOn(tasks.openApiGenerate)
+    }
+}
