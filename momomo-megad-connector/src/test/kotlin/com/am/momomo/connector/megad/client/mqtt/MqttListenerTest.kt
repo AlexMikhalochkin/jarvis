@@ -8,6 +8,8 @@ import io.mockk.verify
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 
 /**
  * Verification for [MqttListener].
@@ -30,12 +32,23 @@ internal class MqttListenerTest {
         verify { service wasNot Called }
     }
 
-    @Test
-    fun testMessageArrived() {
+    @ParameterizedTest
+    @CsvSource(
+        "ON, true",
+        "OFF, false"
+    )
+    fun testMessageArrived(messageState: String, expectedState: Boolean) {
         val message = MqttMessage()
-        message.payload = "{\"port\": 1, \"value\": true}".toByteArray()
+        message.payload = "{\"port\": 1, \"value\": \"$messageState\"}".toByteArray()
         mqttListener.messageArrived("topic", message)
-        verify { service.process(1, true) }
+        verify { service.process(MegaDPortState(1, expectedState)) }
+    }
+
+    @Test
+    fun testMessageArrivedSkipped() {
+        mqttListener.messageArrived("topic", null)
+
+        verify { service wasNot Called }
     }
 
     @Test

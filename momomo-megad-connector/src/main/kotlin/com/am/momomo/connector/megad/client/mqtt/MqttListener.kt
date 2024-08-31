@@ -1,12 +1,11 @@
 package com.am.momomo.connector.megad.client.mqtt
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import mu.KotlinLogging
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.MqttCallback
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.springframework.stereotype.Component
-import java.nio.charset.Charset
 
 private val logger = KotlinLogging.logger {}
 
@@ -20,7 +19,7 @@ internal class MqttListener(
     private val service: MqttSomeService
 ) : MqttCallback {
 
-    private val mapper = ObjectMapper()
+    private val mapper = jacksonObjectMapper()
 
     override fun connectionLost(cause: Throwable?) {
         logger.error(cause) { "Connection to MQTT broker lost." }
@@ -28,12 +27,17 @@ internal class MqttListener(
 
     override fun messageArrived(topic: String?, message: MqttMessage?) {
         logger.debug { "Processing message. Started. Topic=$topic Message=$message" }
-        val tree = mapper.readTree(message!!.payload.toString(Charset.defaultCharset()))
-        val port = tree["port"].asInt()
-        val isOn = tree["value"].asBoolean()
-        service.process(port, isOn)
+        if (message == null) {
+            logger.warn { "Processing message. Skipped. Message is empty. Topic=$topic" }
+            return
+        }
+        val megaDPortState = megaDPortState(message.payload)
+        service.process(megaDPortState)
         logger.debug { "Processing message. Finished. Topic=$topic Message=$message" }
     }
+
+    private fun megaDPortState(bytes: ByteArray?): MegaDPortState =
+        mapper.readValue(bytes, MegaDPortState::class.java)
 
     override fun deliveryComplete(token: IMqttDeliveryToken?) {
         logger.info { "Message delivered" }

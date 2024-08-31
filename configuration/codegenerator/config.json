@@ -1,7 +1,7 @@
 {
   "apiPackage": "com.am.jarvis.controller.generated.api",
   "modelPackage": "com.am.jarvis.controller.generated.model",
-  "invokerPackage": "com.am.jarvis.controller.generated",
+  "packageName": "com.am.jarvis.controller.generated",
   "delegatePattern": true,
   "gradleBuildFile": false,
   "generateSupportingFiles": false,

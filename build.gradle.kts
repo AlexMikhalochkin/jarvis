@@ -118,17 +118,10 @@ detekt {
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
     kotlin {
-        target("**/generated/*/*.kt")
+        target("build/generated/**/*.kt")
         ktfmt().dropboxStyle()
         ktlint()
-        //diktat()   // has its own section below
-        //prettier() // has its own section below
-        //licenseHeader '/* (C)$YEAR */' // or licenseHeaderFile
     }
-//    kotlinGradle {
-//        //target '*.gradle.kts' // default target for kotlinGradle
-//        ktlint() // or ktfmt() or prettier()
-//    }
 }
 
 openApiGenerate {
@@ -147,7 +140,14 @@ openApiGenerate {
     configFile.set("$rootDir/configuration/codegenerator/config.json")
 }
 
+tasks.named("spotlessKotlin") {
+    dependsOn(tasks.named("openApiGenerate"))
+}
 tasks.openApiGenerate { finalizedBy(tasks.spotlessApply) }
+
+//tasks.prepareKotlinBuildScriptModel {
+//    finalizedBy(tasks.openApiGenerate)
+//}
 
 gradle.projectsEvaluated {
     tasks.withType<KotlinCompile> {
