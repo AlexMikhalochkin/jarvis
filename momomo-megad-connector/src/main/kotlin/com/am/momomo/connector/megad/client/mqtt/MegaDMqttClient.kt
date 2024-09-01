@@ -29,4 +29,11 @@ internal class MegaDMqttClient(
             .toTypedArray()
         this.subscribe(topicFilters, IntArray(outPorts.size) { 0 })
     }
+
+    override fun close() {
+        if (isConnected) {
+            disconnect()
+        }
+        close(true)
+    }
 }
