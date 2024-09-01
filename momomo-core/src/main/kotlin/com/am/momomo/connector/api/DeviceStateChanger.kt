@@ -11,7 +11,7 @@ import com.am.momomo.model.DeviceState
  *
  * @author Alex Mikhalochkin
  */
-interface DeviceStateChanger {
+interface DeviceStateChanger : SourceAware{
 
     /**
      * Changes the states of the given devices.

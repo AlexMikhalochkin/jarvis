@@ -20,13 +20,11 @@ class MqttSomeService(
 ) {
 
     fun process(portState: MegaDPortState) {
-        val device = deviceRepository.getDeviceByPort(portState.port)
-        val deviceId = device.id
+        val deviceId = deviceRepository.getDeviceByPort(portState.port).id
         val deviceState = DeviceState(deviceId, portState.isOn)
         val states = listOf(deviceState)
         deviceRepository.updateStates(states)
-        notifiers.forEach { it.notify(deviceState) }
-        val status = if (portState.isOn) "turned ON" else "turned OFF"
-        logger.info { "Device [$deviceId] is $status" }
+        notifiers.forEach { it.notify(states) }
+        logger.info { "Device [$deviceId] is turned ${deviceState.stringState}" }
     }
 }

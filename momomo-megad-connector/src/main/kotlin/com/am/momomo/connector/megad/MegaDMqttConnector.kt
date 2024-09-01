@@ -47,6 +47,10 @@ open class MegaDMqttConnector(
         return states
     }
 
+    override fun getSource(): String {
+        return "MegaD"
+    }
+
     private fun toMqttMessage(deviceState: DeviceState): String {
         val status = deviceState.intState
         val port = (deviceState.customData["port"] as Int?

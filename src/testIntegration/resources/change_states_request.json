@@ -2,7 +2,7 @@
   "payload": {
     "devices": [
       {
-        "id": "abc-123",
+        "id": "kitchen-light-0",
         "custom_data": {
           "port": 7
         },

@@ -1,5 +1,6 @@
 package com.am.momomo.notifier.api
 
+import com.am.momomo.connector.api.SourceAware
 import com.am.momomo.model.DeviceState
 
 /**
@@ -11,12 +12,12 @@ import com.am.momomo.model.DeviceState
  *
  * @author Alex Mikhalochkin
  */
-interface Notifier {
+interface Notifier : SourceAware {
 
     /**
-     * Notifies about the given device state.
+     * Notifies about the changes of the given devices.
      *
-     * @param state a [DeviceState] object representing the current state of the device
+     * @param states a list of DeviceState objects representing the current states of the devices
      */
-    fun notify(state: DeviceState)
+    fun notify(states: List<DeviceState>)
 }
