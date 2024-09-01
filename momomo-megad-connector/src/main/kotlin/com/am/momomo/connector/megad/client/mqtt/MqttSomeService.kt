@@ -22,7 +22,7 @@ class MqttSomeService(
     fun process(portState: MegaDPortState) {
         val device = deviceRepository.getDeviceByPort(portState.port)
         val deviceId = device.id
-        val deviceState = DeviceState(deviceId, portState.port, portState.isOn)
+        val deviceState = DeviceState(deviceId, portState.isOn)
         val states = listOf(deviceState)
         deviceRepository.updateStates(states)
         notifiers.forEach { it.notify(deviceState) }

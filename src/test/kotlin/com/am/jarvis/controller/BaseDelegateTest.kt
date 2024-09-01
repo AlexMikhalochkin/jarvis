@@ -50,5 +50,5 @@ open class BaseDelegateTest<T : Any> {
         emptyList()
     )
 
-    fun createDeviceState() = DeviceState(deviceId, 1, true)
+    fun createDeviceState() = DeviceState(deviceId, true, mapOf("port" to 1))
 }

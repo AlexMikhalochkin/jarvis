@@ -58,7 +58,7 @@ internal class YandexClientTest {
         every { responseSpec.bodyToMono(String::class.java) } returns mono
         every { mono.onErrorResume(WebClientResponseException::class.java, any()) } returns mono
         every { mono.block() } returns "ok"
-        yandexClient.updateStates(listOf(DeviceState("id", 1, true)))
+        yandexClient.updateStates(listOf(DeviceState("id", true, mapOf("port" to 1))))
         val request = slot.captured
         assertNotNull(request.ts)
         val payload = request.payload

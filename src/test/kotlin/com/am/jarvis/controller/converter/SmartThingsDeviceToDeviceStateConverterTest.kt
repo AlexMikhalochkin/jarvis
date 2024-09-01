@@ -15,7 +15,9 @@ internal class SmartThingsDeviceToDeviceStateConverterTest : BaseConverterTest<S
 
     @Test
     fun testConvertOff() {
-        assertEquals(DeviceState(externalDeviceId, 1, false), getConverter().convert(createSource("off")))
+        val deviceState = DeviceState(externalDeviceId, false, mapOf("port" to 1))
+
+        assertEquals(deviceState, getConverter().convert(createSource("off")))
     }
 
     override fun getConverter() = SmartThingsDeviceToDeviceStateConverter()
@@ -24,7 +26,7 @@ internal class SmartThingsDeviceToDeviceStateConverterTest : BaseConverterTest<S
         return createSource("on")
     }
 
-    override fun createExpected() = DeviceState(externalDeviceId, 1, true)
+    override fun createExpected() = DeviceState(externalDeviceId, true, mapOf("port" to 1))
 
     private fun createSource(command: String): SmartThingsDevice {
         return SmartThingsDevice(

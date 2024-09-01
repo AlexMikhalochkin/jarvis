@@ -30,7 +30,7 @@ internal class NotificationServiceImplTest {
 
     @Test
     fun testNotifyProviders() {
-        val states = listOf(DeviceState(generateUuid(), 1, true))
+        val states = listOf(DeviceState(generateUuid(), true, mapOf("port" to 1)))
         every { yandexClient.getProvider() } returns Provider.YANDEX
         every { smartThingsClient.getProvider() } returns Provider.SMART_THINGS
         service.notifyProviders(states, Provider.SMART_THINGS)
@@ -43,7 +43,7 @@ internal class NotificationServiceImplTest {
 
     @Test
     fun testNotifyAllProviders() {
-        val states = listOf(DeviceState(generateUuid(), 1, true))
+        val states = listOf(DeviceState(generateUuid(), true, mapOf("port" to 1)))
         service.notifyProviders(states)
         verifySequence {
             yandexClient.updateStates(states)

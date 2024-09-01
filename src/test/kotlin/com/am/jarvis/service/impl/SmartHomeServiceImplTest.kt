@@ -60,7 +60,7 @@ internal class SmartHomeServiceImplTest {
     @Test
     fun getDeviceStates() {
         val deviceIds = listOf(deviceId, "second")
-        val states = listOf(DeviceState(deviceId, null, true), DeviceState("second", null, false))
+        val states = listOf(DeviceState(deviceId, true), DeviceState("second", false))
         every { deviceStateProvider.getDeviceStates(deviceIds) } returns states
         assertEquals(states, service.getDeviceStates(deviceIds))
         verify { deviceStateProvider.getDeviceStates(deviceIds) }
@@ -68,7 +68,7 @@ internal class SmartHomeServiceImplTest {
 
     @Test
     fun testChangeStates() {
-        val states = listOf(DeviceState(deviceId, null, true), DeviceState("second", null, false))
+        val states = listOf(DeviceState(deviceId, true), DeviceState("second", false))
         val provider = Provider.YANDEX
         every { deviceStateChanger.changeStates(states) } returns states
         service.changeStates(states, provider)

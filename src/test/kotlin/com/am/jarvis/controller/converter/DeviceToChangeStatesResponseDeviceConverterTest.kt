@@ -16,7 +16,7 @@ internal class DeviceToChangeStatesResponseDeviceConverterTest :
 
     override fun getConverter() = DeviceToChangeStatesResponseDeviceConverter()
 
-    override fun createSource() = DeviceState("id", 1, true)
+    override fun createSource() = DeviceState("id", true, mapOf("port" to 1))
 
     override fun createExpected(): ChangeStatesResponseDevice {
         val state = ChangeStatesResponseState(

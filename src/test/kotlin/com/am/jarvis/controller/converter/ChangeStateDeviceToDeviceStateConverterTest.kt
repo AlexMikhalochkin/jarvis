@@ -26,5 +26,5 @@ internal class ChangeStateDeviceToDeviceStateConverterTest : BaseConverterTest<C
         )
     }
 
-    override fun createExpected() = DeviceState("id", 1, true)
+    override fun createExpected() = DeviceState("id", true, mapOf("port" to 1))
 }

@@ -5,4 +5,8 @@ package com.am.momomo.model
  *
  * @author Alex Mikhalochkin
  */
-data class DeviceState(val deviceId: String?, val port: Int?, val isOn: Boolean?)
+data class DeviceState(
+    val deviceId: String?,
+    val isOn: Boolean?,
+    val customData: Map<String, Any> = emptyMap()
+)

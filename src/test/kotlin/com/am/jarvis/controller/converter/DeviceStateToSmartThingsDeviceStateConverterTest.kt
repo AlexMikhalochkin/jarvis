@@ -15,12 +15,12 @@ internal class DeviceStateToSmartThingsDeviceStateConverterTest :
 
     @Test
     fun testConvertOff() {
-        assertEquals(createExpected("off"), getConverter().convert(DeviceState("id", 1, false)))
+        assertEquals(createExpected("off"), getConverter().convert(DeviceState("id", false, mapOf("port" to 1))))
     }
 
     override fun getConverter() = DeviceStateToSmartThingsDeviceStateConverter()
 
-    override fun createSource() = DeviceState("id", 1, true)
+    override fun createSource() = DeviceState("id", true, mapOf("port" to 1))
 
     override fun createExpected(): com.am.jarvis.controller.generated.model.DeviceState {
         return createExpected("on")

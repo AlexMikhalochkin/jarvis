@@ -43,7 +43,7 @@ internal class InMemoryDeviceRepositoryTest {
 
     @Test
     fun testUpdateStates() {
-        deviceRepository.updateStates(listOf(DeviceState(deviceId, null, true)))
+        deviceRepository.updateStates(listOf(DeviceState(deviceId, true)))
         val states = deviceRepository.findStates(listOf(deviceId))
         Assertions.assertNotNull(states)
         Assertions.assertEquals(1, states.size)

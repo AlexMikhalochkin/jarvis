@@ -42,17 +42,21 @@ internal class InMemoryDeviceRepository : DeviceRepository {
 
     override fun findStates(deviceIds: List<String>): List<DeviceState> {
         return deviceIds.map { it to storedStates.getValue(idsToPorts.getValue(it)) }
-                .map { (deviceId, status) -> DeviceState(deviceId, null, status) }
+                .map { (deviceId, status) -> DeviceState(deviceId,  status) }
                 .toList()
     }
 
     override fun updateStates(states: List<DeviceState>) {
-        val newStates = states.associate { (it.port ?: idsToPorts[it.deviceId])!! to it.isOn!! }
+        val newStates = states.associate { (it.customData["port"] as Int? ?: idsToPorts[it.deviceId])!! to it.isOn!! }
         storedStates.putAll(newStates)
     }
 
     override fun getDeviceByPort(port: Int): Device {
         return devices.find { it.port == port }!!
+    }
+
+    override fun findPortByDeviceId(deviceId: String): Int {
+        return idsToPorts.getValue(deviceId)
     }
 
     @Suppress("LongMethod", "MagicNumber")

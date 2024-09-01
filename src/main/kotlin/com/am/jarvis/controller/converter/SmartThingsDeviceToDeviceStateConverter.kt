@@ -16,8 +16,8 @@ class SmartThingsDeviceToDeviceStateConverter : Converter<SmartThingsDevice, Dev
     override fun convert(source: SmartThingsDevice): DeviceState {
         return DeviceState(
             source.externalDeviceId!!,
-            source.deviceCookie!!["port"] as Int,
-            source.commands!![0].command!! == "on"
+            source.commands!![0].command!! == "on",
+            mapOf("port" to source.deviceCookie!!["port"] as Int)
         )
     }
 }

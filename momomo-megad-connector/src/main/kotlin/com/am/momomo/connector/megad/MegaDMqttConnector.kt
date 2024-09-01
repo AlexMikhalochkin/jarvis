@@ -33,13 +33,15 @@ open class MegaDMqttConnector(
     }
 
     override fun changeStates(states: List<DeviceState>): List<DeviceState> {
-        states.map { toMqttMessage(it.port!!, it.isOn!!) }
+        states.map { toMqttMessage(it) }
             .forEach { messageSender.send(it) }
         return states
     }
 
-    private fun toMqttMessage(port: Int, isOn: Boolean): String {
-        val status = if (isOn) 1 else 0
+    private fun toMqttMessage(deviceState: DeviceState): String {
+        val status = if (deviceState.isOn!!) 1 else 0
+        val port = (deviceState.customData["port"] as Int?
+            ?: deviceRepository.findPortByDeviceId(deviceState.deviceId!!))
         return "$port:$status"
     }
 }

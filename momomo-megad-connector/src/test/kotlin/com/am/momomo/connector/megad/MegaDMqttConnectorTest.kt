@@ -57,7 +57,10 @@ internal class MegaDMqttConnectorTest {
 
     @Test
     fun changeStates() {
-        val states = listOf(DeviceState("1", 1, true), DeviceState("2", 2, false))
+        val states = listOf(
+            DeviceState("1", true, mapOf("port" to 1)),
+            DeviceState("2", false, mapOf("port" to 2))
+        )
 
         connector.changeStates(states)
 
