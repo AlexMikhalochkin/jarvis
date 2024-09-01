@@ -63,7 +63,7 @@ internal class InMemoryDeviceRepository : DeviceRepository {
             Device(
                 "child-light-0",
                 Room("Child's Room", "Детская"),
-                DeviceName("Toilet Bulb", "Свет в детской"),
+                DeviceName("Child's Room light", "Свет в детской"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),

@@ -1,7 +1,6 @@
 package com.am.jarvis.integration.impl
 
 import com.am.momomo.model.DeviceState
-import com.am.momomo.model.Provider
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -58,7 +57,7 @@ internal class YandexClientTest {
         every { responseSpec.bodyToMono(String::class.java) } returns mono
         every { mono.onErrorResume(WebClientResponseException::class.java, any()) } returns mono
         every { mono.block() } returns "ok"
-        yandexClient.updateStates(listOf(DeviceState("id", true, mapOf("port" to 1))))
+        yandexClient.notify(listOf(DeviceState("id", true, mapOf("port" to 1))))
         val request = slot.captured
         assertNotNull(request.ts)
         val payload = request.payload
@@ -73,6 +72,6 @@ internal class YandexClientTest {
 
     @Test
     fun testGetProvider() {
-        assertEquals(Provider.YANDEX, yandexClient.getProvider())
+        assertEquals("YANDEX", yandexClient.getSource())
     }
 }
