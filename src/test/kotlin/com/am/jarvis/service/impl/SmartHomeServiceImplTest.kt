@@ -5,7 +5,6 @@ import com.am.momomo.connector.api.DeviceStateChanger
 import com.am.momomo.connector.api.DeviceStateProvider
 import com.am.momomo.model.Device
 import com.am.momomo.model.DeviceState
-import com.am.momomo.model.Provider
 import com.am.momomo.notifier.api.Notifier
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -81,11 +80,10 @@ internal class SmartHomeServiceImplTest {
     fun testChangeStates() {
         val states = listOf(DeviceState(deviceId, true), DeviceState("second", false))
         val deviceIds = listOf(deviceId, "second")
-        val provider = Provider.YANDEX
         every { repository.test(any()) } returns mapOf("MegaD" to deviceIds)
         every { deviceStateChanger.changeStates(states) } returns states
 
-        service.changeStates(states, provider)
+        service.changeStates(states, "YANDEX")
 
         verify {
             deviceStateChanger.changeStates(states)

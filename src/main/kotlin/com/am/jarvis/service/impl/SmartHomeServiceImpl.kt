@@ -6,7 +6,6 @@ import com.am.momomo.connector.api.DeviceStateChanger
 import com.am.momomo.connector.api.DeviceStateProvider
 import com.am.momomo.model.Device
 import com.am.momomo.model.DeviceState
-import com.am.momomo.model.Provider
 import com.am.momomo.notifier.api.Notifier
 import org.springframework.stereotype.Service
 
@@ -44,22 +43,22 @@ class SmartHomeServiceImpl(
             .toList()
     }
 
-    override fun changeStates(states: List<DeviceState>, provider2: Provider): List<DeviceState> {
+    override fun changeStates(states: List<DeviceState>, source: String): List<DeviceState> {
         val deviceIdToDeviceState = states.associateBy { it.deviceId }
         return repository.test(deviceIdToDeviceState.keys)
             .map { (source, deviceIdsPerSource) -> source to deviceIdsPerSource.map { deviceIdToDeviceState[it]!! } }
             .map { (source, statesPerSource) -> sourceToDeviceStateChanger[source]!! to statesPerSource }
-            .flatMap { (provider, statesPerSource) -> deviceStates(provider, provider2, statesPerSource) }
+            .flatMap { (provider, statesPerSource) -> deviceStates(provider, source, statesPerSource) }
             .toList()
     }
 
     private fun deviceStates(
         provider: DeviceStateChanger,
-        provider2: Provider,
+        source: String,
         statesPerSource: List<DeviceState>
     ): List<DeviceState> {
         val changedStates = provider.changeStates(statesPerSource)
-        notifiers.filter { it.getSource() != provider.getSource() && it.getSource() != provider2.toString() }
+        notifiers.filter { it.getSource() != provider.getSource() && it.getSource() != source }
             .forEach { it.notify(statesPerSource) }
         return changedStates
     }

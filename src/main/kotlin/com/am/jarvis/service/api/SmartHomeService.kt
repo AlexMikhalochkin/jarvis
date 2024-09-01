@@ -2,7 +2,6 @@ package com.am.jarvis.service.api
 
 import com.am.momomo.model.Device
 import com.am.momomo.model.DeviceState
-import com.am.momomo.model.Provider
 
 /**
  * Smart home service.
@@ -15,5 +14,5 @@ interface SmartHomeService {
 
     fun getDeviceStates(deviceIds: List<String>): List<DeviceState>
 
-    fun changeStates(states: List<DeviceState>, provider: Provider): List<DeviceState>
+    fun changeStates(states: List<DeviceState>, source: String): List<DeviceState>
 }

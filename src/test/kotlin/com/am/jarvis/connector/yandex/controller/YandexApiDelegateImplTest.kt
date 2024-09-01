@@ -14,7 +14,6 @@ import com.am.jarvis.controller.generated.model.YandexDeviceWithCapabilities
 import com.am.jarvis.controller.generated.model.YandexState
 import com.am.jarvis.generateUuid
 import com.am.momomo.model.DeviceState
-import com.am.momomo.model.Provider
 import io.mockk.every
 import io.mockk.verifySequence
 import org.junit.jupiter.api.Assertions
@@ -44,7 +43,7 @@ internal class YandexApiDelegateImplTest : BaseDelegateTest<YandexApiDelegateImp
         val changeStatesRequest = ChangeStatesRequest(ChangeStatesRequestPayload(listOf(changeStateDevice)))
         val deviceState = createDeviceState()
         every { conversionService.convert(changeStateDevice, DeviceState::class.java) } returns deviceState
-        every { smartHomeService.changeStates(listOf(deviceState), Provider.YANDEX) } returns listOf(deviceState)
+        every { smartHomeService.changeStates(listOf(deviceState), "YANDEX") } returns listOf(deviceState)
         val changeStatesResponseDevice = ChangeStatesResponseDevice()
         every {
             conversionService.convert(
@@ -59,7 +58,7 @@ internal class YandexApiDelegateImplTest : BaseDelegateTest<YandexApiDelegateImp
         Assertions.assertSame(changeStatesResponseDevice, body.payload!!.devices!![0])
         verifySequence {
             conversionService.convert(changeStateDevice, DeviceState::class.java)
-            smartHomeService.changeStates(listOf(deviceState), Provider.YANDEX)
+            smartHomeService.changeStates(listOf(deviceState), "YANDEX")
             conversionService.convert(deviceState, ChangeStatesResponseDevice::class.java)
         }
     }

@@ -6,7 +6,6 @@ import com.am.jarvis.controller.generated.model.Headers
 import com.am.jarvis.controller.generated.model.SmartThingsDevice
 import com.am.jarvis.controller.generated.model.SmartThingsRequest
 import com.am.jarvis.controller.generated.model.SmartThingsResponse
-import com.am.momomo.model.Provider
 import com.am.jarvis.service.api.SmartHomeService
 import mu.KotlinLogging
 import org.springframework.core.convert.ConversionService
@@ -64,7 +63,7 @@ class SmartThingsApiDelegateImpl(
     private fun handleCommandRequest(request: SmartThingsRequest): SmartThingsResponse {
         val states =
             request.devices!!.map { conversionService.convert(it, com.am.momomo.model.DeviceState::class.java)!! }
-        val deviceStates = smartHomeService.changeStates(states, Provider.SMART_THINGS)
+        val deviceStates = smartHomeService.changeStates(states, "SMART_THINGS")
             .map { conversionService.convert(it, DeviceState::class.java)!! }
         return SmartThingsResponse(
             createHeaders(request, "commandResponse"),

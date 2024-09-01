@@ -7,7 +7,6 @@ import com.am.jarvis.controller.generated.model.SmartThingsDevice
 import com.am.jarvis.controller.generated.model.SmartThingsRequest
 import com.am.jarvis.controller.generated.model.SmartThingsResponse
 import com.am.momomo.model.DeviceState
-import com.am.momomo.model.Provider
 import io.mockk.every
 import io.mockk.verifySequence
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -72,7 +71,7 @@ internal class SmartThingsApiDelegateImplTest : BaseDelegateTest<SmartThingsApiD
                 DeviceState::class.java
             )
         } returns deviceState
-        every { smartHomeService.changeStates(listOf(deviceState), Provider.SMART_THINGS) } returns listOf(deviceState)
+        every { smartHomeService.changeStates(listOf(deviceState), "SMART_THINGS") } returns listOf(deviceState)
         val deviceState1 = com.am.jarvis.controller.generated.model.DeviceState()
         every {
             conversionService.convert(
@@ -85,7 +84,7 @@ internal class SmartThingsApiDelegateImplTest : BaseDelegateTest<SmartThingsApiD
         assertSame(deviceState1, body.deviceState!![0])
         verifySequence {
             conversionService.convert(smartThingsDevice, DeviceState::class.java)
-            smartHomeService.changeStates(listOf(deviceState), Provider.SMART_THINGS)
+            smartHomeService.changeStates(listOf(deviceState), "SMART_THINGS")
             conversionService.convert(deviceState, com.am.jarvis.controller.generated.model.DeviceState::class.java)
         }
     }

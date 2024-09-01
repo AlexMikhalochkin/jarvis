@@ -13,9 +13,8 @@ import com.am.jarvis.controller.generated.model.StatesRequest
 import com.am.jarvis.controller.generated.model.UnlinkResponse
 import com.am.jarvis.controller.generated.model.YandexDevice
 import com.am.jarvis.controller.generated.model.YandexDeviceWithCapabilities
-import com.am.momomo.model.DeviceState
-import com.am.momomo.model.Provider
 import com.am.jarvis.service.api.SmartHomeService
+import com.am.momomo.model.DeviceState
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.convert.ConversionService
@@ -45,7 +44,7 @@ class YandexApiDelegateImpl(val smartHomeService: SmartHomeService, val conversi
         val deviceIds = changeStateDevices.map { it.id }
         logger.info { "Yandex. Change states. Started. RequestId=$xRequestId, DeviceIds=$deviceIds" }
         val deviceStates = changeStateDevices.map { convert(it, DeviceState::class.java) }
-        val changeStatesResponseDevices = smartHomeService.changeStates(deviceStates, Provider.YANDEX)
+        val changeStatesResponseDevices = smartHomeService.changeStates(deviceStates, "YANDEX")
             .map { convert(it, ChangeStatesResponseDevice::class.java) }
         val payload = ChangeStatesResponsePayload(changeStatesResponseDevices)
         val changeStatesResponse = ChangeStatesResponse(xRequestId, payload)
