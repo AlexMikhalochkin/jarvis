@@ -1,7 +1,10 @@
 package com.am.momomo.connector.megad.repository.impl
 
 import com.am.momomo.model.DeviceState
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -20,35 +23,37 @@ internal class InMemoryDeviceRepositoryTest {
     @BeforeEach
     fun init() {
         deviceRepository = InMemoryDeviceRepository()
-        deviceRepository.init()
     }
 
     @Disabled("Custom set of devices")
     @Test
     fun findAll() {
         val devices = deviceRepository.findAll()
-        Assertions.assertNotNull(devices)
-        Assertions.assertEquals(1, devices.size)
+
+        assertNotNull(devices)
+        assertEquals(1, devices.size)
     }
 
     @Test
     fun testFindStates() {
         val states = deviceRepository.findStates(listOf(deviceId))
-        Assertions.assertNotNull(states)
-        Assertions.assertEquals(1, states.size)
+
+        assertNotNull(states)
+        assertEquals(1, states.size)
         val deviceState = states[0]
-        Assertions.assertEquals(deviceId, deviceState.deviceId)
-        Assertions.assertFalse(deviceState.isOn!!)
+        assertEquals(deviceId, deviceState.deviceId)
+        assertFalse(deviceState.isOn!!)
     }
 
     @Test
     fun testUpdateStates() {
         deviceRepository.updateStates(listOf(DeviceState(deviceId, true)))
         val states = deviceRepository.findStates(listOf(deviceId))
-        Assertions.assertNotNull(states)
-        Assertions.assertEquals(1, states.size)
+
+        assertNotNull(states)
+        assertEquals(1, states.size)
         val deviceState = states[0]
-        Assertions.assertEquals(deviceId, deviceState.deviceId)
-        Assertions.assertTrue(deviceState.isOn!!)
+        assertEquals(deviceId, deviceState.deviceId)
+        assertTrue(deviceState.isOn!!)
     }
 }
