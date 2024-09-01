@@ -42,7 +42,7 @@ internal class InMemoryDeviceRepositoryTest {
         assertEquals(1, states.size)
         val deviceState = states[0]
         assertEquals(deviceId, deviceState.deviceId)
-        assertFalse(deviceState.isOn!!)
+        assertFalse(deviceState.isOn)
     }
 
     @Test
@@ -54,6 +54,6 @@ internal class InMemoryDeviceRepositoryTest {
         assertEquals(1, states.size)
         val deviceState = states[0]
         assertEquals(deviceId, deviceState.deviceId)
-        assertTrue(deviceState.isOn!!)
+        assertTrue(deviceState.isOn)
     }
 }

@@ -18,7 +18,7 @@ class DeviceToYandexDeviceWithCapabilitiesConverter : Converter<DeviceState, Yan
     override fun convert(source: DeviceState): YandexDeviceWithCapabilities {
         return YandexDeviceWithCapabilities(
             source.deviceId,
-            convertCapabilities(source.isOn!!)
+            convertCapabilities(source.isOn)
         )
     }
 

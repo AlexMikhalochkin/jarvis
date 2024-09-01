@@ -46,7 +46,7 @@ internal class InMemoryDeviceRepository : DeviceRepository {
     }
 
     override fun updateStates(states: List<DeviceState>) {
-        val newStates = states.associate { (it.customData["port"] as Int? ?: idsToPorts[it.deviceId])!! to it.isOn!! }
+        val newStates = states.associate { (it.customData["port"] as Int? ?: idsToPorts[it.deviceId])!! to it.isOn }
         storedStates.putAll(newStates)
     }
 
