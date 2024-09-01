@@ -9,13 +9,13 @@ data class Device(
     val id: String,
     val room: Room,
     val name: DeviceName,
-    val technicalInfo: TechnicalInfo,
     val description: String,
     val capabilities: List<String>,
     val categories: List<String>,
     val groups: List<String>,
     val additionalData: Map<String, Any> = emptyMap(),
-    val type: DeviceType = DeviceType.ON_OFF
+    val type: DeviceType = DeviceType.ON_OFF,
+    val technicalInfo: TechnicalInfo = TechnicalInfo()
 )
 
 data class Room(

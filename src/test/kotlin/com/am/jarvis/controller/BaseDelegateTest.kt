@@ -3,7 +3,6 @@ package com.am.jarvis.controller
 import com.am.jarvis.generateUuid
 import com.am.momomo.model.Device
 import com.am.momomo.model.DeviceState
-import com.am.momomo.model.TechnicalInfo
 import com.am.jarvis.service.api.SmartHomeService
 import com.am.momomo.model.DeviceName
 import com.am.momomo.model.Room
@@ -43,7 +42,6 @@ open class BaseDelegateTest<T : Any> {
         deviceId,
         Room("room"),
         DeviceName("device"),
-        TechnicalInfo("manufacturer", "model", "1.0", "1.0"),
         "description",
         emptyList(),
         emptyList(),

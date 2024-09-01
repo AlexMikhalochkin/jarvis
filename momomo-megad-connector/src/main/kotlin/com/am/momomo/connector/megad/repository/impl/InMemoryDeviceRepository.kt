@@ -5,7 +5,6 @@ import com.am.momomo.model.Device
 import com.am.momomo.model.DeviceName
 import com.am.momomo.model.DeviceState
 import com.am.momomo.model.Room
-import com.am.momomo.model.TechnicalInfo
 import org.springframework.stereotype.Repository
 
 /**
@@ -65,7 +64,6 @@ internal class InMemoryDeviceRepository : DeviceRepository {
                 "child-light-0",
                 Room("Child's Room", "Детская"),
                 DeviceName("Toilet Bulb", "Свет в детской"),
-                TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
@@ -76,7 +74,6 @@ internal class InMemoryDeviceRepository : DeviceRepository {
                 "bath-light-0",
                 Room("Bathroom", "Ванная"),
                 DeviceName("Bathroom light", "Свет в ванной"),
-                TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
@@ -87,7 +84,6 @@ internal class InMemoryDeviceRepository : DeviceRepository {
                 "cor-light-0",
                 Room("Corridor", "Корридор"),
                 DeviceName("Corridor light", "Свет в корридоре"),
-                TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
@@ -98,7 +94,6 @@ internal class InMemoryDeviceRepository : DeviceRepository {
                 "prih-light-0",
                 Room("Hallway", "Прихожая"),
                 DeviceName("Hallway light", "Свет в прихожей"),
-                TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
@@ -109,7 +104,6 @@ internal class InMemoryDeviceRepository : DeviceRepository {
                 "toilet-light-0",
                 Room("Toilet", "Туалет"),
                 DeviceName("Toilet light", "Свет в туалете"),
-                TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветн��я лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
@@ -120,7 +114,6 @@ internal class InMemoryDeviceRepository : DeviceRepository {
                 "kitchen-light-0",
                 Room("Kitchen", "Кухня"),
                 DeviceName("Kitchen Blightulb", "Свет на кухне"),
-                TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
@@ -131,7 +124,6 @@ internal class InMemoryDeviceRepository : DeviceRepository {
                 "living-light-0",
                 Room("Living Room", "Гостиная"),
                 DeviceName("Couch light", "Свет над диваном"),
-                TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
@@ -142,7 +134,6 @@ internal class InMemoryDeviceRepository : DeviceRepository {
                 "living-light-1",
                 Room("Living Room", "Гостиная"),
                 DeviceName("Toys light", "Свет над и��рушками"),
-                TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
@@ -153,7 +144,6 @@ internal class InMemoryDeviceRepository : DeviceRepository {
                 "bed-light-1",
                 Room("Bedroom", "Спальня"),
                 DeviceName("Bedroom light", "Свет в спальне"),
-                TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
@@ -164,7 +154,6 @@ internal class InMemoryDeviceRepository : DeviceRepository {
                 "kitchen-light-1",
                 Room("Kitchen", "Кухня"),
                 DeviceName("Kitchen light", "Подсветка кухни"),
-                TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
