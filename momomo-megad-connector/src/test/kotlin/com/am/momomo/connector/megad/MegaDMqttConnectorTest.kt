@@ -1,16 +1,16 @@
 package com.am.momomo.connector.megad
 
-import com.am.momomo.connector.megad.client.mqtt.MessageSender
 import com.am.momomo.connector.megad.repository.api.DeviceRepository
 import com.am.momomo.model.Device
 import com.am.momomo.model.DeviceState
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import io.mockk.verify
+import org.eclipse.paho.client.mqttv3.IMqttClient
 import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -24,17 +24,21 @@ import org.junit.jupiter.api.extension.ExtendWith
 internal class MegaDMqttConnectorTest {
 
     @MockK
-    lateinit var deviceRepository: DeviceRepository
+    private lateinit var deviceRepository: DeviceRepository
 
     @MockK(relaxUnitFun = true)
-    lateinit var messageSender: MessageSender
+    private lateinit var mqttClient: IMqttClient
 
-    @InjectMockKs
-    lateinit var connector: MegaDMqttConnector
+    private lateinit var connector: MegaDMqttConnector
+
+    @BeforeEach
+    fun setUp() {
+        connector = MegaDMqttConnector(deviceRepository, mqttClient, "topic/cmd")
+    }
 
     @Test
     fun getAllDevices() {
-        val device:Device = mockk()
+        val device: Device = mockk()
         val devices = listOf(device, device)
         every { deviceRepository.findAll() } returns devices
 
@@ -46,7 +50,7 @@ internal class MegaDMqttConnectorTest {
     @Test
     fun getDeviceStates() {
         val deviceIds = listOf("1", "2")
-        val state:DeviceState = mockk()
+        val state: DeviceState = mockk()
         val states = listOf(state, state)
         every { deviceRepository.findStates(deviceIds) } returns states
 
@@ -64,7 +68,7 @@ internal class MegaDMqttConnectorTest {
 
         connector.changeStates(states)
 
-        verify { messageSender.send("1:1") }
-        verify { messageSender.send("2:0") }
+        verify { mqttClient.publish("topic/cmd", "1:1".toByteArray(), 0, true) }
+        verify { mqttClient.publish("topic/cmd", "2:0".toByteArray(), 0, true) }
     }
 }

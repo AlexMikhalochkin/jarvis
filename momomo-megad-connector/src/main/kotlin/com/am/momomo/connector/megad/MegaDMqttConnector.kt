@@ -3,11 +3,15 @@ package com.am.momomo.connector.megad
 import com.am.momomo.connector.api.DeviceProvider
 import com.am.momomo.connector.api.DeviceStateChanger
 import com.am.momomo.connector.api.DeviceStateProvider
-import com.am.momomo.connector.megad.client.mqtt.MessageSender
 import com.am.momomo.connector.megad.repository.api.DeviceRepository
 import com.am.momomo.model.Device
 import com.am.momomo.model.DeviceState
+import mu.KotlinLogging
+import org.eclipse.paho.client.mqttv3.IMqttClient
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
+
+private val logger = KotlinLogging.logger {}
 
 /**
  * MQTT connector for MegaD PLC.
@@ -21,7 +25,8 @@ import org.springframework.stereotype.Component
 @Component
 open class MegaDMqttConnector(
     private val deviceRepository: DeviceRepository,
-    private val messageSender: MessageSender
+    private val mqttClient: IMqttClient,
+    @Value("\${megad.id}/cmd") private val mqttTopic: String
 ) : DeviceProvider, DeviceStateProvider, DeviceStateChanger {
 
     override fun getAllDevices(): List<Device> {
@@ -34,7 +39,11 @@ open class MegaDMqttConnector(
 
     override fun changeStates(states: List<DeviceState>): List<DeviceState> {
         states.map { toMqttMessage(it) }
-            .forEach { messageSender.send(it) }
+            .forEach {
+                logger.info("Sending message. Started. Message=$it")
+                mqttClient.publish(mqttTopic, it.toByteArray(), 0, true)
+                logger.info("Sending message. Finished. Message=$it")
+            }
         return states
     }
 
