@@ -2,7 +2,8 @@ package com.am.jarvis.controller.converter
 
 import com.am.jarvis.generateUuid
 import com.am.momomo.model.Device
-import com.am.momomo.model.Provider
+import com.am.momomo.model.DeviceName
+import com.am.momomo.model.Room
 import com.am.momomo.model.TechnicalInfo
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -31,15 +32,14 @@ abstract class BaseConverterTest<S : Any, E> {
     fun createDevice(): Device {
         return Device(
             externalDeviceId,
-            7,
-            mapOf(Provider.YANDEX to "спальня", Provider.SMART_THINGS to "Kitchen"),
-            mapOf(Provider.YANDEX to "devices.types.light", Provider.SMART_THINGS to "handler type"),
-            mapOf(Provider.YANDEX to "свет на кухне", Provider.SMART_THINGS to "friendly name"),
+            Room("Kitchen", "спальня"),
+            DeviceName("friendly name", "свет на кухне"),
             TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
             "цветная лампа",
             listOf("devices.capabilities.on_off"),
             listOf("light", "switch"),
-            listOf("Kitchen Lights", "House Bulbs")
+            listOf("Kitchen Lights", "House Bulbs"),
+            mapOf("port" to 7)
         )
     }
 }

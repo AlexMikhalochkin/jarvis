@@ -4,7 +4,6 @@ import com.am.jarvis.controller.generated.model.ShortCapability
 import com.am.jarvis.controller.generated.model.YandexDevice
 import com.am.jarvis.controller.generated.model.YandexDeviceInfo
 import com.am.momomo.model.Device
-import com.am.momomo.model.Provider
 import com.am.momomo.model.TechnicalInfo
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
@@ -19,14 +18,14 @@ class DeviceToYandexDeviceConverter : Converter<Device, YandexDevice> {
 
     override fun convert(source: Device): YandexDevice {
         return YandexDevice(
-            source.name.getValue(Provider.YANDEX),
-            source.type.getValue(Provider.YANDEX),
+            source.name.additionalName,
+            "devices.types.light",
             convertCapabilities(source.capabilities),
             convertDeviceInfo(source.technicalInfo),
             source.id,
             source.description,
-            source.room.getValue(Provider.YANDEX),
-            mapOf("port" to source.port)
+            source.room.additionalName,
+            source.additionalData["port"]?.let { mapOf("port" to it) }
         )
     }
 

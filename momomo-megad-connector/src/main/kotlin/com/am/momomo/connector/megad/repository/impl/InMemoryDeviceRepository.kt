@@ -2,8 +2,9 @@ package com.am.momomo.connector.megad.repository.impl
 
 import com.am.momomo.connector.megad.repository.api.DeviceRepository
 import com.am.momomo.model.Device
+import com.am.momomo.model.DeviceName
 import com.am.momomo.model.DeviceState
-import com.am.momomo.model.Provider
+import com.am.momomo.model.Room
 import com.am.momomo.model.TechnicalInfo
 import org.springframework.stereotype.Repository
 
@@ -18,7 +19,6 @@ internal class InMemoryDeviceRepository : DeviceRepository {
 
     private val devices: List<Device>
     private val idsToPorts: Map<String, Int>
-    private val port = 23
     private val storedStates = mutableMapOf(
         7 to false,
         8 to false,
@@ -52,7 +52,7 @@ internal class InMemoryDeviceRepository : DeviceRepository {
     }
 
     override fun getDeviceByPort(port: Int): Device {
-        return devices.find { it.port == port }!!
+        return devices.find { it.additionalData["port"] == port }!!
     }
 
     override fun findPortByDeviceId(deviceId: String): Int {
@@ -63,125 +63,115 @@ internal class InMemoryDeviceRepository : DeviceRepository {
         devices = listOf(
             Device(
                 "child-light-0",
-                13,
-                mapOf(Provider.YANDEX to "Детская", Provider.SMART_THINGS to "Child's Room"),
-                mapOf(Provider.YANDEX to "devices.types.light", Provider.SMART_THINGS to "c2c-rgbw-color-bulb"),
-                mapOf(Provider.YANDEX to "Свет в детской", Provider.SMART_THINGS to "Toilet Bulb"),
+                Room("Child's Room", "Детская"),
+                DeviceName("Toilet Bulb", "Свет в детской"),
                 TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
-                listOf("House Lights")
+                listOf("House Lights"),
+                mapOf("port" to 13)
             ),
             Device(
                 "bath-light-0",
-                12,
-                mapOf(Provider.YANDEX to "Ванная", Provider.SMART_THINGS to "Bathroom"),
-                mapOf(Provider.YANDEX to "devices.types.light", Provider.SMART_THINGS to "c2c-rgbw-color-bulb"),
-                mapOf(Provider.YANDEX to "Свет в ванной", Provider.SMART_THINGS to "Bathroom light"),
+                Room("Bathroom", "Ванная"),
+                DeviceName("Bathroom light", "Свет в ванной"),
                 TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
-                listOf("House Lights")
+                listOf("House Lights"),
+                mapOf("port" to 12)
             ),
             Device(
                 "cor-light-0",
-                10,
-                mapOf(Provider.YANDEX to "Корридор", Provider.SMART_THINGS to "Corridor"),
-                mapOf(Provider.YANDEX to "devices.types.light", Provider.SMART_THINGS to "c2c-rgbw-color-bulb"),
-                mapOf(Provider.YANDEX to "Свет в корридоре", Provider.SMART_THINGS to "Corridor light"),
+                Room("Corridor", "Корридор"),
+                DeviceName("Corridor light", "Свет в корридоре"),
                 TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
-                listOf("House Lights")
+                listOf("House Lights"),
+                mapOf("port" to 10)
             ),
             Device(
                 "prih-light-0",
-                9,
-                mapOf(Provider.YANDEX to "Прихожая", Provider.SMART_THINGS to "Hallway"),
-                mapOf(Provider.YANDEX to "devices.types.light", Provider.SMART_THINGS to "c2c-rgbw-color-bulb"),
-                mapOf(Provider.YANDEX to "Свет в прихожей", Provider.SMART_THINGS to "Hallway light"),
+                Room("Hallway", "Прихожая"),
+                DeviceName("Hallway light", "Свет в прихожей"),
                 TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
-                listOf("House Lights")
+                listOf("House Lights"),
+                mapOf("port" to 9)
             ),
             Device(
                 "toilet-light-0",
-                7,
-                mapOf(Provider.YANDEX to "Туалет", Provider.SMART_THINGS to "Toilet"),
-                mapOf(Provider.YANDEX to "devices.types.light", Provider.SMART_THINGS to "c2c-rgbw-color-bulb"),
-                mapOf(Provider.YANDEX to "Свет в туалете", Provider.SMART_THINGS to "Toilet light"),
+                Room("Toilet", "Туалет"),
+                DeviceName("Toilet light", "Свет в туалете"),
                 TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
-                "цветная лампа",
+                "цветн��я лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
-                listOf("House Lights")
+                listOf("House Lights"),
+                mapOf("port" to 7)
             ),
             Device(
                 "kitchen-light-0",
-                port,
-                mapOf(Provider.YANDEX to "Кухня", Provider.SMART_THINGS to "Kitchen"),
-                mapOf(Provider.YANDEX to "devices.types.light", Provider.SMART_THINGS to "c2c-rgbw-color-bulb"),
-                mapOf(Provider.YANDEX to "Свет на кухне", Provider.SMART_THINGS to "Kitchen Blightulb"),
+                Room("Kitchen", "Кухня"),
+                DeviceName("Kitchen Blightulb", "Свет на кухне"),
                 TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
-                listOf("Kitchen Lights", "House Lights")
+                listOf("Kitchen Lights", "House Lights"),
+                mapOf("port" to 23)
             ),
             Device(
                 "living-light-0",
-                27,
-                mapOf(Provider.YANDEX to "Гостиная", Provider.SMART_THINGS to "Living Room"),
-                mapOf(Provider.YANDEX to "devices.types.light", Provider.SMART_THINGS to "c2c-rgbw-color-bulb"),
-                mapOf(Provider.YANDEX to "Свет над диваном", Provider.SMART_THINGS to "Couch light"),
+                Room("Living Room", "Гостиная"),
+                DeviceName("Couch light", "Свет над диваном"),
                 TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
-                listOf("Living Room Lights", "House Lights")
+                listOf("Living Room Lights", "House Lights"),
+                mapOf("port" to 27)
             ),
             Device(
                 "living-light-1",
-                25,
-                mapOf(Provider.YANDEX to "Гостиная", Provider.SMART_THINGS to "Living Room"),
-                mapOf(Provider.YANDEX to "devices.types.light", Provider.SMART_THINGS to "c2c-rgbw-color-bulb"),
-                mapOf(Provider.YANDEX to "Свет над игрушками", Provider.SMART_THINGS to "Toys light"),
+                Room("Living Room", "Гостиная"),
+                DeviceName("Toys light", "Свет над и��рушками"),
                 TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
-                listOf("Living Room Lights", "House Lights")
+                listOf("Living Room Lights", "House Lights"),
+                mapOf("port" to 25)
             ),
             Device(
                 "bed-light-1",
-                11,
-                mapOf(Provider.YANDEX to "Спальня", Provider.SMART_THINGS to "Bedroom"),
-                mapOf(Provider.YANDEX to "devices.types.light", Provider.SMART_THINGS to "c2c-rgbw-color-bulb"),
-                mapOf(Provider.YANDEX to "Свет в спальне", Provider.SMART_THINGS to "Bedroom light"),
+                Room("Bedroom", "Спальня"),
+                DeviceName("Bedroom light", "Свет в спальне"),
                 TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
-                listOf("House Lights")
+                listOf("House Lights"),
+                mapOf("port" to 11)
             ),
             Device(
                 "kitchen-light-1",
-                24,
-                mapOf(Provider.YANDEX to "Кухня", Provider.SMART_THINGS to "Kitchen"),
-                mapOf(Provider.YANDEX to "devices.types.light", Provider.SMART_THINGS to "c2c-rgbw-color-bulb"),
-                mapOf(Provider.YANDEX to "Подсветка кухни", Provider.SMART_THINGS to "Kitchen light"),
+                Room("Kitchen", "Кухня"),
+                DeviceName("Kitchen light", "Подсветка кухни"),
                 TechnicalInfo("Provider2", "hue g11", "1.0", "1.0"),
                 "цветная лампа",
                 listOf("devices.capabilities.on_off"),
                 listOf("light", "switch"),
-                listOf("Kitchen Lights", "House Lights")
-            ),
+                listOf("Kitchen Lights", "House Lights"),
+                mapOf("port" to 24)
+            )
         )
-        idsToPorts = devices.associate { it.id to it.port }
+        idsToPorts = devices.associate { it.id to it.additionalData["port"] as Int }
     }
 }
