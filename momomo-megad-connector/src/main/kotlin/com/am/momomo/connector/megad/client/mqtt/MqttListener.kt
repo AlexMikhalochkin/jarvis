@@ -25,19 +25,21 @@ internal class MqttListener(
         logger.error(cause) { "Connection to MQTT broker lost." }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     override fun messageArrived(topic: String?, message: MqttMessage?) {
-        logger.debug { "Processing message. Started. Topic=$topic Message=$message" }
+        logger.debug { "Processing message. Started. Topic=$topic, Message=$message" }
         if (message == null) {
             logger.warn { "Processing message. Skipped. Message is empty. Topic=$topic" }
             return
         }
-        val megaDPortState = megaDPortState(message.payload)
-        service.process(megaDPortState)
-        logger.debug { "Processing message. Finished. Topic=$topic Message=$message" }
+        try {
+            val megaDPortState = mapper.readValue(message.payload, MegaDPortState::class.java)
+            service.process(megaDPortState)
+            logger.debug { "Processing message. Finished. Topic=$topic, Message=$message" }
+        } catch (e: Exception) {
+            logger.error(e) { "Processing message. Failed. Topic=$topic, Message=$message" }
+        }
     }
-
-    private fun megaDPortState(bytes: ByteArray?): MegaDPortState =
-        mapper.readValue(bytes, MegaDPortState::class.java)
 
     override fun deliveryComplete(token: IMqttDeliveryToken?) {
         logger.info { "Message delivered" }

@@ -1,11 +1,13 @@
 package com.am.momomo.connector.megad.client.mqtt
 
 import io.mockk.Called
+import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.verify
 import org.eclipse.paho.client.mqttv3.MqttMessage
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
@@ -49,6 +51,13 @@ internal class MqttListenerTest {
         mqttListener.messageArrived("topic", null)
 
         verify { service wasNot Called }
+    }
+
+    @Test
+    fun testMessageArrivedFailed() {
+        every { service.process(any()) } throws Exception()
+
+        assertDoesNotThrow { mqttListener.messageArrived("topic", MqttMessage()) }
     }
 
     @Test
