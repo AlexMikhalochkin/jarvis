@@ -67,13 +67,16 @@ tasks.withType<JacocoReport> {
 }
 
 detekt {
-    toolVersion = "1.18.0-RC2"
+    toolVersion = "1.19.0"
     config = files("../configuration/detekt/detekt.yml")
     buildUponDefaultConfig = true
+}
+
+tasks.detekt.configure {
     reports {
         html {
-            enabled = true
-            destination = file("$buildDir/reports/detekt/report.html")
+            required.set(true)
+            outputLocation.set(file("$buildDir/reports/detekt/report.html"))
         }
     }
 }

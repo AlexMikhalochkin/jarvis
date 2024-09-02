@@ -2,7 +2,6 @@ package com.am.jarvis.connector.yandex.notifier
 
 import com.am.momomo.model.DeviceState
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
@@ -10,10 +9,8 @@ import io.mockk.slot
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.test.util.ReflectionTestUtils
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientResponseException
 import reactor.core.publisher.Mono
@@ -23,7 +20,6 @@ import reactor.core.publisher.Mono
  *
  * @author Alex Mikhalochkin
  */
-@Disabled("Not Implemented yet")
 @ExtendWith(MockKExtension::class)
 internal class YandexNotifierTest {
 
@@ -33,13 +29,11 @@ internal class YandexNotifierTest {
     @MockK(relaxed = true)
     lateinit var yandexWebClient: WebClient
 
-    @InjectMockKs
-    lateinit var yandexNotifier: YandexNotifier
+    private lateinit var yandexNotifier: YandexNotifier
 
     @BeforeEach
     fun init() {
-        ReflectionTestUtils.setField(yandexNotifier, "yandexToken", token)
-        ReflectionTestUtils.setField(yandexNotifier, "userId", userId)
+        yandexNotifier = YandexNotifier(yandexWebClient, token, userId)
     }
 
     @Test

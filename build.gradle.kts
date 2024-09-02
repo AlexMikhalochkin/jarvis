@@ -4,7 +4,7 @@ plugins {
     id("org.springframework.boot") version "2.5.2"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("jacoco")
-    id("io.gitlab.arturbosch.detekt") version "1.18.0-RC2"
+    id("io.gitlab.arturbosch.detekt") version "1.19.0"
     kotlin("jvm") version "1.5.20"
     kotlin("plugin.spring") version "1.5.20"
     id("com.diffplug.spotless") version "5.14.2"
@@ -97,7 +97,9 @@ tasks.withType<JacocoReport> {
         classDirectories.setFrom(files(classDirectories.files.map {
             fileTree(it).apply {
                 exclude(
-                    "com/am/jarvis/controller/StubLoginController**"
+                    "**/*\$logger\$*.class",
+                    "com/am/jarvis/controller/generated/**",
+                    "com/am/jarvis/StubLoginController**"
                 )
             }
         }))
@@ -105,13 +107,16 @@ tasks.withType<JacocoReport> {
 }
 
 detekt {
-    toolVersion = "1.18.0-RC2"
+    toolVersion = "1.19.0"
     config = files("configuration/detekt/detekt.yml")
     buildUponDefaultConfig = true
+}
+
+tasks.detekt.configure {
     reports {
         html {
-            enabled = true
-            destination = file("$buildDir/reports/detekt/report.html")
+            required.set(true)
+            outputLocation.set(file("$buildDir/reports/detekt/report.html"))
         }
     }
 }

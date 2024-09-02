@@ -10,7 +10,7 @@ class TestRepository {
 
     fun test(deviceIds: Collection<String>): Map<String, List<String>> {
         return deviceIds.filter { associate.contains(it) }
-                .groupBy { associate[it]!! }
+            .groupBy { associate[it]!! }
     }
 
     fun save(devices: List<Device>) {

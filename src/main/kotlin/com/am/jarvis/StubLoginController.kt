@@ -50,7 +50,7 @@ class StubLoginController {
 
     private val i = 1576799999
 
-    @Suppress("LongParameterList")
+    @Suppress("Indentation", "LongParameterList")
     @RequestMapping(path = ["/smartthings/token"], method = [RequestMethod.POST])
     fun getToken(
         @RequestParam(value = "client_secret", required = false) clientSecret: String?,
@@ -61,8 +61,8 @@ class StubLoginController {
         @RequestParam(value = "code", required = false) code: String?
     ): ModelAndView {
         logger.info(
-            "token post. started. clientSecret={}, clientId={}, grantType={}, refreshToken={}," +
-                    " redirectUri={}, code={},", clientSecret, clientId, grantType, refreshToken, redirectUri, code
+            "token. started. clientSecret={}, clientId={}, grantType={}, refreshToken={}, redirectUri={}, code={},",
+            clientSecret, clientId, grantType, refreshToken, redirectUri, code
         )
         val modelAndView = ModelAndView(MappingJackson2JsonView())
         modelAndView.addObject("access_token", token)
@@ -71,8 +71,8 @@ class StubLoginController {
         modelAndView.addObject("refresh_token", "5d8rr9d7-a988-0a45-955c-74068fh8ur0l")
         modelAndView.addObject("scope", "x:devices:* r:devices:*")
         logger.info(
-            "token post. finished. clientSecret={}, clientId={}, grantType={}, refreshToken={}," +
-                    " redirectUri={}, code={},", clientSecret, clientId, grantType, refreshToken, redirectUri, code
+            "token. finished. clientSecret={}, clientId={}, grantType={}, refreshToken={}, redirectUri={}, code={},",
+            clientSecret, clientId, grantType, refreshToken, redirectUri, code
         )
         return modelAndView
     }
