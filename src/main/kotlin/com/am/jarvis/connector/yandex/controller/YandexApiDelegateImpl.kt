@@ -32,7 +32,7 @@ private val logger = KotlinLogging.logger {}
 class YandexApiDelegateImpl(val smartHomeService: SmartHomeService, val conversionService: ConversionService) :
     YandexApiDelegate {
 
-    @Value("\${yandex.user.id}")
+    @Value("\${yandex.user-id}")
     private lateinit var userId: String
 
     override fun changeDevicesStates(

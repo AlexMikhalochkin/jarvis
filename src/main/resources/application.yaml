@@ -1,0 +1,34 @@
+mqtt:
+  server-url: tcp://localhost:1883
+  broker:
+    username: username
+    password: passwword
+
+megad:
+  id: megad-id
+
+spring:
+  jackson:
+    default-property-inclusion: non_null
+
+security:
+  require-ssl: true
+
+server:
+  ssl:
+    key-store: keystore.p12
+    key-store-password: 123456
+    keyStoreType: PKCS12
+    keyAlias: tomcat
+
+smart-things:
+    client:
+      id: clientId
+      secret: clientSecret
+    url: https://c2c-eu.smartthings.com
+
+yandex:
+  notification-url: https://dialogs.yandex.net/api/v1/skills/${yandex.skill-id}/callback/state
+  skill-id: 123456
+  token: 123456
+  user-id: user-id

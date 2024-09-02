@@ -23,7 +23,7 @@ private val logger = KotlinLogging.logger {}
 class YandexNotifier(
     private val yandexWebClient: WebClient,
     @Value("\${yandex.token}") private var yandexToken: String,
-    @Value("\${yandex.user.id}") private var userId: String
+    @Value("\${yandex.user-id}") private var userId: String
 ) : Notifier {
 
     override fun notify(states: List<DeviceState>) {

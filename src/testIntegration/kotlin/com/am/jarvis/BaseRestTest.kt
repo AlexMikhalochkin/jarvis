@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [JarvisApplication::class])
 @AutoConfigureMockMvc
-@TestPropertySource(locations = ["classpath:test.properties"])
+@TestPropertySource(locations = ["classpath:test.yaml"])
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class BaseRestTest {
 

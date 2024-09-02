@@ -12,10 +12,10 @@ import org.springframework.web.reactive.function.client.WebClient
 @Import(MegaDConnectorConfiguration::class)
 class JarvisApplication {
 
-    @Value("\${smart.things.url}")
+    @Value("\${smart-things.url}")
     private lateinit var smartThingsUrl: String
 
-    @Value("\${yandex.notification.url}")
+    @Value("\${yandex.notification-url}")
     private lateinit var yandexUrl: String
 
     /**

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 @Component
 internal class MegaDMqttClient(
     @Value("\${megad.id}") megadId: String,
-    @Value("\${mqtt.server.url}") mqttServerUrl: String,
+    @Value("\${mqtt.server-url}") mqttServerUrl: String,
     callback: MqttCallback,
     options: MqttConnectOptions
 ) : MqttClient(mqttServerUrl, "jarvis") {
