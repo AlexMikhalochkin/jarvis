@@ -11,7 +11,7 @@ import com.am.momomo.model.DeviceState
  *
  * @author Alex Mikhalochkin
  */
-interface DeviceStateChanger : SourceAware{
+interface DeviceStateChanger : SourceAware {
 
     /**
      * Changes the states of the given devices.
@@ -20,4 +20,15 @@ interface DeviceStateChanger : SourceAware{
      * @return a list of DeviceState objects representing the updated states of the devices
      */
     fun changeStates(states: List<DeviceState>): List<DeviceState>
+
+    /**
+     * Checks if notifications are enabled for the device state changer.
+     * Notifications are used to notify any service about the state changes.
+     * Default implementation returns false.
+     *
+     * @return true if notifications are enabled, false otherwise.
+     */
+    fun areNotificationsEnabled(): Boolean {
+        return false
+    }
 }

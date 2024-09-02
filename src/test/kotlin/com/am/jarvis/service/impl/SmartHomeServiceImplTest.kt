@@ -81,6 +81,7 @@ internal class SmartHomeServiceImplTest {
         val states = listOf(DeviceState(deviceId, true), DeviceState("second", false))
         val deviceIds = listOf(deviceId, "second")
         every { repository.test(any()) } returns mapOf("MegaD" to deviceIds)
+        every { deviceStateChanger.areNotificationsEnabled() } returns false
         every { deviceStateChanger.changeStates(states) } returns states
 
         service.changeStates(states, "YANDEX")

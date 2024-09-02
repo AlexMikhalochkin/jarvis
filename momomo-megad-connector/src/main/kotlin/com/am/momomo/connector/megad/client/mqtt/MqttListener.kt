@@ -42,6 +42,7 @@ internal class MqttListener(
     }
 
     override fun deliveryComplete(token: IMqttDeliveryToken?) {
-        logger.info { "Message delivered" }
+        val message = token?.message
+        logger.info { "Message [$message] was delivered" }
     }
 }

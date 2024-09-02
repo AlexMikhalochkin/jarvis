@@ -48,17 +48,21 @@ class SmartHomeServiceImpl(
         return repository.test(deviceIdToDeviceState.keys)
             .map { (source, deviceIdsPerSource) -> source to deviceIdsPerSource.map { deviceIdToDeviceState[it]!! } }
             .map { (source, statesPerSource) -> sourceToDeviceStateChanger[source]!! to statesPerSource }
-            .flatMap { (provider, statesPerSource) -> deviceStates(provider, source, statesPerSource) }
+            .flatMap { (provider, statesPerSource) -> changeStates(provider, source, statesPerSource) }
             .toList()
     }
 
-    private fun deviceStates(
-        provider: DeviceStateChanger,
-        source: String,
+    private fun changeStates(
+        stateChanger: DeviceStateChanger,
+        requestSource: String,
         statesPerSource: List<DeviceState>
     ): List<DeviceState> {
-        val changedStates = provider.changeStates(statesPerSource)
-        notifiers.filter { it.getSource() != provider.getSource() && it.getSource() != source }
+        val changedStates = stateChanger.changeStates(statesPerSource)
+        if (stateChanger.areNotificationsEnabled()) {
+            return changedStates
+        }
+        notifiers.filterNot { it.getSource() == stateChanger.getSource() }
+            .filterNot { it.getSource() == requestSource }
             .forEach { it.notify(statesPerSource) }
         return changedStates
     }
