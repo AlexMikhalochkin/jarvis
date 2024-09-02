@@ -3,6 +3,10 @@
 
     <property name="LOGS" value="./logs"/>
 
+    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter">
+        <level value="DEBUG" />
+    </logger>
+
     <appender name="Console"
               class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">

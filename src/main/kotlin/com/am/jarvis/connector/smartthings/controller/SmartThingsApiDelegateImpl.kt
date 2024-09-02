@@ -7,12 +7,9 @@ import com.am.jarvis.controller.generated.model.SmartThingsDevice
 import com.am.jarvis.controller.generated.model.SmartThingsRequest
 import com.am.jarvis.controller.generated.model.SmartThingsResponse
 import com.am.jarvis.service.api.SmartHomeService
-import mu.KotlinLogging
 import org.springframework.core.convert.ConversionService
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
-
-private val logger = KotlinLogging.logger {}
 
 /**
  * Implementation of generated [SmartthingsApiDelegate].
@@ -33,9 +30,8 @@ class SmartThingsApiDelegateImpl(
     )
 
     override fun handleSmartThings(smartThingsRequest: SmartThingsRequest): ResponseEntity<SmartThingsResponse> {
-        logger.info("Handle SmartThings request. Started. Request ={}", smartThingsRequest)
-        val response = requestHandlers.getValue(smartThingsRequest.headers.interactionType).invoke(smartThingsRequest)
-        logger.info("Handle SmartThings request. Finished. Response ={}", response)
+        val response = requestHandlers.getValue(smartThingsRequest.headers.interactionType)
+            .invoke(smartThingsRequest)
         return ResponseEntity.ok(response)
     }
 

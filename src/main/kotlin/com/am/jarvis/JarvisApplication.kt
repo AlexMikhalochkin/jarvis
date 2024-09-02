@@ -3,20 +3,18 @@ package com.am.jarvis
 import com.am.momomo.connector.megad.MegaDConnectorConfiguration
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
+import org.springframework.web.filter.CommonsRequestLoggingFilter
 import org.springframework.web.reactive.function.client.WebClient
 
-@SpringBootApplication
+@SpringBootApplication(exclude = [SecurityAutoConfiguration::class])
 @Import(MegaDConnectorConfiguration::class)
 class JarvisApplication {
 
-    @Value("\${smart-things.url}")
-    private lateinit var smartThingsUrl: String
-
-    @Value("\${yandex.notification-url}")
-    private lateinit var yandexUrl: String
+    private val maxPayloadLength = 10000
 
     /**
      * WebClient for SmartThings callbacks.
@@ -24,7 +22,7 @@ class JarvisApplication {
      * @return instance of [WebClient].
      */
     @Bean("smartThingsWebClient")
-    fun smartThingsWebClient(): WebClient {
+    fun smartThingsWebClient(@Value("\${smart-things.url}") smartThingsUrl: String): WebClient {
         return WebClient.create(smartThingsUrl)
     }
 
@@ -34,8 +32,19 @@ class JarvisApplication {
      * @return instance of [WebClient].
      */
     @Bean("yandexWebClient")
-    fun yandexWebClient(): WebClient {
+    fun yandexWebClient(@Value("\${yandex.notification-url}") yandexUrl: String): WebClient {
         return WebClient.create(yandexUrl)
+    }
+
+    @Bean
+    fun logFilter(): CommonsRequestLoggingFilter {
+        val filter = CommonsRequestLoggingFilter()
+        filter.setIncludeQueryString(true)
+        filter.setIncludePayload(true)
+        filter.setMaxPayloadLength(maxPayloadLength)
+        filter.setIncludeHeaders(true)
+        filter.setAfterMessagePrefix("REQUEST DATA: ")
+        return filter
     }
 }
 
