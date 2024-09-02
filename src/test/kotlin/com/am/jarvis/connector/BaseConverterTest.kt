@@ -34,8 +34,6 @@ abstract class BaseConverterTest<S : Any, E> {
             Room("Kitchen", "спальня"),
             DeviceName("friendly name", "свет на кухне"),
             "цветная лампа",
-            listOf("devices.capabilities.on_off"),
-            listOf("light", "switch"),
             listOf("Kitchen Lights", "House Bulbs"),
             mapOf("port" to 7)
         )

@@ -43,8 +43,6 @@ open class BaseDelegateTest<T : Any> {
         Room("room"),
         DeviceName("device"),
         "description",
-        emptyList(),
-        emptyList(),
         emptyList()
     )
 

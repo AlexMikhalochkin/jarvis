@@ -12,8 +12,6 @@ data class Device @ConstructorBinding constructor(
     val room: Room,
     val name: DeviceName,
     val description: String,
-    val capabilities: List<String>,
-    val categories: List<String>,
     val groups: List<String>,
     val additionalData: Map<String, Any> = emptyMap(),
     //it's always MegaD for now, but should be changed in the future

@@ -32,7 +32,7 @@ class DeviceToSmartThingsDeviceConverter : Converter<Device, SmartThingsDevice> 
         return DeviceContext(
             device.room.primaryName,
             device.groups,
-            device.categories,
+            listOf("light", "switch")
         )
     }
 

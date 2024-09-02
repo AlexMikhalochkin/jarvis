@@ -43,11 +43,6 @@ configured-devices:
         primaryName: "Kitchen Bulb"
         additionalName: "свет на кухне"
       description: "цветная лампа"
-      capabilities:
-        - "devices.capabilities.on_off"
-      categories:
-        - "light"
-        - "switch"
       groups:
         - "Kitchen Lights"
         - "House Bulbs"

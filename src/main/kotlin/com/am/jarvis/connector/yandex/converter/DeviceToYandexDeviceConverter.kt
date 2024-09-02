@@ -20,7 +20,7 @@ class DeviceToYandexDeviceConverter : Converter<Device, YandexDevice> {
         return YandexDevice(
             source.name.additionalName,
             "devices.types.light",
-            convertCapabilities(source.capabilities),
+            listOf(ShortCapability("devices.capabilities.on_off")),
             convertDeviceInfo(source.technicalInfo),
             source.id,
             source.description,
@@ -28,8 +28,6 @@ class DeviceToYandexDeviceConverter : Converter<Device, YandexDevice> {
             source.additionalData["port"]?.let { mapOf("port" to it) }
         )
     }
-
-    private fun convertCapabilities(capabilities: List<String>?) = capabilities!!.map { ShortCapability(it) }
 
     private fun convertDeviceInfo(deviceInfo: TechnicalInfo): YandexDeviceInfo {
         return YandexDeviceInfo(

@@ -25,8 +25,6 @@ internal class InMemoryDeviceRepositoryTest {
             Room("Kitchen"),
             DeviceName("friendly name"),
             "description",
-            listOf("devices.capabilities.on_off"),
-            listOf("light", "switch"),
             listOf("Kitchen Lights", "House Bulbs"),
             mapOf("port" to 7)
         )
