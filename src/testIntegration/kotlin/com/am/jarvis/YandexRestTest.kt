@@ -1,6 +1,5 @@
 package com.am.jarvis
 
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.verify
 import org.springframework.http.HttpHeaders
@@ -31,7 +30,6 @@ internal class YandexRestTest : BaseRestTest() {
             .andExpect(content().json(expectedResponse, true))
     }
 
-    @Disabled("In memory repository")
     @Test
     fun testGetDevices() {
         val requestId = "ff36a3cc-ec34-11e6-b1a0-64510650abcf"

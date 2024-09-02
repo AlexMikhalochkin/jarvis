@@ -2,9 +2,7 @@ package com.am.momomo.connector.megad.repository.impl
 
 import com.am.momomo.connector.megad.repository.api.DeviceRepository
 import com.am.momomo.model.Device
-import com.am.momomo.model.DeviceName
 import com.am.momomo.model.DeviceState
-import com.am.momomo.model.Room
 import org.springframework.stereotype.Repository
 
 /**
@@ -13,11 +11,12 @@ import org.springframework.stereotype.Repository
  * @author Alex Mikhalochkin
  */
 @Repository
-@Suppress("LongMethod", "MagicNumber")
-internal class InMemoryDeviceRepository : DeviceRepository {
+internal class InMemoryDeviceRepository(
+    configuredDevices: ConfiguredDevices
+) : DeviceRepository {
 
-    private val devices: List<Device>
-    private val idsToPorts: Map<String, Int>
+    private val devices: List<Device> = configuredDevices.devices
+    private val idsToPorts: Map<String, Int> = devices.associate { it.id to it.additionalData["port"] as Int }
     private val storedStates = mutableMapOf(
         7 to false,
         8 to false,
@@ -56,111 +55,5 @@ internal class InMemoryDeviceRepository : DeviceRepository {
 
     override fun findPortByDeviceId(deviceId: String): Int {
         return idsToPorts.getValue(deviceId)
-    }
-
-    init {
-        devices = listOf(
-            Device(
-                "child-light-0",
-                Room("Child's Room", "Детская"),
-                DeviceName("Child's Room light", "Свет в детской"),
-                "цветная лампа",
-                listOf("devices.capabilities.on_off"),
-                listOf("light", "switch"),
-                listOf("House Lights"),
-                mapOf("port" to 13)
-            ),
-            Device(
-                "bath-light-0",
-                Room("Bathroom", "Ванная"),
-                DeviceName("Bathroom light", "Свет в ванной"),
-                "цветная лампа",
-                listOf("devices.capabilities.on_off"),
-                listOf("light", "switch"),
-                listOf("House Lights"),
-                mapOf("port" to 12)
-            ),
-            Device(
-                "cor-light-0",
-                Room("Corridor", "Корридор"),
-                DeviceName("Corridor light", "Свет в корридоре"),
-                "цветная лампа",
-                listOf("devices.capabilities.on_off"),
-                listOf("light", "switch"),
-                listOf("House Lights"),
-                mapOf("port" to 10)
-            ),
-            Device(
-                "prih-light-0",
-                Room("Hallway", "Прихожая"),
-                DeviceName("Hallway light", "Свет в прихожей"),
-                "цветная лампа",
-                listOf("devices.capabilities.on_off"),
-                listOf("light", "switch"),
-                listOf("House Lights"),
-                mapOf("port" to 9)
-            ),
-            Device(
-                "toilet-light-0",
-                Room("Toilet", "Туалет"),
-                DeviceName("Toilet light", "Свет в туалете"),
-                "цветн��я лампа",
-                listOf("devices.capabilities.on_off"),
-                listOf("light", "switch"),
-                listOf("House Lights"),
-                mapOf("port" to 7)
-            ),
-            Device(
-                "kitchen-light-0",
-                Room("Kitchen", "Кухня"),
-                DeviceName("Kitchen Blightulb", "Свет на кухне"),
-                "цветная лампа",
-                listOf("devices.capabilities.on_off"),
-                listOf("light", "switch"),
-                listOf("Kitchen Lights", "House Lights"),
-                mapOf("port" to 23)
-            ),
-            Device(
-                "living-light-0",
-                Room("Living Room", "Гостиная"),
-                DeviceName("Couch light", "Свет над диваном"),
-                "цветная лампа",
-                listOf("devices.capabilities.on_off"),
-                listOf("light", "switch"),
-                listOf("Living Room Lights", "House Lights"),
-                mapOf("port" to 27)
-            ),
-            Device(
-                "living-light-1",
-                Room("Living Room", "Гостиная"),
-                DeviceName("Toys light", "Свет над и��рушками"),
-                "цветная лампа",
-                listOf("devices.capabilities.on_off"),
-                listOf("light", "switch"),
-                listOf("Living Room Lights", "House Lights"),
-                mapOf("port" to 25)
-            ),
-            Device(
-                "bed-light-1",
-                Room("Bedroom", "Спальня"),
-                DeviceName("Bedroom light", "Свет в спальне"),
-                "цветная лампа",
-                listOf("devices.capabilities.on_off"),
-                listOf("light", "switch"),
-                listOf("House Lights"),
-                mapOf("port" to 11)
-            ),
-            Device(
-                "kitchen-light-1",
-                Room("Kitchen", "Кухня"),
-                DeviceName("Kitchen light", "Подсветка кухни"),
-                "цветная лампа",
-                listOf("devices.capabilities.on_off"),
-                listOf("light", "switch"),
-                listOf("Kitchen Lights", "House Lights"),
-                mapOf("port" to 24)
-            )
-        )
-        idsToPorts = devices.associate { it.id to it.additionalData["port"] as Int }
     }
 }

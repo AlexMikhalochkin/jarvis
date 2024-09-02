@@ -1,7 +1,6 @@
 package com.am.jarvis
 
 import okhttp3.mockwebserver.MockResponse
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.verify
 import org.springframework.http.HttpStatus
@@ -15,7 +14,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
  */
 internal class SmartThingsRestTest : BaseRestTest() {
 
-    @Disabled("In memory repository")
     @Test
     fun testDiscovery() {
         testSmartThings("smartthings/discovery_request.json", "smartthings/discovery_response.json")

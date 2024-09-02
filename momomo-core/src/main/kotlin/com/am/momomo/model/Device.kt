@@ -1,11 +1,13 @@
 package com.am.momomo.model
 
+import org.springframework.boot.context.properties.ConstructorBinding
+
 /**
  * Represents smart device.
  *
  * @author Alex Mikhalochkin
  */
-data class Device(
+data class Device @ConstructorBinding constructor(
     val id: String,
     val room: Room,
     val name: DeviceName,
@@ -20,7 +22,7 @@ data class Device(
     val technicalInfo: TechnicalInfo = TechnicalInfo()
 )
 
-data class Room(
+data class Room @ConstructorBinding constructor(
     val primaryName: String,
     val additionalName: String = primaryName
 )
@@ -29,7 +31,7 @@ enum class DeviceType {
     ON_OFF
 }
 
-data class DeviceName(
+data class DeviceName @ConstructorBinding constructor(
     val primaryName: String,
     val additionalName: String = primaryName
 )

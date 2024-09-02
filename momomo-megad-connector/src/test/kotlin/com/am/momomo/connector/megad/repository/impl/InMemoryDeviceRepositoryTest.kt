@@ -1,12 +1,13 @@
 package com.am.momomo.connector.megad.repository.impl
 
+import com.am.momomo.model.Device
+import com.am.momomo.model.DeviceName
 import com.am.momomo.model.DeviceState
+import com.am.momomo.model.Room
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 /**
@@ -16,16 +17,21 @@ import org.junit.jupiter.api.Test
  */
 internal class InMemoryDeviceRepositoryTest {
 
-    private lateinit var deviceRepository: InMemoryDeviceRepository
-
     private val deviceId = "kitchen-light-0"
 
-    @BeforeEach
-    fun init() {
-        deviceRepository = InMemoryDeviceRepository()
-    }
+    private val deviceRepository: InMemoryDeviceRepository = InMemoryDeviceRepository(ConfiguredDevices(listOf(
+        Device(
+            deviceId,
+            Room("Kitchen"),
+            DeviceName("friendly name"),
+            "description",
+            listOf("devices.capabilities.on_off"),
+            listOf("light", "switch"),
+            listOf("Kitchen Lights", "House Bulbs"),
+            mapOf("port" to 7)
+        )
+    )))
 
-    @Disabled("Custom set of devices")
     @Test
     fun findAll() {
         val devices = deviceRepository.findAll()

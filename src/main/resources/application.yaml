@@ -22,13 +22,34 @@ server:
     keyAlias: tomcat
 
 smart-things:
-    client:
-      id: clientId
-      secret: clientSecret
-    url: https://c2c-eu.smartthings.com
+  client:
+    id: clientId
+    secret: clientSecret
+  url: https://c2c-eu.smartthings.com
 
 yandex:
   notification-url: https://dialogs.yandex.net/api/v1/skills/${yandex.skill-id}/callback/state
   skill-id: 123456
   token: 123456
   user-id: user-id
+
+configured-devices:
+  devices:
+    - id: "kitchen-light-0"
+      room:
+        primaryName: "Kitchen"
+        additionalName: "Кухня"
+      name:
+        primaryName: "Kitchen Bulb"
+        additionalName: "свет на кухне"
+      description: "цветная лампа"
+      capabilities:
+        - "devices.capabilities.on_off"
+      categories:
+        - "light"
+        - "switch"
+      groups:
+        - "Kitchen Lights"
+        - "House Bulbs"
+      additionalData:
+        port: 7
