@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("java")
@@ -23,7 +23,6 @@ tasks.bootJar {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation("org.springframework.boot:spring-boot-starter")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
@@ -31,13 +30,12 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = "17"
-}
-val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.kotlinOptions {
-    jvmTarget = "17"
+
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }
 
 jacoco {
@@ -67,8 +65,8 @@ tasks.withType<JacocoReport> {
 }
 
 detekt {
-    toolVersion = "1.19.0"
-    config = files("../configuration/detekt/detekt.yml")
+    toolVersion = "1.23.6"
+    config.setFrom("../configuration/detekt/detekt.yml")
     buildUponDefaultConfig = true
 }
 
