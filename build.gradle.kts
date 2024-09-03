@@ -1,8 +1,9 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.7.1"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.springframework.boot") version "3.3.3"
+    id("io.spring.dependency-management") version "1.1.6"
     id("jacoco")
     id("io.gitlab.arturbosch.detekt") version "1.23.6"
     kotlin("jvm") version "1.9.23"
@@ -38,14 +39,16 @@ dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
+
 tasks.withType<Test> {
     useJUnitPlatform()
+    jvmArgs = listOf("-Xshare:off")
 }
 tasks.test {
     finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
@@ -108,7 +111,7 @@ tasks.withType<JacocoReport> {
 
 detekt {
     toolVersion = "1.23.6"
-    config = files("configuration/detekt/detekt.yml")
+    config.setFrom("configuration/detekt/detekt.yml")
     buildUponDefaultConfig = true
 }
 

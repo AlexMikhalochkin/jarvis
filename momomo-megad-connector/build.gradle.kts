@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("java")
@@ -36,14 +36,14 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    jvmArgs = listOf("-Xshare:off")
 }
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = "17"
-}
-val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.kotlinOptions {
-    jvmTarget = "17"
+
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }
 
 jacoco {
@@ -74,7 +74,7 @@ tasks.withType<JacocoReport> {
 
 detekt {
     toolVersion = "1.23.6"
-    config = files("../configuration/detekt/detekt.yml")
+    config.setFrom("../configuration/detekt/detekt.yml")
     buildUponDefaultConfig = true
 }
 
