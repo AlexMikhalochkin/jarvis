@@ -91,7 +91,7 @@ tasks.jacocoTestReport {
     reports {
         xml.required.set(true)
         csv.required.set(false)
-        xml.outputLocation.set(file("$buildDir/reports/jacoco/report.xml"))
+        xml.outputLocation.set(layout.buildDirectory.file("reports/jacoco/report.xml"))
         html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco"))
     }
 }
@@ -120,7 +120,7 @@ tasks.detekt.configure {
     reports {
         html {
             required.set(true)
-            outputLocation.set(file("$buildDir/reports/detekt/report.html"))
+            outputLocation.set(layout.buildDirectory.file("reports/detekt/report.html"))
         }
     }
 }
