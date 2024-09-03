@@ -1,6 +1,6 @@
 package com.am.jarvis.connector.yandex.notifier
 
-import com.am.momomo.model.DeviceState
+import com.am.jarvis.core.model.DeviceState
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension

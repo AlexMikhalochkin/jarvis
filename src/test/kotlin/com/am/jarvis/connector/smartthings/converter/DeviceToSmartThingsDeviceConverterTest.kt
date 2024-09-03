@@ -4,7 +4,7 @@ import com.am.jarvis.connector.BaseConverterTest
 import com.am.jarvis.controller.generated.model.DeviceContext
 import com.am.jarvis.controller.generated.model.ManufacturerInfo
 import com.am.jarvis.controller.generated.model.SmartThingsDevice
-import com.am.momomo.model.Device
+import com.am.jarvis.core.model.Device
 
 /**
  * Verification for [DeviceToSmartThingsDeviceConverter].

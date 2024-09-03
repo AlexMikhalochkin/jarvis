@@ -1,11 +1,11 @@
 package com.am.jarvis.connector
 
+import com.am.jarvis.core.model.Device
+import com.am.jarvis.core.model.DeviceName
+import com.am.jarvis.core.model.DeviceState
+import com.am.jarvis.core.model.Room
 import com.am.jarvis.generateUuid
 import com.am.jarvis.service.api.SmartHomeService
-import com.am.momomo.model.Device
-import com.am.momomo.model.DeviceName
-import com.am.momomo.model.DeviceState
-import com.am.momomo.model.Room
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK

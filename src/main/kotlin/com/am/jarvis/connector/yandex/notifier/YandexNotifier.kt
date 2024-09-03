@@ -2,8 +2,8 @@ package com.am.jarvis.connector.yandex.notifier
 
 import com.am.jarvis.controller.generated.model.FullCapability
 import com.am.jarvis.controller.generated.model.YandexState
-import com.am.momomo.model.DeviceState
-import com.am.momomo.notifier.api.Notifier
+import com.am.jarvis.core.api.Notifier
+import com.am.jarvis.core.model.DeviceState
 import com.fasterxml.jackson.annotation.JsonProperty
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value

@@ -6,7 +6,7 @@ import com.am.jarvis.controller.generated.model.Headers
 import com.am.jarvis.controller.generated.model.SmartThingsDevice
 import com.am.jarvis.controller.generated.model.SmartThingsRequest
 import com.am.jarvis.controller.generated.model.SmartThingsResponse
-import com.am.momomo.model.DeviceState
+import com.am.jarvis.core.model.DeviceState
 import io.mockk.every
 import io.mockk.verifySequence
 import org.junit.jupiter.api.Assertions.assertEquals

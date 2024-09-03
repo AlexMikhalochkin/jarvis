@@ -1,7 +1,7 @@
 package com.am.jarvis.connector.yandex.converter
 
 import com.am.jarvis.controller.generated.model.ChangeStateDevice
-import com.am.momomo.model.DeviceState
+import com.am.jarvis.core.model.DeviceState
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 
