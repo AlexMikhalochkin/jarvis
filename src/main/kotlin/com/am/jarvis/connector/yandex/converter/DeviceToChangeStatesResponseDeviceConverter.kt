@@ -4,7 +4,7 @@ import com.am.jarvis.controller.generated.model.ActionResult
 import com.am.jarvis.controller.generated.model.ChangeStatesResponseCapability
 import com.am.jarvis.controller.generated.model.ChangeStatesResponseDevice
 import com.am.jarvis.controller.generated.model.ChangeStatesResponseState
-import com.am.momomo.model.DeviceState
+import com.am.jarvis.core.model.DeviceState
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 

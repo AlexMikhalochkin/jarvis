@@ -1,12 +1,12 @@
 package com.am.jarvis.service.impl
 
+import com.am.jarvis.core.api.DeviceProvider
+import com.am.jarvis.core.api.DeviceStateChanger
+import com.am.jarvis.core.api.DeviceStateProvider
+import com.am.jarvis.core.api.Notifier
+import com.am.jarvis.core.model.Device
+import com.am.jarvis.core.model.DeviceState
 import com.am.jarvis.service.api.SmartHomeService
-import com.am.momomo.connector.api.DeviceProvider
-import com.am.momomo.connector.api.DeviceStateChanger
-import com.am.momomo.connector.api.DeviceStateProvider
-import com.am.momomo.model.Device
-import com.am.momomo.model.DeviceState
-import com.am.momomo.notifier.api.Notifier
 import org.springframework.stereotype.Service
 
 /**

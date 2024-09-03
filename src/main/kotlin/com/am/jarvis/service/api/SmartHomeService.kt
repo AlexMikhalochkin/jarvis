@@ -1,7 +1,7 @@
 package com.am.jarvis.service.api
 
-import com.am.momomo.model.Device
-import com.am.momomo.model.DeviceState
+import com.am.jarvis.core.model.Device
+import com.am.jarvis.core.model.DeviceState
 
 /**
  * Smart home service.

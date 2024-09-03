@@ -1,9 +1,9 @@
 package com.am.jarvis.connector
 
+import com.am.jarvis.core.model.Device
+import com.am.jarvis.core.model.DeviceName
+import com.am.jarvis.core.model.Room
 import com.am.jarvis.generateUuid
-import com.am.momomo.model.Device
-import com.am.momomo.model.DeviceName
-import com.am.momomo.model.Room
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.core.convert.converter.Converter

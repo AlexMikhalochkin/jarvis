@@ -4,7 +4,7 @@ import com.am.jarvis.connector.BaseConverterTest
 import com.am.jarvis.controller.generated.model.FullCapability
 import com.am.jarvis.controller.generated.model.YandexDeviceWithCapabilities
 import com.am.jarvis.controller.generated.model.YandexState
-import com.am.momomo.model.DeviceState
+import com.am.jarvis.core.model.DeviceState
 
 /**
  * Verification for [DeviceToYandexDeviceWithCapabilitiesConverter].

@@ -58,7 +58,7 @@ class SmartThingsApiDelegateImpl(
 
     private fun handleCommandRequest(request: SmartThingsRequest): SmartThingsResponse {
         val states =
-            request.devices!!.map { conversionService.convert(it, com.am.momomo.model.DeviceState::class.java)!! }
+            request.devices!!.map { conversionService.convert(it, com.am.jarvis.core.model.DeviceState::class.java)!! }
         val deviceStates = smartHomeService.changeStates(states, "SMART_THINGS")
             .map { conversionService.convert(it, DeviceState::class.java)!! }
         return SmartThingsResponse(

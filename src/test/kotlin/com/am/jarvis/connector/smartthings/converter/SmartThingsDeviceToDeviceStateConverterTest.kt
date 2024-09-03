@@ -3,7 +3,7 @@ package com.am.jarvis.connector.smartthings.converter
 import com.am.jarvis.connector.BaseConverterTest
 import com.am.jarvis.controller.generated.model.Command
 import com.am.jarvis.controller.generated.model.SmartThingsDevice
-import com.am.momomo.model.DeviceState
+import com.am.jarvis.core.model.DeviceState
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

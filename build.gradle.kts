@@ -21,13 +21,14 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":momomo-megad-connector"))
     implementation("io.github.microutils:kotlin-logging:2.1.21")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("javax.validation:validation-api:2.0.1.Final")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3")
 
+    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
     testImplementation("commons-io:commons-io:2.11.0")
     testImplementation("com.squareup.okhttp3:okhttp:4.9.3")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")

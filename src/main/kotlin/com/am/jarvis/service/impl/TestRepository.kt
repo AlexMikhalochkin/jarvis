@@ -1,6 +1,6 @@
 package com.am.jarvis.service.impl
 
-import com.am.momomo.model.Device
+import com.am.jarvis.core.model.Device
 import org.springframework.stereotype.Component
 
 @Component

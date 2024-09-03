@@ -13,8 +13,8 @@ import com.am.jarvis.controller.generated.model.StatesRequest
 import com.am.jarvis.controller.generated.model.UnlinkResponse
 import com.am.jarvis.controller.generated.model.YandexDevice
 import com.am.jarvis.controller.generated.model.YandexDeviceWithCapabilities
+import com.am.jarvis.core.model.DeviceState
 import com.am.jarvis.service.api.SmartHomeService
-import com.am.momomo.model.DeviceState
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.convert.ConversionService
 import org.springframework.http.ResponseEntity

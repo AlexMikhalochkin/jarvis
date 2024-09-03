@@ -12,8 +12,8 @@ import com.am.jarvis.controller.generated.model.YandexDevice
 import com.am.jarvis.controller.generated.model.YandexDeviceInfo
 import com.am.jarvis.controller.generated.model.YandexDeviceWithCapabilities
 import com.am.jarvis.controller.generated.model.YandexState
+import com.am.jarvis.core.model.DeviceState
 import com.am.jarvis.generateUuid
-import com.am.momomo.model.DeviceState
 import io.mockk.every
 import io.mockk.verifySequence
 import org.junit.jupiter.api.Assertions

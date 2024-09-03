@@ -3,8 +3,8 @@ package com.am.jarvis.connector.smartthings.converter
 import com.am.jarvis.controller.generated.model.DeviceContext
 import com.am.jarvis.controller.generated.model.ManufacturerInfo
 import com.am.jarvis.controller.generated.model.SmartThingsDevice
-import com.am.momomo.model.Device
-import com.am.momomo.model.TechnicalInfo
+import com.am.jarvis.core.model.Device
+import com.am.jarvis.core.model.TechnicalInfo
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 

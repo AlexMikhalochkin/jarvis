@@ -1,7 +1,7 @@
 package com.am.jarvis.connector.smartthings.notifier
 
-import com.am.momomo.model.DeviceState
-import com.am.momomo.notifier.api.Notifier
+import com.am.jarvis.core.api.Notifier
+import com.am.jarvis.core.model.DeviceState
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
 
