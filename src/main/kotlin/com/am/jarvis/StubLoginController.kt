@@ -24,6 +24,7 @@ class StubLoginController {
     private val code = "711ecb4f-200b-406b-967b-1b1db0953bd8"
     private val token = "ca3e4771-a0e8-4de3-ba63-a3545d15bfb2"
 
+    @Suppress("ArgumentListWrapping")
     @RequestMapping(path = ["/smartthings/auth"], method = [RequestMethod.GET])
     fun login(
         @RequestParam(value = "state", required = false) state: String?,
@@ -50,7 +51,7 @@ class StubLoginController {
 
     private val i = 1576799999
 
-    @Suppress("Indentation", "LongParameterList")
+    @Suppress("ArgumentListWrapping", "LongParameterList")
     @RequestMapping(path = ["/smartthings/token"], method = [RequestMethod.POST])
     fun getToken(
         @RequestParam(value = "client_secret", required = false) clientSecret: String?,

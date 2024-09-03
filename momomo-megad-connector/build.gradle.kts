@@ -73,7 +73,7 @@ tasks.withType<JacocoReport> {
 }
 
 detekt {
-    toolVersion = "1.19.0"
+    toolVersion = "1.23.6"
     config = files("../configuration/detekt/detekt.yml")
     buildUponDefaultConfig = true
 }

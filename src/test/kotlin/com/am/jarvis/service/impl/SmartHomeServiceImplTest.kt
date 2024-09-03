@@ -28,12 +28,16 @@ internal class SmartHomeServiceImplTest {
 
     @MockK(relaxUnitFun = true)
     lateinit var notifier: Notifier
+
     @MockK
     lateinit var deviceProvider: DeviceProvider
+
     @MockK
     lateinit var deviceStateProvider: DeviceStateProvider
+
     @MockK
     lateinit var deviceStateChanger: DeviceStateChanger
+
     @MockK(relaxUnitFun = true)
     lateinit var repository: TestRepository
 
