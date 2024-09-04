@@ -15,31 +15,17 @@ internal class InMemoryDeviceRepository(
     configuredDevices: ConfiguredDevices
 ) : DeviceRepository {
 
-    private val devices: List<Device> = configuredDevices.devices
-    private val idsToPorts: Map<String, Int> = devices.associate { it.id to it.additionalData["port"] as Int }
-    private val storedStates = mutableMapOf(
-        7 to false,
-        8 to false,
-        9 to false,
-        10 to false,
-        11 to false,
-        12 to false,
-        13 to false,
-        22 to false,
-        23 to false,
-        24 to false,
-        25 to false,
-        26 to false,
-        27 to false,
-        28 to false
-    )
+    private val devices = configuredDevices.devices
+    private val idsToPorts = devices.associate { it.id to it.additionalData["port"] as Int }
+    private val storedStates = devices.associate { it.additionalData["port"] as Int to false }.toMutableMap()
 
     override fun findAll(): List<Device> {
         return devices
     }
 
     override fun findStates(deviceIds: List<String>): List<DeviceState> {
-        return deviceIds.map { it to storedStates.getValue(idsToPorts.getValue(it)) }
+        return deviceIds.associateWith { idsToPorts.getValue(it) }
+            .map { (deviceId, port) -> deviceId to storedStates.getValue(port) }
             .map { (deviceId, status) -> DeviceState(deviceId, status) }
             .toList()
     }
