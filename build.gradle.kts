@@ -34,6 +34,7 @@ dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")
     testImplementation("io.mockk:mockk:1.12.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
@@ -61,15 +62,15 @@ tasks.jacocoTestReport {
 sourceSets {
     create("testIntegration") {
         kotlin {
-            compileClasspath += main.get().output + configurations.testRuntimeClasspath
-            runtimeClasspath += output + compileClasspath
+            compileClasspath += files(main.get().output, configurations.testRuntimeClasspath)
+            runtimeClasspath += files(output, compileClasspath)
         }
     }
 }
 
 sourceSets.getByName("main")
     .java
-    .srcDirs("${buildDir}/generated/src/main/kotlin")
+    .srcDirs(layout.buildDirectory.dir("generated/src/main/kotlin"))
 
 val testIntegration = task<Test>("testIntegration") {
     description = "Runs the integration tests"
