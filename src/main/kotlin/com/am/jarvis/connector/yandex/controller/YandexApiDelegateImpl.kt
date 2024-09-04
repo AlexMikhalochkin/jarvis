@@ -28,11 +28,9 @@ import org.springframework.stereotype.Component
 @Component
 class YandexApiDelegateImpl(
     private val smartHomeService: SmartHomeService,
-    private val conversionService: ConversionService
+    private val conversionService: ConversionService,
+    @Value("\${yandex.user-id}") private val userId: String
 ) : YandexApiDelegate {
-
-    @Value("\${yandex.user-id}")
-    private lateinit var userId: String
 
     override fun changeDevicesStates(
         authorization: String,

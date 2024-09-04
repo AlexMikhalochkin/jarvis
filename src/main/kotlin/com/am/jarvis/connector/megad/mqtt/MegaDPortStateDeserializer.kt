@@ -12,6 +12,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer
 class MegaDPortStateDeserializer : JsonDeserializer<Boolean>() {
 
     override fun deserialize(jsonParser: JsonParser?, ctxt: DeserializationContext?): Boolean {
-        return jsonParser != null && "ON" == jsonParser.text
+        return "ON" == jsonParser?.text
     }
 }

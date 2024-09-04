@@ -13,6 +13,11 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.NullAndEmptySource
 import org.junit.jupiter.params.provider.ValueSource
 
+/**
+ * Verification for [MegaDPortStateDeserializer].
+ *
+ * @author Alex Mikhalochkin
+ */
 class MegaDPortStateDeserializerTest {
 
     private val deserializer = MegaDPortStateDeserializer()
@@ -24,6 +29,14 @@ class MegaDPortStateDeserializerTest {
         every { jsonParser.text }.returns("ON")
 
         assertTrue(deserializer.deserialize(jsonParser, context))
+        verify { context wasNot Called }
+    }
+
+    @Test
+    fun deserializeParserIsNull() {
+        val context = mockk<DeserializationContext>()
+
+        assertFalse(deserializer.deserialize(null, context))
         verify { context wasNot Called }
     }
 

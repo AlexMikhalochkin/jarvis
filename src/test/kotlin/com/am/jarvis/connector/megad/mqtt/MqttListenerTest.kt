@@ -5,7 +5,9 @@ import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.mockk
 import io.mockk.verify
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Test
@@ -62,6 +64,15 @@ internal class MqttListenerTest {
 
     @Test
     fun testDeliveryComplete() {
+        val token: IMqttDeliveryToken = mockk()
+        every { token.message } returns MqttMessage()
+        mqttListener.deliveryComplete(token)
+
+        verify { service wasNot Called }
+    }
+
+    @Test
+    fun testDeliveryCompleteTokenIsNull() {
         mqttListener.deliveryComplete(null)
 
         verify { service wasNot Called }

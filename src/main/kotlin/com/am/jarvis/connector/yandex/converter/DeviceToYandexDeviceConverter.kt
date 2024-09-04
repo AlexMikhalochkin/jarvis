@@ -25,7 +25,7 @@ class DeviceToYandexDeviceConverter : Converter<Device, YandexDevice> {
             source.id,
             source.description,
             source.room.additionalName,
-            source.additionalData["port"]?.let { mapOf("port" to it) }
+            source.additionalData
         )
     }
 

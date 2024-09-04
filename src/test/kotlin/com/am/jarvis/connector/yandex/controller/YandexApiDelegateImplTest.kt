@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
-import org.springframework.test.util.ReflectionTestUtils
 
 private const val USER_ID = "user-id"
 
@@ -33,7 +32,7 @@ internal class YandexApiDelegateImplTest : BaseDelegateTest<YandexApiDelegateImp
 
     @BeforeEach
     fun init() {
-        ReflectionTestUtils.setField(delegate, "userId", USER_ID)
+        delegate = YandexApiDelegateImpl(smartHomeService, conversionService, USER_ID)
     }
 
     @Test

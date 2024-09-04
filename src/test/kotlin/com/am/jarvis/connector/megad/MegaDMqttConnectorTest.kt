@@ -70,4 +70,29 @@ internal class MegaDMqttConnectorTest {
         verify { mqttClient.publish("topic/cmd", "1:1".toByteArray(), 0, true) }
         verify { mqttClient.publish("topic/cmd", "2:0".toByteArray(), 0, true) }
     }
+
+    @Test
+    fun changeStatesPortIsUnknown() {
+        val states = listOf(
+            DeviceState("1", true),
+            DeviceState("2", false)
+        )
+        every { deviceRepository.findPortByDeviceId("1") } returns 1
+        every { deviceRepository.findPortByDeviceId("2") } returns 2
+
+        connector.changeStates(states)
+
+        verify { mqttClient.publish("topic/cmd", "1:1".toByteArray(), 0, true) }
+        verify { mqttClient.publish("topic/cmd", "2:0".toByteArray(), 0, true) }
+    }
+
+    @Test
+    fun getSource() {
+        assertSame("MegaD", connector.getSource())
+    }
+
+    @Test
+    fun areNotificationsEnabled() {
+        assertSame(true, connector.areNotificationsEnabled())
+    }
 }

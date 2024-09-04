@@ -6,6 +6,7 @@ import com.am.jarvis.core.api.DeviceStateProvider
 import com.am.jarvis.core.api.Notifier
 import com.am.jarvis.core.model.Device
 import com.am.jarvis.core.model.DeviceState
+import com.am.jarvis.service.api.DeviceSourceRepository
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
@@ -39,7 +40,7 @@ internal class SmartHomeServiceImplTest {
     lateinit var deviceStateChanger: DeviceStateChanger
 
     @MockK(relaxUnitFun = true)
-    lateinit var repository: TestRepository
+    lateinit var repository: DeviceSourceRepository
 
     private lateinit var service: SmartHomeServiceImpl
 
@@ -74,7 +75,7 @@ internal class SmartHomeServiceImplTest {
         val deviceIds = listOf(deviceId, "second")
         val states = listOf(DeviceState(deviceId, true), DeviceState("second", false))
         every { deviceStateProvider.getDeviceStates(deviceIds) } returns states
-        every { repository.test(deviceIds) } returns mapOf("MegaD" to deviceIds)
+        every { repository.getDevicesPerSource(deviceIds) } returns mapOf("MegaD" to deviceIds)
 
         assertEquals(states, service.getDeviceStates(deviceIds))
         verify { deviceStateProvider.getDeviceStates(deviceIds) }
@@ -84,7 +85,7 @@ internal class SmartHomeServiceImplTest {
     fun testChangeStates() {
         val states = listOf(DeviceState(deviceId, true), DeviceState("second", false))
         val deviceIds = listOf(deviceId, "second")
-        every { repository.test(any()) } returns mapOf("MegaD" to deviceIds)
+        every { repository.getDevicesPerSource(any()) } returns mapOf("MegaD" to deviceIds)
         every { deviceStateChanger.areNotificationsEnabled() } returns false
         every { deviceStateChanger.changeStates(states) } returns states
 
@@ -94,5 +95,18 @@ internal class SmartHomeServiceImplTest {
             deviceStateChanger.changeStates(states)
             notifier.notify(states)
         }
+    }
+
+    @Test
+    fun testChangeStatesSkipNotifications() {
+        val states = listOf(DeviceState(deviceId, true), DeviceState("second", false))
+        val deviceIds = listOf(deviceId, "second")
+        every { repository.getDevicesPerSource(any()) } returns mapOf("MegaD" to deviceIds)
+        every { deviceStateChanger.areNotificationsEnabled() } returns true
+        every { deviceStateChanger.changeStates(states) } returns states
+
+        service.changeStates(states, "YANDEX")
+
+        verify { deviceStateChanger.changeStates(states) }
     }
 }

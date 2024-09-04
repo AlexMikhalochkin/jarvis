@@ -6,6 +6,7 @@ import com.am.jarvis.core.api.DeviceStateProvider
 import com.am.jarvis.core.api.Notifier
 import com.am.jarvis.core.model.Device
 import com.am.jarvis.core.model.DeviceState
+import com.am.jarvis.service.api.DeviceSourceRepository
 import com.am.jarvis.service.api.SmartHomeService
 import org.springframework.stereotype.Service
 
@@ -20,7 +21,7 @@ class SmartHomeServiceImpl(
     deviceStateProviders: List<DeviceStateProvider>,
     deviceStateChangers: List<DeviceStateChanger>,
     private val notifiers: List<Notifier>,
-    private val repository: TestRepository
+    private val repository: DeviceSourceRepository
 ) : SmartHomeService {
 
     private val sourceToDeviceStateProvider = deviceStateProviders.associateBy { it.getSource() }
@@ -37,7 +38,7 @@ class SmartHomeServiceImpl(
     }
 
     override fun getDeviceStates(deviceIds: List<String>): List<DeviceState> {
-        return repository.test(deviceIds)
+        return repository.getDevicesPerSource(deviceIds)
             .map { (source, deviceIdsPerSource) -> sourceToDeviceStateProvider[source]!! to deviceIdsPerSource }
             .flatMap { (provider, deviceIdsPerSource) -> provider.getDeviceStates(deviceIdsPerSource) }
             .toList()
@@ -45,7 +46,7 @@ class SmartHomeServiceImpl(
 
     override fun changeStates(states: List<DeviceState>, source: String): List<DeviceState> {
         val deviceIdToDeviceState = states.associateBy { it.deviceId }
-        return repository.test(deviceIdToDeviceState.keys)
+        return repository.getDevicesPerSource(deviceIdToDeviceState.keys)
             .map { (source, deviceIdsPerSource) -> source to deviceIdsPerSource.map { deviceIdToDeviceState[it]!! } }
             .map { (source, statesPerSource) -> sourceToDeviceStateChanger[source]!! to statesPerSource }
             .flatMap { (provider, statesPerSource) -> changeStates(provider, source, statesPerSource) }
