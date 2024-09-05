@@ -1,6 +1,5 @@
 package com.am.jarvis.connector.yandex.controller
 
-import com.am.jarvis.connector.BaseDelegateTest
 import com.am.jarvis.controller.generated.model.ChangeStateDevice
 import com.am.jarvis.controller.generated.model.ChangeStatesRequest
 import com.am.jarvis.controller.generated.model.ChangeStatesRequestPayload
@@ -12,28 +11,55 @@ import com.am.jarvis.controller.generated.model.YandexDevice
 import com.am.jarvis.controller.generated.model.YandexDeviceInfo
 import com.am.jarvis.controller.generated.model.YandexDeviceWithCapabilities
 import com.am.jarvis.controller.generated.model.YandexState
+import com.am.jarvis.core.model.Device
+import com.am.jarvis.core.model.DeviceName
 import com.am.jarvis.core.model.DeviceState
+import com.am.jarvis.core.model.Room
 import com.am.jarvis.generateUuid
+import com.am.jarvis.service.api.SmartHomeService
+import io.mockk.confirmVerified
 import io.mockk.every
+import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
 import io.mockk.verifySequence
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.core.convert.ConversionService
 import org.springframework.http.HttpStatus
-
-private const val USER_ID = "user-id"
 
 /**
  * Verification for [YandexApiDelegateImpl].
  *
  * @author Alex Mikhalochkin
  */
-internal class YandexApiDelegateImplTest : BaseDelegateTest<YandexApiDelegateImpl>() {
+@ExtendWith(MockKExtension::class)
+internal class YandexApiDelegateImplTest {
+
+    private val userId = "user-id"
+    private val requestId = generateUuid()
+    private val deviceId = generateUuid()
+
+    @MockK
+    private lateinit var conversionService: ConversionService
+
+    @MockK
+    private lateinit var smartHomeService: SmartHomeService
+
+    @InjectMockKs
+    private lateinit var delegate: YandexApiDelegateImpl
 
     @BeforeEach
     fun init() {
-        delegate = YandexApiDelegateImpl(smartHomeService, conversionService, USER_ID)
+        delegate = YandexApiDelegateImpl(smartHomeService, conversionService, userId)
     }
+
+    @AfterEach
+    fun verify() = confirmVerified(conversionService, smartHomeService)
 
     @Test
     fun testChangeDevicesStates() {
@@ -51,10 +77,10 @@ internal class YandexApiDelegateImplTest : BaseDelegateTest<YandexApiDelegateImp
             )
         } returns changeStatesResponseDevice
         val response = delegate.changeDevicesStates(generateUuid(), requestId, changeStatesRequest)
-        Assertions.assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(HttpStatus.OK, response.statusCode)
         val body = response.body
-        Assertions.assertEquals(requestId, body!!.requestId)
-        Assertions.assertSame(changeStatesResponseDevice, body.payload!!.devices!![0])
+        assertEquals(requestId, body!!.requestId)
+        assertSame(changeStatesResponseDevice, body.payload!!.devices!![0])
         verifySequence {
             conversionService.convert(changeStateDevice, DeviceState::class.java)
             smartHomeService.changeStates(listOf(deviceState), "YANDEX")
@@ -74,11 +100,11 @@ internal class YandexApiDelegateImplTest : BaseDelegateTest<YandexApiDelegateImp
             )
         } returns yandexDevice
         val response = delegate.getDevices(generateUuid(), requestId)
-        Assertions.assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(HttpStatus.OK, response.statusCode)
         val body = response.body
-        Assertions.assertEquals(requestId, body!!.requestId)
-        Assertions.assertEquals(USER_ID, body.payload.userId)
-        Assertions.assertSame(yandexDevice, body.payload.devices[0])
+        assertEquals(requestId, body!!.requestId)
+        assertEquals(userId, body.payload.userId)
+        assertSame(yandexDevice, body.payload.devices[0])
         verifySequence {
             smartHomeService.getAllDevices()
             conversionService.convert(device, YandexDevice::class.java)
@@ -98,10 +124,10 @@ internal class YandexApiDelegateImplTest : BaseDelegateTest<YandexApiDelegateImp
             )
         } returns YandexDeviceWithCapabilities()
         val response = delegate.getDevicesStates(generateUuid(), requestId, statesRequest)
-        Assertions.assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(HttpStatus.OK, response.statusCode)
         val body = response.body
-        Assertions.assertEquals(requestId, body!!.requestId)
-        Assertions.assertEquals(YandexDeviceWithCapabilities(), body.payload!!.devices!![0])
+        assertEquals(requestId, body!!.requestId)
+        assertEquals(YandexDeviceWithCapabilities(), body.payload!!.devices!![0])
         verifySequence {
             smartHomeService.getDeviceStates(listOf(id))
             conversionService.convert(deviceState, YandexDeviceWithCapabilities::class.java)
@@ -111,15 +137,15 @@ internal class YandexApiDelegateImplTest : BaseDelegateTest<YandexApiDelegateImp
     @Test
     fun testHealth() {
         val response = delegate.health()
-        Assertions.assertEquals(HttpStatus.OK, response.statusCode)
-        Assertions.assertEquals(Unit, response.body)
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(Unit, response.body)
     }
 
     @Test
     fun testUnlink() {
         val response = delegate.unlink(generateUuid(), requestId)
-        Assertions.assertEquals(HttpStatus.OK, response.statusCode)
-        Assertions.assertEquals(requestId, response.body!!.requestId)
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(requestId, response.body!!.requestId)
     }
 
     private fun createYandexDevice() = YandexDevice(
@@ -132,4 +158,14 @@ internal class YandexApiDelegateImplTest : BaseDelegateTest<YandexApiDelegateImp
         ),
         "id",
     )
+
+    private fun createDevice() = Device(
+        deviceId,
+        Room("room"),
+        DeviceName("device"),
+        "description",
+        emptyList()
+    )
+
+    private fun createDeviceState() = DeviceState(deviceId, true, mapOf("port" to 1))
 }
