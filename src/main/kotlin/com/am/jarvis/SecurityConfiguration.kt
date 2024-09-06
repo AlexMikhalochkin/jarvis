@@ -2,6 +2,8 @@ package com.am.jarvis
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.AuthenticationServiceException
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.web.SecurityFilterChain
@@ -23,5 +25,10 @@ class SecurityConfiguration {
                     .permitAll()
             }
             .build()
+    }
+
+    @Bean
+    fun noopAuthenticationManager(): AuthenticationManager {
+        return AuthenticationManager { _ -> throw AuthenticationServiceException("Authentication is disabled") }
     }
 }
