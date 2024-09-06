@@ -30,7 +30,7 @@
           "switch"
         ]
       },
-      "deviceHandlerType": "c2c-rgbw-color-bulb",
+      "deviceHandlerType": "c2c-switch",
       "deviceUniqueId": "kitchen-light-0"
     }
   ]

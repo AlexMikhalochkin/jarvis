@@ -20,9 +20,9 @@ class CommandRequestHandler(
 
     override fun invoke(request: SmartThingsRequest): SmartThingsResponse {
         val states = request.devices!!
-            .map { conversionService.convert(it, com.am.jarvis.core.model.DeviceState::class.java)!! }
+            .mapNotNull { conversionService.convert(it, com.am.jarvis.core.model.DeviceState::class.java) }
         val deviceStates = smartHomeService.changeStates(states, "SMART_THINGS")
-            .map { conversionService.convert(it, DeviceState::class.java)!! }
+            .mapNotNull { conversionService.convert(it, DeviceState::class.java) }
         return SmartThingsResponse(
             createHeaders(request, "commandResponse"),
             deviceState = deviceStates

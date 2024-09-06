@@ -23,7 +23,7 @@ class DeviceToSmartThingsDeviceConverter : Converter<Device, SmartThingsDevice> 
             source.name.primaryName,
             convertManufacturer(source.technicalInfo),
             convertContext(source),
-            "c2c-rgbw-color-bulb",
+            "c2c-switch",
             source.id,
         )
     }

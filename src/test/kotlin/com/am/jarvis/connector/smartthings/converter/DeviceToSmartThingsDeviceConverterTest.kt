@@ -31,7 +31,7 @@ internal class DeviceToSmartThingsDeviceConverterTest : BaseConverterTest<Device
                 listOf("Kitchen Lights", "House Bulbs"),
                 listOf("light", "switch")
             ),
-            "c2c-rgbw-color-bulb",
+            "c2c-switch",
             externalDeviceId
         )
     }

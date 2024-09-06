@@ -20,7 +20,7 @@ class DiscoveryRequestHandler(
 
     override fun invoke(request: SmartThingsRequest): SmartThingsResponse {
         val devices = smartHomeService.getAllDevices()
-            .map { conversionService.convert(it, SmartThingsDevice::class.java)!! }
+            .mapNotNull { conversionService.convert(it, SmartThingsDevice::class.java) }
         return SmartThingsResponse(
             createHeaders(request, "discoveryResponse"),
             false,

@@ -39,9 +39,9 @@ class YandexApiDelegateImpl(
     ): ResponseEntity<ChangeStatesResponse> {
         val deviceStates = changeStatesRequest.payload
             .devices
-            .map { convert(it, DeviceState::class.java) }
+            .mapNotNull { convert(it, DeviceState::class.java) }
         val changeStatesResponseDevices = smartHomeService.changeStates(deviceStates, "YANDEX")
-            .map { convert(it, ChangeStatesResponseDevice::class.java) }
+            .mapNotNull { convert(it, ChangeStatesResponseDevice::class.java) }
         val payload = ChangeStatesResponsePayload(changeStatesResponseDevices)
         val changeStatesResponse = ChangeStatesResponse(xRequestId, payload)
         return ResponseEntity.ok(changeStatesResponse)
@@ -49,7 +49,7 @@ class YandexApiDelegateImpl(
 
     override fun getDevices(authorization: String, xRequestId: String): ResponseEntity<DevicesResponse> {
         val devices = smartHomeService.getAllDevices()
-            .map { convert(it, YandexDevice::class.java) }
+            .mapNotNull { convert(it, YandexDevice::class.java) }
         val payload = Payload(userId, devices)
         val devicesResponse = DevicesResponse(payload, xRequestId)
         return ResponseEntity.ok(devicesResponse)
@@ -62,7 +62,7 @@ class YandexApiDelegateImpl(
     ): ResponseEntity<DevicesResponse2> {
         val deviceIds = statesRequest!!.devices!!.mapNotNull { it.id }
         val devices = smartHomeService.getDeviceStates(deviceIds)
-            .map { convert(it, YandexDeviceWithCapabilities::class.java) }
+            .mapNotNull { convert(it, YandexDeviceWithCapabilities::class.java) }
         val payload = Payload2(devices)
         val devicesResponse2 = DevicesResponse2(xRequestId, payload)
         return ResponseEntity.ok(devicesResponse2)
@@ -78,5 +78,5 @@ class YandexApiDelegateImpl(
     }
 
     private fun <T> convert(objectToConvert: Any, expectedType: Class<T>) =
-        conversionService.convert(objectToConvert, expectedType)!!
+        conversionService.convert(objectToConvert, expectedType)
 }

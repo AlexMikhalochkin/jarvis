@@ -20,10 +20,9 @@ class StateRefreshRequestHandler(
 
     override fun invoke(request: SmartThingsRequest): SmartThingsResponse {
         val ids = request.devices!!
-            .map { it.externalDeviceId!! }
-            .toList()
+            .mapNotNull { it.externalDeviceId }
         val deviceStates = smartHomeService.getDeviceStates(ids)
-            .map { conversionService.convert(it, DeviceState::class.java)!! }
+            .mapNotNull { conversionService.convert(it, DeviceState::class.java) }
         return SmartThingsResponse(
             createHeaders(request, "stateRefreshResponse"),
             deviceState = deviceStates
