@@ -14,9 +14,10 @@ import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.core.convert.ConversionService
+import org.springframework.http.ResponseEntity
 
 @ExtendWith(MockKExtension::class)
-abstract class BaseRequestHandlerTest<T : (SmartThingsRequest) -> SmartThingsResponse> {
+abstract class BaseRequestHandlerTest<T : (SmartThingsRequest) -> ResponseEntity<SmartThingsResponse>> {
 
     private val requestId = generateUuid()
 
@@ -40,7 +41,7 @@ abstract class BaseRequestHandlerTest<T : (SmartThingsRequest) -> SmartThingsRes
     fun executeRequest(
         interactionType: String,
         smartThingsDevices: List<SmartThingsDevice>? = null
-    ): SmartThingsResponse {
+    ): ResponseEntity<SmartThingsResponse> {
         val smartThingsRequest = SmartThingsRequest(
             Headers(interactionType = interactionType, requestId = requestId),
             Authentication(),

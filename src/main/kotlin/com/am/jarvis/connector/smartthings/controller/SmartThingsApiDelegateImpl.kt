@@ -13,13 +13,12 @@ import org.springframework.stereotype.Component
  */
 @Component
 class SmartThingsApiDelegateImpl(
-    private val requestHandlers: Map<String, (SmartThingsRequest) -> SmartThingsResponse>
+    private val requestHandlers: Map<String, (SmartThingsRequest) -> ResponseEntity<SmartThingsResponse>>
 ) : SmartthingsApiDelegate {
 
     override fun handleSmartThings(smartThingsRequest: SmartThingsRequest): ResponseEntity<SmartThingsResponse> {
         val interactionType = smartThingsRequest.headers.interactionType
-        val response = requestHandlers.getValue(interactionType)
+        return requestHandlers.getValue(interactionType)
             .invoke(smartThingsRequest)
-        return ResponseEntity.ok(response)
     }
 }

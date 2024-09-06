@@ -5,7 +5,13 @@ import io.mockk.every
 import io.mockk.verifySequence
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Test
+import org.springframework.http.HttpStatus
 
+/**
+ * Test class for [StateRefreshRequestHandler].
+ *
+ * @author Alex Mikhalochkin
+ */
 class StateRefreshRequestHandlerTest : BaseRequestHandlerTest<StateRefreshRequestHandler>() {
 
     @Test
@@ -19,9 +25,12 @@ class StateRefreshRequestHandlerTest : BaseRequestHandlerTest<StateRefreshReques
                 com.am.jarvis.controller.generated.model.DeviceState::class.java
             )
         } returns deviceState1
-        val body = executeRequest("stateRefreshRequest", listOf(SmartThingsDevice(deviceId)))
-        verifyHeaders(body, "stateRefreshResponse")
-        assertSame(deviceState1, body.deviceState!![0])
+
+        val response = executeRequest("stateRefreshRequest", listOf(SmartThingsDevice(deviceId)))
+
+        verifyHeaders(response.body, "stateRefreshResponse")
+        assertSame(deviceState1, response.body?.deviceState!![0])
+        assertSame(HttpStatus.OK, response.statusCode)
         verifySequence {
             smartHomeService.getDeviceStates(listOf(deviceId))
             conversionService.convert(deviceState, com.am.jarvis.controller.generated.model.DeviceState::class.java)
