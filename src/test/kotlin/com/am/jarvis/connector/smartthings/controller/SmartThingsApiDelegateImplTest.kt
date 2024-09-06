@@ -7,11 +7,10 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 
 /**
  * Verification for [SmartThingsApiDelegateImpl].
@@ -22,7 +21,7 @@ import org.springframework.http.HttpStatus
 internal class SmartThingsApiDelegateImplTest {
 
     @MockK
-    private lateinit var requestHandlers: Map<String, (SmartThingsRequest) -> SmartThingsResponse>
+    private lateinit var requestHandlers: Map<String, (SmartThingsRequest) -> ResponseEntity<SmartThingsResponse>>
 
     @InjectMockKs
     private lateinit var delegate: SmartThingsApiDelegateImpl
@@ -30,16 +29,14 @@ internal class SmartThingsApiDelegateImplTest {
     @Test
     fun testHandleSmartThings() {
         val smartThingsRequest = mockk<SmartThingsRequest>()
-        val handler = mockk<(SmartThingsRequest) -> SmartThingsResponse>()
+        val handler = mockk<(SmartThingsRequest) -> ResponseEntity<SmartThingsResponse>>()
         val smartThingsResponse = SmartThingsResponse()
         val interactionType = "interactionType"
+        val responseEntity = ResponseEntity.ok(smartThingsResponse)
         every { smartThingsRequest.headers.interactionType } returns interactionType
         every { requestHandlers.getValue(interactionType) } returns handler
-        every { handler.invoke(smartThingsRequest) } returns smartThingsResponse
+        every { handler.invoke(smartThingsRequest) } returns responseEntity
 
-        val response = delegate.handleSmartThings(smartThingsRequest)
-
-        assertEquals(HttpStatus.OK, response.statusCode)
-        assertSame(smartThingsResponse, response.body!!)
+        assertSame(responseEntity, delegate.handleSmartThings(smartThingsRequest))
     }
 }

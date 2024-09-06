@@ -5,13 +5,16 @@ import com.am.jarvis.core.model.Device
 import com.am.jarvis.core.model.DeviceName
 import com.am.jarvis.core.model.Room
 import io.mockk.every
-import io.mockk.junit5.MockKExtension
 import io.mockk.verifySequence
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.http.HttpStatus
 
-@ExtendWith(MockKExtension::class)
+/**
+ * Test class for [DiscoveryRequestHandler].
+ *
+ * @author Alex Mikhalochkin
+ */
 class DiscoveryRequestHandlerTest : BaseRequestHandlerTest<DiscoveryRequestHandler>() {
 
     @Test
@@ -31,9 +34,12 @@ class DiscoveryRequestHandlerTest : BaseRequestHandlerTest<DiscoveryRequestHandl
                 SmartThingsDevice::class.java
             )
         } returns smartThingsDevice
-        val body = executeRequest("discoveryRequest")
-        verifyHeaders(body, "discoveryResponse")
-        assertSame(smartThingsDevice, body.devices!![0])
+
+        val response = executeRequest("discoveryRequest")
+
+        verifyHeaders(response.body, "discoveryResponse")
+        assertSame(smartThingsDevice, response.body?.devices!![0])
+        assertSame(HttpStatus.OK, response.statusCode)
         verifySequence {
             smartHomeService.getAllDevices()
             conversionService.convert(device, SmartThingsDevice::class.java)

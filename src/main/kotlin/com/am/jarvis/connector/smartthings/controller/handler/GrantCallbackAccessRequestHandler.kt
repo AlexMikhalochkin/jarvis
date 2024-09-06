@@ -2,6 +2,7 @@ package com.am.jarvis.connector.smartthings.controller.handler
 
 import com.am.jarvis.controller.generated.model.SmartThingsRequest
 import com.am.jarvis.controller.generated.model.SmartThingsResponse
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 
 /**
@@ -12,9 +13,10 @@ import org.springframework.stereotype.Component
 @Component("grantCallbackAccess")
 class GrantCallbackAccessRequestHandler : BaseRequestHandler() {
 
-    override fun invoke(request: SmartThingsRequest): SmartThingsResponse {
-        return SmartThingsResponse(
+    override fun invoke(request: SmartThingsRequest): ResponseEntity<SmartThingsResponse> {
+        val smartThingsResponse = SmartThingsResponse(
             createHeaders(request, "grantCallbackAccess")
         )
+        return ResponseEntity.ok(smartThingsResponse)
     }
 }

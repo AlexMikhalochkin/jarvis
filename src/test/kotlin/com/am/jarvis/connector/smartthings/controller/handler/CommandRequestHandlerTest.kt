@@ -6,7 +6,13 @@ import io.mockk.every
 import io.mockk.verifySequence
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Test
+import org.springframework.http.HttpStatus
 
+/**
+ * Test class for [CommandRequestHandler].
+ *
+ * @author Alex Mikhalochkin
+ */
 class CommandRequestHandlerTest : BaseRequestHandlerTest<CommandRequestHandler>() {
 
     @Test
@@ -27,9 +33,13 @@ class CommandRequestHandlerTest : BaseRequestHandlerTest<CommandRequestHandler>(
                 com.am.jarvis.controller.generated.model.DeviceState::class.java
             )
         } returns deviceState1
-        val body = executeRequest("commandRequest", listOf(smartThingsDevice))
-        verifyHeaders(body, "commandResponse")
-        assertSame(deviceState1, body.deviceState!![0])
+
+        val response = executeRequest("commandRequest", listOf(smartThingsDevice))
+
+        verifyHeaders(response.body, "commandResponse")
+        assertSame(deviceState1, response.body?.deviceState!![0])
+        assertSame(HttpStatus.OK, response.statusCode)
+
         verifySequence {
             conversionService.convert(smartThingsDevice, DeviceState::class.java)
             smartHomeService.changeStates(listOf(deviceState), "SMART_THINGS")

@@ -5,6 +5,7 @@ import com.am.jarvis.controller.generated.model.SmartThingsRequest
 import com.am.jarvis.controller.generated.model.SmartThingsResponse
 import com.am.jarvis.service.api.SmartHomeService
 import org.springframework.core.convert.ConversionService
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 
 /**
@@ -18,13 +19,14 @@ class DiscoveryRequestHandler(
     private val conversionService: ConversionService
 ) : BaseRequestHandler() {
 
-    override fun invoke(request: SmartThingsRequest): SmartThingsResponse {
+    override fun invoke(request: SmartThingsRequest): ResponseEntity<SmartThingsResponse> {
         val devices = smartHomeService.getAllDevices()
             .mapNotNull { conversionService.convert(it, SmartThingsDevice::class.java) }
-        return SmartThingsResponse(
+        val smartThingsResponse = SmartThingsResponse(
             createHeaders(request, "discoveryResponse"),
             false,
             devices
         )
+        return ResponseEntity.ok(smartThingsResponse)
     }
 }
