@@ -644,7 +644,7 @@ components:
         clientId:
           type: string
           example: Client ID given to partner in Workspace during app creation
-        ientSecret:
+        clientSecret:
           type: string
           example: client secret given to partner in dev-workspace during app creation
     CallbackUrls:
