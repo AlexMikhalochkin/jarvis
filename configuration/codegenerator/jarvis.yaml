@@ -449,7 +449,6 @@ components:
       - $ref: '#/components/schemas/UnlinkResponse'
     SmartThingsRequest:
       required:
-      - authentication
       - headers
       type: object
       properties:
@@ -461,6 +460,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SmartThingsDevice'
+        callbackAuthentication:
+          $ref: '#/components/schemas/SmartThingsRequest_callbackAuthentication'
+        callbackUrls:
+          $ref: '#/components/schemas/SmartThingsRequest_callbackUrls'
       description: Request from SmartThings
     SmartThingsResponse:
       type: object
@@ -626,6 +629,34 @@ components:
           type: string
           example: token received during oauth from partner
       description: Authentication information
+    SmartThingsRequest_callbackAuthentication:
+      type: object
+      properties:
+        grantType:
+          type: string
+          example: authorization_code
+        scope:
+          type: string
+          example: callback_access
+        code:
+          type: string
+          example: code received during oauth from partner
+        clientId:
+          type: string
+          example: Client ID given to partner in Workspace during app creation
+        clientSecret:
+          type: string
+          example: client secret given to partner in dev-workspace during app creation
+    SmartThingsRequest_callbackUrls:
+      type: object
+      properties:
+        oauthToken:
+          type: string
+          example: Callback URL for access-token-request.json and refresh-access-tokens.json
+            requests
+        stateCallback:
+          type: string
+          example: Callback URL for state-callback.json updates
   parameters:
     authorization:
       name: Authorization
