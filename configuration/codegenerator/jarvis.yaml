@@ -461,9 +461,9 @@ components:
           items:
             $ref: '#/components/schemas/SmartThingsDevice'
         callbackAuthentication:
-          $ref: '#/components/schemas/SmartThingsRequest_callbackAuthentication'
+          $ref: '#/components/schemas/CallbackAuthentication'
         callbackUrls:
-          $ref: '#/components/schemas/SmartThingsRequest_callbackUrls'
+          $ref: '#/components/schemas/CallbackUrls'
       description: Request from SmartThings
     SmartThingsResponse:
       type: object
@@ -629,7 +629,7 @@ components:
           type: string
           example: token received during oauth from partner
       description: Authentication information
-    SmartThingsRequest_callbackAuthentication:
+    CallbackAuthentication:
       type: object
       properties:
         grantType:
@@ -644,10 +644,10 @@ components:
         clientId:
           type: string
           example: Client ID given to partner in Workspace during app creation
-        clientSecret:
+        ientSecret:
           type: string
           example: client secret given to partner in dev-workspace during app creation
-    SmartThingsRequest_callbackUrls:
+    CallbackUrls:
       type: object
       properties:
         oauthToken:
