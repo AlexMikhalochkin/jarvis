@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity
 @ExtendWith(MockKExtension::class)
 abstract class BaseRequestHandlerTest<T : (SmartThingsRequest) -> ResponseEntity<SmartThingsResponse>> {
 
-    private val requestId = generateUuid()
+    val requestId = generateUuid()
 
     val deviceId = requestId
 

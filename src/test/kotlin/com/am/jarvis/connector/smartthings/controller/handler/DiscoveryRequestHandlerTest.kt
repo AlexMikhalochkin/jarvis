@@ -1,10 +1,12 @@
 package com.am.jarvis.connector.smartthings.controller.handler
 
+import com.am.jarvis.connector.smartthings.notifier.SmartThingsTokenService
 import com.am.jarvis.controller.generated.model.SmartThingsDevice
 import com.am.jarvis.core.model.Device
 import com.am.jarvis.core.model.DeviceName
 import com.am.jarvis.core.model.Room
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Test
@@ -16,6 +18,9 @@ import org.springframework.http.HttpStatus
  * @author Alex Mikhalochkin
  */
 class DiscoveryRequestHandlerTest : BaseRequestHandlerTest<DiscoveryRequestHandler>() {
+
+    @MockK
+    lateinit var tokenService: SmartThingsTokenService
 
     @Test
     fun testInvoke() {
@@ -34,7 +39,7 @@ class DiscoveryRequestHandlerTest : BaseRequestHandlerTest<DiscoveryRequestHandl
                 SmartThingsDevice::class.java
             )
         } returns smartThingsDevice
-
+        every { tokenService.isGrantCallbackAccessRequired() } returns false
         val response = executeRequest("discoveryRequest")
 
         verifyHeaders(response.body, "discoveryResponse")

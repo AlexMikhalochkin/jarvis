@@ -1,5 +1,6 @@
 package com.am.jarvis.connector.smartthings.controller.handler
 
+import com.am.jarvis.connector.smartthings.notifier.SmartThingsTokenService
 import com.am.jarvis.controller.generated.model.SmartThingsDevice
 import com.am.jarvis.controller.generated.model.SmartThingsRequest
 import com.am.jarvis.controller.generated.model.SmartThingsResponse
@@ -16,7 +17,8 @@ import org.springframework.stereotype.Component
 @Component("discoveryRequest")
 class DiscoveryRequestHandler(
     private val smartHomeService: SmartHomeService,
-    private val conversionService: ConversionService
+    private val conversionService: ConversionService,
+    private val tokenService: SmartThingsTokenService
 ) : BaseRequestHandler() {
 
     override fun invoke(request: SmartThingsRequest): ResponseEntity<SmartThingsResponse> {
@@ -24,7 +26,7 @@ class DiscoveryRequestHandler(
             .mapNotNull { conversionService.convert(it, SmartThingsDevice::class.java) }
         val smartThingsResponse = SmartThingsResponse(
             createHeaders(request, "discoveryResponse"),
-            false,
+            tokenService.isGrantCallbackAccessRequired(),
             devices
         )
         return ResponseEntity.ok(smartThingsResponse)
