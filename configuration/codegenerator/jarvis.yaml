@@ -676,6 +676,36 @@ components:
           $ref: '#/components/schemas/Headers'
         callbackAuthentication:
           $ref: '#/components/schemas/CallbackAuthentication'
+    SmartThingsCallbackRequest:
+      type: object
+      properties:
+        headers:
+          $ref: '#/components/schemas/Headers'
+        callbackAuthentication:
+          $ref: '#/components/schemas/Authentication'
+        deviceState:
+          type: array
+          items:
+            $ref: '#/components/schemas/SmartThingsDeviceState'
+    SmartThingsDeviceState:
+        type: object
+        properties:
+          externalDeviceId:
+            type: string
+            example: pdevice-1
+          states:
+            type: array
+            items:
+              $ref: '#/components/schemas/SmartThingsCallbackState'
+    SmartThingsCallbackState:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/State'
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+          example: 12354354
   parameters:
     authorization:
       name: Authorization

@@ -1,14 +1,9 @@
 package com.am.jarvis.connector.smartthings.notifier
 
-import com.am.jarvis.controller.generated.model.AccessTokenResponse
 import com.am.jarvis.controller.generated.model.CallbackUrls
 import com.am.jarvis.controller.generated.model.SmartThingsRequest
-import mu.KotlinLogging
 import org.springframework.core.convert.ConversionService
 import org.springframework.stereotype.Service
-import org.springframework.web.reactive.function.client.WebClient
-
-private val logger = KotlinLogging.logger {}
 
 /**
  * Service for getting SmartThings token.
@@ -17,17 +12,23 @@ private val logger = KotlinLogging.logger {}
  */
 @Service
 class SmartThingsTokenService(
-    private val conversionService: ConversionService
+    private val conversionService: ConversionService,
+    private val apiClient: SmartThingsApiClient
 ) {
 
-    private val webClient = WebClient.create()
-    private lateinit var callbackUrls: CallbackUrls
-    private lateinit var accessToken: String
-    private lateinit var refreshToken: String
-
     private var grantCallbackAccessRequired = true
+    private var callbackUrls: CallbackUrls? = null
+    private var accessToken: String? = null
+    private var refreshToken: String? = null
 
-    @Suppress("FunctionOnlyReturningConstant", "ForbiddenComment")
+    fun getAccessToken(): String {
+        return requireNotNull(accessToken) { "SmartThings access token is not set" }
+    }
+
+    fun getCallbackUrl(): String {
+        return requireNotNull(callbackUrls?.stateCallback) { "SmartThings callback URL is not set" }
+    }
+
     fun isGrantCallbackAccessRequired(): Boolean {
         return grantCallbackAccessRequired
     }
@@ -36,26 +37,11 @@ class SmartThingsTokenService(
     fun storeCallbackToken(request: SmartThingsRequest) {
         callbackUrls = request.callbackUrls!!
         val convert: SmartThingsRequest = conversionService.convert(request, SmartThingsRequest::class.java)!!
-        getAccessToken(convert)
-        grantCallbackAccessRequired = false
-    }
-
-    @Suppress("MagicNumber")
-    private fun getAccessToken(request: SmartThingsRequest) {
-        logger.info { "Get tokens for SmartThings. Started. RequestId=${request.headers.requestId}" }
-        val callbackAuthentication = webClient.post()
-            .uri(callbackUrls.oauthToken)
-            .bodyValue(request)
-            .retrieve()
-            .bodyToMono(AccessTokenResponse::class.java)
-            .map { it.callbackAuthentication }
-            .block()
+        val tokenUrl = requireNotNull(callbackUrls?.oauthToken) { "SmartThings token URL is not set" }
+        val callbackAuthentication = apiClient.getAccessToken(convert, tokenUrl)
         accessToken = callbackAuthentication?.accessToken!!
         refreshToken = callbackAuthentication.refreshToken!!
         val expiresIn = callbackAuthentication.expiresIn
-        logger.info {
-            "Get tokens for SmartThings. Finished. AccessToken=${accessToken.slice(0..5)}," +
-                " RefreshToken=${refreshToken.slice(0..5)}, ExpiresIn=$expiresIn"
-        }
+        grantCallbackAccessRequired = false
     }
 }
