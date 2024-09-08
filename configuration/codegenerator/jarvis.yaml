@@ -647,8 +647,20 @@ components:
         clientSecret:
           type: string
           example: client secret given to partner in dev-workspace during app creation
+        accessToken:
+          type: string
+          example: Access token used in callback interactions.
+        refreshToken:
+          type: string
+          example: Refresh token.
+        expiresIn:
+          type: integer
+          example: 86400
     CallbackUrls:
       type: object
+      required:
+        - oauthToken
+        - stateCallback
       properties:
         oauthToken:
           type: string
@@ -657,6 +669,13 @@ components:
         stateCallback:
           type: string
           example: Callback URL for state-callback.json updates
+    AccessTokenResponse:
+      type: object
+      properties:
+        headers:
+          $ref: '#/components/schemas/Headers'
+        callbackAuthentication:
+          $ref: '#/components/schemas/CallbackAuthentication'
   parameters:
     authorization:
       name: Authorization
