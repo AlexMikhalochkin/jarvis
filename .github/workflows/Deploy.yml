@@ -37,5 +37,5 @@ jobs:
         script: |
           kill $(ps aux | grep 'jarvis.jar' | grep -v grep | awk '{print $2}')
           mv jarvis/build/libs/jarvis-*.jar jarvis.jar
-          java -Xms512m -Xmx512m -jar -Dserver.tomcat.basedir=tomcat -Dserver.tomcat.accesslog.enabled=true  jarvis.jar &
+          java -Xms512m -Xmx512m -jar -Dserver.tomcat.basedir=tomcat -Dserver.tomcat.accesslog.enabled=true  jarvis.jar > /dev/null &
           ps aux | grep 'jarvis.jar'
