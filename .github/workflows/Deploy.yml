@@ -27,3 +27,14 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         source: build/libs
         target: jarvis
+    - name: Start app via SSH
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        command: |
+          kill $(ps aux | grep 'jarvis.jar' | grep -v grep | awk '{print $2}')
+          mv jarvis/build/libs/jarvis-*.jar jarvis.jar
+          java -Xms512m -Xmx512m -jar -Dserver.tomcat.basedir=tomcat -Dserver.tomcat.accesslog.enabled=true  jarvis.jar &
