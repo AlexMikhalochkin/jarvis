@@ -34,7 +34,7 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        command: |
+        script: |
           kill $(ps aux | grep 'jarvis.jar' | grep -v grep | awk '{print $2}')
           mv jarvis/build/libs/jarvis-*.jar jarvis.jar
           java -Xms512m -Xmx512m -jar -Dserver.tomcat.basedir=tomcat -Dserver.tomcat.accesslog.enabled=true  jarvis.jar &
