@@ -17,9 +17,7 @@ class GrantCallbackAccessRequestHandler(
 ) : BaseRequestHandler() {
 
     override fun invoke(request: SmartThingsRequest): ResponseEntity<SmartThingsResponse> {
-        val callbackAuthentication = request.callbackAuthentication!!
-        val callbackUrls = request.callbackUrls!!
-        tokenService.storeCallbackToken(callbackAuthentication, callbackUrls)
+        tokenService.storeCallbackToken(request)
         val smartThingsResponse = SmartThingsResponse(
             createHeaders(request, "grantCallbackAccess")
         )

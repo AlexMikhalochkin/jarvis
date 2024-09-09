@@ -1,5 +1,6 @@
 package com.am.jarvis
 
+import com.am.jarvis.connector.smartthings.notifier.SmartThingsTokenService
 import com.fasterxml.jackson.databind.ObjectMapper
 import okhttp3.mockwebserver.MockWebServer
 import org.eclipse.paho.client.mqttv3.IMqttClient
@@ -37,6 +38,9 @@ internal class BaseRestTest {
 
     @MockBean
     lateinit var mqttClient: IMqttClient
+
+    @MockBean
+    lateinit var smartThingsTokenService: SmartThingsTokenService
 
     lateinit var mockWebServer: MockWebServer
 

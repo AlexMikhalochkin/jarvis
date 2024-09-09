@@ -16,7 +16,7 @@ class JarvisApplicationTest {
 
     @Test
     fun testSmartThingsWebClient() {
-        assertNotNull(jarvisApplication.smartThingsWebClient(URL))
+        assertNotNull(jarvisApplication.smartThingsWebClient())
     }
 
     @Test

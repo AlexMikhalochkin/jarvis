@@ -24,18 +24,16 @@ class GrantCallbackAccessRequestHandlerTest : BaseRequestHandlerTest<GrantCallba
 
     @Test
     fun testHandleSmartThingsGrantCallbackAccess() {
-        val callbackUrls = CallbackUrls()
-        val callbackAuthentication = CallbackAuthentication()
         val smartThingsRequest = SmartThingsRequest(
             headers = Headers(interactionType = "grantCallbackAccess", requestId = requestId),
             authentication = Authentication(),
-            callbackAuthentication = callbackAuthentication,
-            callbackUrls = callbackUrls
+            callbackAuthentication = CallbackAuthentication(),
+            callbackUrls = CallbackUrls("tokenUrl", "callbackUrl")
         )
         val response = handler.invoke(smartThingsRequest)
 
         verifyHeaders(response.body, "grantCallbackAccess")
         assertSame(HttpStatus.OK, response.statusCode)
-        verify { tokenService.storeCallbackToken(callbackAuthentication, callbackUrls) }
+        verify { tokenService.storeCallbackToken(smartThingsRequest) }
     }
 }

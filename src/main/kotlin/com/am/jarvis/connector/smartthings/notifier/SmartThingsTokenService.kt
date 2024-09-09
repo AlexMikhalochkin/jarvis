@@ -1,7 +1,8 @@
 package com.am.jarvis.connector.smartthings.notifier
 
-import com.am.jarvis.controller.generated.model.CallbackAuthentication
 import com.am.jarvis.controller.generated.model.CallbackUrls
+import com.am.jarvis.controller.generated.model.SmartThingsRequest
+import org.springframework.core.convert.ConversionService
 import org.springframework.stereotype.Service
 
 /**
@@ -10,19 +11,37 @@ import org.springframework.stereotype.Service
  * @author Alex Mikhalochkin.
  */
 @Service
-class SmartThingsTokenService {
+class SmartThingsTokenService(
+    private val conversionService: ConversionService,
+    private val apiClient: SmartThingsApiClient
+) {
 
-    @Suppress("FunctionOnlyReturningConstant", "ForbiddenComment")
-    fun isGrantCallbackAccessRequired(): Boolean {
-        // TODO: Implement checking if grant callback access required
-        return false
+    private var grantCallbackAccessRequired = true
+    private var callbackUrls: CallbackUrls? = null
+    private var accessToken: String? = null
+    private var refreshToken: String? = null
+
+    fun getAccessToken(): String {
+        return requireNotNull(accessToken) { "SmartThings access token is not set" }
     }
 
-    @Suppress("UnusedParameter", "ForbiddenComment")
-    fun storeCallbackToken(
-        callbackAuthentication: CallbackAuthentication,
-        callbackUrls: CallbackUrls
-    ) {
-        // TODO: Implement storing callback token
+    fun getCallbackUrl(): String {
+        return requireNotNull(callbackUrls?.stateCallback) { "SmartThings callback URL is not set" }
+    }
+
+    fun isGrantCallbackAccessRequired(): Boolean {
+        return grantCallbackAccessRequired
+    }
+
+    // todo rename. it stores token and urls
+    fun storeCallbackToken(request: SmartThingsRequest) {
+        callbackUrls = request.callbackUrls!!
+        val convert: SmartThingsRequest = conversionService.convert(request, SmartThingsRequest::class.java)!!
+        val tokenUrl = requireNotNull(callbackUrls?.oauthToken) { "SmartThings token URL is not set" }
+        val callbackAuthentication = apiClient.getAccessToken(convert, tokenUrl)
+        accessToken = callbackAuthentication?.accessToken!!
+        refreshToken = callbackAuthentication.refreshToken!!
+        val expiresIn = callbackAuthentication.expiresIn
+        grantCallbackAccessRequired = false
     }
 }

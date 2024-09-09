@@ -19,8 +19,8 @@ class JarvisApplication {
      * @return instance of [WebClient].
      */
     @Bean("smartThingsWebClient")
-    fun smartThingsWebClient(@Value("\${smart-things.url}") smartThingsUrl: String): WebClient {
-        return WebClient.create(smartThingsUrl)
+    fun smartThingsWebClient(): WebClient {
+        return WebClient.create()
     }
 
     /**
