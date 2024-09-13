@@ -59,33 +59,42 @@ tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
 }
 
-sourceSets {
-    create("testIntegration") {
-        kotlin {
-            compileClasspath += files(main.get().output, configurations.testRuntimeClasspath)
-            runtimeClasspath += files(output, compileClasspath)
-        }
-    }
+val integrationTest: SourceSet by sourceSets.creating {
+    kotlin.srcDirs("src/testIntegration/kotlin")
+    resources.srcDirs("src/testIntegration/resources")
+
+    compileClasspath += sourceSets.main.get().output
+    runtimeClasspath += sourceSets.main.get().output
+}
+
+val integrationTestImplementation: Configuration by configurations.getting {
+    extendsFrom(configurations["implementation"])
+}
+
+configurations[integrationTest.implementationConfigurationName].extendsFrom(configurations.testImplementation.get())
+configurations[integrationTest.runtimeOnlyConfigurationName].extendsFrom(configurations.testRuntimeOnly.get())
+
+val integrationTestTask = tasks.register<Test>("integrationTest") {
+    description = "Runs integration tests."
+    group = "verification"
+    useJUnitPlatform()
+
+    testClassesDirs = integrationTest.output.classesDirs
+    classpath = sourceSets["integrationTest"].runtimeClasspath
+
+    shouldRunAfter(tasks.test)
+}
+
+tasks.check {
+    dependsOn(integrationTestTask)
 }
 
 sourceSets.getByName("main")
     .java
     .srcDirs(layout.buildDirectory.dir("generated/src/main/kotlin"))
 
-val testIntegration = task<Test>("testIntegration") {
-    description = "Runs the integration tests"
-    group = "verification"
-    testClassesDirs = sourceSets["testIntegration"].output.classesDirs
-    classpath = sourceSets["testIntegration"].runtimeClasspath
-    mustRunAfter(tasks["test"])
-}
-
-tasks.check {
-    dependsOn(testIntegration)
-}
-
 jacoco {
-    toolVersion = "0.8.8"
+    toolVersion = "0.8.12"
 }
 
 tasks.jacocoTestReport {
