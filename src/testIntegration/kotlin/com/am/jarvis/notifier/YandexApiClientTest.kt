@@ -7,6 +7,7 @@ import com.am.jarvis.connector.yandex.notifier.YandexNotificationRequest
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import org.eclipse.paho.client.mqttv3.IMqttClient
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.web.bind.annotation.RequestMethod
@@ -36,6 +38,9 @@ class YandexApiClientTest {
 
     @Autowired
     private lateinit var yandexApiClient: YandexApiClient
+
+    @MockBean
+    lateinit var mqttClient: IMqttClient
 
     @Value("\${yandex.notification-url}")
     private lateinit var yandexUrl: String
