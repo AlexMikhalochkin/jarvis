@@ -1,6 +1,6 @@
 package com.am.jarvis.connector.smartthings.notifier
 
-import com.am.jarvis.controller.generated.model.SmartThingsCallbackRequest
+import com.am.jarvis.controller.generated.model.SmartThingsDeviceState
 import com.am.jarvis.core.model.DeviceState
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -24,7 +24,7 @@ class SmartThingsNotifierTest {
     private lateinit var smartThingsApiClient: SmartThingsApiClient
 
     @MockK
-    private lateinit var smartThingsTokenService: SmartThingsTokenService
+    private lateinit var tokenService: SmartThingsTokenService
 
     @MockK
     private lateinit var conversionService: ConversionService
@@ -35,14 +35,16 @@ class SmartThingsNotifierTest {
     @Test
     fun testNotify() {
         val states = listOf(DeviceState("device1", true), DeviceState("device2", false))
-        val request = SmartThingsCallbackRequest()
         val callbackUrl = "http://test.test/test"
-        every { conversionService.convert(states, SmartThingsCallbackRequest::class.java) } returns request
-        every { smartThingsTokenService.getCallbackUrl() } returns callbackUrl
+        val callbackState = SmartThingsDeviceState()
+        every { tokenService.getAccessToken() } returns "token"
+        every { conversionService.convert(states[0], SmartThingsDeviceState::class.java) } returns callbackState
+        every { conversionService.convert(states[1], SmartThingsDeviceState::class.java) } returns callbackState
+        every { tokenService.getCallbackUrl() } returns callbackUrl
 
         notifier.notify(states)
 
-        verify { smartThingsApiClient.sendCallback(request, callbackUrl) }
+        verify { smartThingsApiClient.sendCallback(any(), callbackUrl) }
     }
 
     @Test
