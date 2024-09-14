@@ -29,7 +29,7 @@ class YandexApiClient(
             .header("Authorization", "OAuth $yandexToken")
             .bodyValue(requestPayload)
             .retrieve()
-            .onStatus({ it.is5xxServerError }, { _ -> Mono.error(RetryableServerException()) })
+            .onStatus({ it.is5xxServerError }, { Mono.error(RetryableServerException(it)) })
             .bodyToMono(String::class.java)
             .retryWhen(retryBackoffSpec)
             .doOnError { logger.error(it) { "Error while sending notification to Yandex" } }

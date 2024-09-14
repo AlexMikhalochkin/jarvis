@@ -40,10 +40,11 @@ class SmartThingsApiClient(
             .uri(callbackUrl)
             .bodyValue(request)
             .retrieve()
-            .onStatus({ it.is5xxServerError }, { _ -> Mono.error(RetryableServerException()) })
+            .onStatus({ it.is5xxServerError }, { Mono.error(RetryableServerException(it)) })
             .bodyToMono(String::class.java)
             .retryWhen(retryBackoffSpec)
-            .doOnError { logger.error(it) { "Error while sending notification to SmartThings" } }
+            .doOnError { logger.error(it) { "Error while sending notification to SmartThings. Response=$it. Request=$request" } }
+            .doOnSuccess { logger.info { "Notification sent to SmartThings" } }
             .block()
     }
 }

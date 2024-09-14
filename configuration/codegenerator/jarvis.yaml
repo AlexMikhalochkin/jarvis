@@ -681,7 +681,7 @@ components:
       properties:
         headers:
           $ref: '#/components/schemas/Headers'
-        callbackAuthentication:
+        authentication:
           $ref: '#/components/schemas/Authentication'
         deviceState:
           type: array
