@@ -19,7 +19,7 @@ class SecurityConfiguration {
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        return http.csrf { it.disable() }
+        return http
             .authorizeHttpRequests { request ->
                 request.requestMatchers("/yandex/v1.0/**", "/smartthings")
                     .permitAll()
