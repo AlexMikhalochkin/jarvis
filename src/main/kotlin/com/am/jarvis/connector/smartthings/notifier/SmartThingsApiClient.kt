@@ -4,14 +4,24 @@ import com.am.jarvis.controller.generated.model.AccessTokenResponse
 import com.am.jarvis.controller.generated.model.CallbackAuthentication
 import com.am.jarvis.controller.generated.model.SmartThingsCallbackRequest
 import com.am.jarvis.controller.generated.model.SmartThingsRequest
+import com.am.jarvis.core.model.RetryableServerException
+import mu.KotlinLogging
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.WebClientResponseException
 import reactor.core.publisher.Mono
+import reactor.util.retry.RetryBackoffSpec
 
+private val logger = KotlinLogging.logger {}
+
+/**
+ * Client for SmartThings API.
+ *
+ * @author Alex Mikhalochkin
+ */
 @Component
 class SmartThingsApiClient(
-    private val webClient: WebClient
+    private val webClient: WebClient,
+    private val retryBackoffSpec: RetryBackoffSpec,
 ) {
 
     fun getAccessToken(request: SmartThingsRequest, tokenUrl: String): CallbackAuthentication? {
@@ -30,8 +40,10 @@ class SmartThingsApiClient(
             .uri(callbackUrl)
             .bodyValue(request)
             .retrieve()
+            .onStatus({ it.is5xxServerError }, { _ -> Mono.error(RetryableServerException()) })
             .bodyToMono(String::class.java)
-            .onErrorResume(WebClientResponseException::class.java) { ex -> Mono.just(ex.responseBodyAsString) }
+            .retryWhen(retryBackoffSpec)
+            .doOnError { logger.error(it) { "Error while sending notification to SmartThings" } }
             .block()
     }
 }
