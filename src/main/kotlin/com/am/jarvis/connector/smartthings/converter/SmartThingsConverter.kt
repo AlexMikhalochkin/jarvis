@@ -18,11 +18,10 @@ class SmartThingsConverter : Converter<DeviceState, SmartThingsDeviceState> {
 
     override fun convert(source: DeviceState): SmartThingsDeviceState {
         val callbackState = SmartThingsCallbackState(
-            System.currentTimeMillis().div(millisInSeconds),
-            source.stringState,
-            "main",
-            "st.switch",
-            "switch"
+            timestamp = System.currentTimeMillis().div(millisInSeconds),
+            value = source.stringState,
+            capability = "st.switch",
+            attribute = "switch"
         )
         return SmartThingsDeviceState(
             source.deviceId,

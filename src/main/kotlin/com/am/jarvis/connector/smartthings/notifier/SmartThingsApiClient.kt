@@ -43,7 +43,7 @@ class SmartThingsApiClient(
             .onStatus({ it.is5xxServerError }, { _ -> Mono.error(RetryableServerException()) })
             .bodyToMono(String::class.java)
             .retryWhen(retryBackoffSpec)
-            .doOnError { logger.error(it) { "Error while sending notification to SmartThings" } }
+            .doOnError { logger.error(it) { "SmartThings notification Error. Request=$request" } }
             .block()
     }
 }
