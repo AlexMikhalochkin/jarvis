@@ -33,6 +33,11 @@ yandex:
   token: 123456
   user-id: user-id
 
+client:
+  retry:
+    max-attempts: 3
+    delay-millis: 5000
+
 configured-devices:
   devices:
     - id: "kitchen-light-0"

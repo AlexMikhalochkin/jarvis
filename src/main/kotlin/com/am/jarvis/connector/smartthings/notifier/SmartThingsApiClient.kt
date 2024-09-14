@@ -11,11 +11,11 @@ import reactor.core.publisher.Mono
 
 @Component
 class SmartThingsApiClient(
-    private val smartThingsWebClient: WebClient
+    private val webClient: WebClient
 ) {
 
     fun getAccessToken(request: SmartThingsRequest, tokenUrl: String): CallbackAuthentication? {
-        val block = smartThingsWebClient.post()
+        val block = webClient.post()
             .uri(tokenUrl)
             .bodyValue(request)
             .retrieve()
@@ -26,7 +26,7 @@ class SmartThingsApiClient(
     }
 
     fun sendCallback(request: SmartThingsCallbackRequest, callbackUrl: String) {
-        smartThingsWebClient.post()
+        webClient.post()
             .uri(callbackUrl)
             .bodyValue(request)
             .retrieve()

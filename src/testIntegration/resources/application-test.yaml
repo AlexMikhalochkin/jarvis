@@ -4,8 +4,6 @@ mqtt:
 spring:
   jackson:
     default-property-inclusion: non_null
-  profiles:
-    active: test
 
 security:
   require-ssl: true
@@ -24,7 +22,12 @@ smart-things:
     url: https://c2c-eu.smartthings.com
 
 yandex:
-  notification-url: https://dialogs.yandex.net/api/v1/skills/${yandex.skill-id}/callback/state
   skill-id: 123456
   token: 123456
   user-id: user-id
+  notification-url: http://localhost:12345/api/v1/skills/${yandex.skill-id}/callback/state
+
+client:
+  retry:
+    max-attempts: 3
+    delay-millis: 50
