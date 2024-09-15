@@ -5,9 +5,9 @@ plugins {
     id("org.springframework.boot") version "3.3.3"
     id("io.spring.dependency-management") version "1.1.6"
     id("jacoco")
-    id("io.gitlab.arturbosch.detekt") version "1.23.6"
-    kotlin("jvm") version "1.9.23"
-    kotlin("plugin.spring") version "1.9.23"
+    id("io.gitlab.arturbosch.detekt") version "1.23.7"
+    kotlin("jvm") version "2.0.10"
+    kotlin("plugin.spring") version "2.0.10"
     id("com.diffplug.spotless") version "5.14.2"
     id("org.openapi.generator") version "5.1.1"
 }
@@ -38,7 +38,7 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.7")
 }
 
 kotlin {
@@ -121,7 +121,7 @@ tasks.withType<JacocoReport> {
 }
 
 detekt {
-    toolVersion = "1.23.6"
+    toolVersion = "1.23.7"
     config.setFrom("configuration/detekt/detekt.yml")
     buildUponDefaultConfig = true
 }
