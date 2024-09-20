@@ -41,9 +41,9 @@ class SmartThingsTokenService(
     }
 
     fun isGrantCallbackAccessRequired(): Boolean {
-        val grantCallbackAccessRequired = null == refreshToken
-            || null == callbackUrl
-            || null == oauthTokenUrl
+        val grantCallbackAccessRequired = null == refreshToken ||
+            null == callbackUrl ||
+            null == oauthTokenUrl
         if (grantCallbackAccessRequired) {
             logger.warn { "SmartThings. Grant callback access is required." }
         }
