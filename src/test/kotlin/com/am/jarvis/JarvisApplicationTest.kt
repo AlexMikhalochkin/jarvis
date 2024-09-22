@@ -16,4 +16,9 @@ class JarvisApplicationTest {
     fun testWebClient() {
         assertNotNull(jarvisApplication.webClient())
     }
+
+    @Test
+    fun testRetryBackoffSpec() {
+        assertNotNull(jarvisApplication.retryBackoffSpec(1, 200L))
+    }
 }

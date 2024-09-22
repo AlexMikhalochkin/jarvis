@@ -21,6 +21,18 @@ jobs:
       uses: gradle/actions/setup-gradle@v3
     - name: Build with Gradle wrapper
       run: ./gradlew build
+    - name: Upload coverage report to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        disable_search: true
+        file: ./build/reports/jacoco/report.xml
+        token: ${{ secrets.CODECOV_TOKEN }}
+    - name: Upload test results to Codecov
+      if: ${{ !cancelled() }}
+      uses: codecov/test-results-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./build/test-results/test/TEST-com.am.jarvis.service.impl.SmartHomeServiceImplTest.xml
     - name: Publish Test Report
       uses: mikepenz/action-junit-report@v4
       if: success() || failure()
