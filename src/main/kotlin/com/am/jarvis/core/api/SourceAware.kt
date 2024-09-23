@@ -8,7 +8,7 @@ package com.am.jarvis.core.api
  *
  * @author Alex Mikhalochkin
  */
-interface SourceAware {
+fun interface SourceAware {
 
     /**
      * Retrieves the source of the smart devices.

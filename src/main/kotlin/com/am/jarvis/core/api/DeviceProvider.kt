@@ -11,7 +11,7 @@ import com.am.jarvis.core.model.Device
  *
  * @author Alex Mikhalochkin
  */
-interface DeviceProvider {
+fun interface DeviceProvider {
 
     /**
      * Retrieves the list of all devices.

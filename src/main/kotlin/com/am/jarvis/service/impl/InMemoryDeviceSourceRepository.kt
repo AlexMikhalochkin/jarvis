@@ -7,14 +7,14 @@ import org.springframework.stereotype.Component
 @Component
 class InMemoryDeviceSourceRepository : DeviceSourceRepository {
 
-    private val associate: MutableMap<String, String> = mutableMapOf()
+    private val deviceIdToSourceChannel: MutableMap<String, String> = mutableMapOf()
 
     override fun save(devices: Collection<Device>) {
-        associate.putAll(devices.associate { it.id to it.sourceChannel })
+        deviceIdToSourceChannel.putAll(devices.associate { it.id to it.sourceChannel })
     }
 
     override fun getDevicesPerSource(deviceIds: Collection<String>): Map<String, List<String>> {
-        return deviceIds.filter { associate.contains(it) }
-            .groupBy { associate[it]!! }
+        return deviceIds.filter { deviceIdToSourceChannel.contains(it) }
+            .groupBy { deviceIdToSourceChannel.getValue(it) }
     }
 }
