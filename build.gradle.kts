@@ -21,25 +21,35 @@ repositories {
     mavenCentral()
 }
 
+val kotlinLoggingVersion = "2.1.21"
+val validationApiVersion = "2.0.1.Final"
+val jacksonModuleKotlinVersion = "2.12.3"
+val pahoClientMqttVersion = "1.2.5"
+val commonsIoVersion = "2.11.0"
+val okhttpVersion = "4.12.0"
+val mockkVersion = "1.12.1"
+val mockitoKotlinVersion = "4.0.0"
+val detektFormattingVersion = "1.23.7"
+
 dependencies {
-    implementation("io.github.microutils:kotlin-logging:2.1.21")
+    implementation("io.github.microutils:kotlin-logging:$kotlinLoggingVersion")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
-    implementation("javax.validation:validation-api:2.0.1.Final")
+    implementation("javax.validation:validation-api:$validationApiVersion")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonModuleKotlinVersion")
     implementation("org.springframework.boot:spring-boot-starter-security")
 
-    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
-    testImplementation("commons-io:commons-io:2.11.0")
-    testImplementation("com.squareup.okhttp3:okhttp:4.12.0")
-    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
-    testImplementation("io.mockk:mockk:1.12.1")
+    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:$pahoClientMqttVersion")
+    testImplementation("commons-io:commons-io:$commonsIoVersion")
+    testImplementation("com.squareup.okhttp3:okhttp:$okhttpVersion")
+    testImplementation("com.squareup.okhttp3:mockwebserver:$okhttpVersion")
+    testImplementation("io.mockk:mockk:$mockkVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.7")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektFormattingVersion")
 }
 
 kotlin {
