@@ -60,6 +60,10 @@ kotlin {
     }
 }
 
+tasks.getByName<Jar>("jar") {
+    enabled = false
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
     jvmArgs = listOf("-Xshare:off")
