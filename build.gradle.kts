@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("io.spring.dependency-management") version "1.1.6"
+    id("org.springframework.boot") version "3.3.3"
     id("jacoco")
     id("org.sonarqube") version "5.1.0.4882"
     id("io.gitlab.arturbosch.detekt") version "1.23.7"
@@ -11,13 +12,13 @@ plugins {
     id("org.openapi.generator") version "5.1.1"
 }
 
-repositories {
-    mavenCentral()
-}
-
 allprojects {
     group = "com.am"
     version = "0.0.1-SNAPSHOT"
+
+    repositories {
+        mavenCentral()
+    }
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_17
@@ -29,19 +30,40 @@ kotlin {
     }
 }
 
+tasks.getByName("bootJar") {
+    enabled = false
+}
+
 tasks.getByName<Jar>("jar") {
     enabled = false
 }
 
 subprojects {
+    apply {
+        plugin("io.spring.dependency-management")
+        plugin("jacoco")
+        plugin("org.springframework.boot")
+        plugin("io.gitlab.arturbosch.detekt")
+        plugin("org.jetbrains.kotlin.jvm")
+        plugin("org.jetbrains.kotlin.plugin.spring")
+    }
+
     repositories {
         mavenCentral()
     }
 
-    apply {
-        plugin("io.spring.dependency-management")
-        plugin("jacoco")
-        plugin("io.gitlab.arturbosch.detekt")
+    val mockkVersion = "1.12.1"
+
+    dependencies {
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+        testImplementation("io.mockk:mockk:$mockkVersion")
+
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
+        jvmArgs = listOf("-Xshare:off")
     }
 
     tasks.detekt.configure {
