@@ -1,14 +1,11 @@
 import org.gradle.kotlin.dsl.invoke
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
     kotlin("plugin.spring")
-    id("OpenApiGeneratorPlugin")
 }
 
 val kotlinLoggingVersion = "2.1.21"
-val validationApiVersion = "2.0.1.Final"
 val jacksonModuleKotlinVersion = "2.12.3"
 val pahoClientMqttVersion = "1.2.5"
 val commonsIoVersion = "2.11.0"
@@ -19,9 +16,9 @@ val detektFormattingVersion = "1.23.7"
 dependencies {
     implementation(project(":momomo-core"))
     implementation(project(":momomo-connector-megad"))
+    implementation(project(":momomo-connector-temp"))
     implementation("io.github.microutils:kotlin-logging:$kotlinLoggingVersion")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
-    implementation("javax.validation:validation-api:$validationApiVersion")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonModuleKotlinVersion")
@@ -72,10 +69,6 @@ val integrationTestTask = tasks.register<Test>("integrationTest") {
 tasks.check {
     dependsOn(integrationTestTask)
 }
-
-sourceSets.getByName("main")
-    .java
-    .srcDirs(layout.buildDirectory.dir("generated/src/main/kotlin"))
 
 jacoco {
     toolVersion = "0.8.12"

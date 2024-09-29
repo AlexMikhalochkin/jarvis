@@ -6,3 +6,4 @@ rootProject.name = "jarvis"
 include("momomo-app")
 include("momomo-core")
 include("momomo-connector-megad")
+include("momomo-connector-temp")

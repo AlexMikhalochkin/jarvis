@@ -7,6 +7,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.head
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import java.util.UUID
 
 /**
  * Verifies Yandex REST endpoints.
@@ -22,7 +23,7 @@ internal class YandexRestTest : BaseRestTest() {
 
     @Test
     fun testUnlink() {
-        val requestId = generateUuid()
+        val requestId = UUID.randomUUID().toString()
         val expectedResponse = convertToJson(mapOf("request_id" to requestId))
         val requestBuilder = post("/yandex/v1.0/user/unlink")
             .headers(createHeaders(requestId))

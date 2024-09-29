@@ -4,10 +4,10 @@ import com.am.jarvis.core.api.DeviceProvider
 import com.am.jarvis.core.api.DeviceStateChanger
 import com.am.jarvis.core.api.DeviceStateProvider
 import com.am.jarvis.core.api.Notifier
+import com.am.jarvis.core.api.SmartHomeService
 import com.am.jarvis.core.model.Device
 import com.am.jarvis.core.model.DeviceState
 import com.am.jarvis.service.api.DeviceSourceRepository
-import com.am.jarvis.service.api.SmartHomeService
 import org.springframework.stereotype.Service
 
 /**
