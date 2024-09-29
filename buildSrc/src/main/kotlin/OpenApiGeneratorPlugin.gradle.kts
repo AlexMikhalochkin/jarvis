@@ -5,8 +5,6 @@ plugins {
 
 openApiGenerate {
     generatorName.set("kotlin-spring")
-    inputSpec.set("$rootDir/configuration/codegenerator/jarvis.yaml")
-    outputDir.set("$rootDir/momomo-connector-temp/build/generated")
     templateDir.set("$rootDir/configuration/codegenerator/templates")
     configFile.set("$rootDir/configuration/codegenerator/config.json")
     globalProperties.set(

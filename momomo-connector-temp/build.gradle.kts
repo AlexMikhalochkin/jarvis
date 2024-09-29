@@ -21,6 +21,11 @@ gradle.projectsEvaluated {
     }
 }
 
+openApiGenerate {
+    inputSpec.set("$rootDir/configuration/codegenerator/jarvis.yaml")
+    outputDir.set("$rootDir/momomo-connector-temp/build/generated")
+}
+
 dependencies {
     implementation(project(":momomo-core"))
 
