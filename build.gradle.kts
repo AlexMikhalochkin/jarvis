@@ -6,7 +6,7 @@ plugins {
     id("jacoco")
     id("org.sonarqube") version "5.1.0.4882"
     id("io.gitlab.arturbosch.detekt") version "1.23.7"
-    kotlin("jvm") version "2.0.10"
+    kotlin("jvm")
     kotlin("plugin.spring") version "2.0.10"
 }
 

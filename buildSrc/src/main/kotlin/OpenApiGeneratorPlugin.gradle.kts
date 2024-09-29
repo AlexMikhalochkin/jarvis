@@ -1,6 +1,19 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("com.diffplug.spotless")
     id("org.openapi.generator")
+    kotlin("jvm")
+}
+
+sourceSets.getByName("main")
+    .java
+    .srcDirs(layout.buildDirectory.dir("generated/src/main/kotlin"))
+
+gradle.projectsEvaluated {
+    tasks.withType<KotlinCompile> {
+        dependsOn(tasks.openApiGenerate)
+    }
 }
 
 openApiGenerate {

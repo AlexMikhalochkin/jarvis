@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 val kotlinLoggingVersion = "2.1.21"
 val validationApiVersion = "2.0.1.Final"
 
@@ -9,16 +7,6 @@ plugins {
 
 tasks.getByName("bootJar") {
     enabled = false
-}
-
-sourceSets.getByName("main")
-    .java
-    .srcDirs(layout.buildDirectory.dir("generated/src/main/kotlin"))
-
-gradle.projectsEvaluated {
-    tasks.withType<KotlinCompile> {
-        dependsOn(tasks.openApiGenerate)
-    }
 }
 
 openApiGenerate {
