@@ -50,8 +50,6 @@ subprojects {
         mavenCentral()
     }
 
-    val mockkVersion = "1.12.1"
-
     dependencies {
         testImplementation("io.mockk:mockk:$mockkVersion")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -75,13 +73,13 @@ subprojects {
     }
 
     detekt {
-        toolVersion = "1.23.7"
+        toolVersion = detektFormattingVersion
         config.setFrom("$rootDir/configuration/detekt/detekt.yml")
         buildUponDefaultConfig = true
     }
 
     jacoco {
-        toolVersion = "0.8.12"
+        toolVersion = jacocoVersion
     }
 
     tasks.jacocoTestReport {
