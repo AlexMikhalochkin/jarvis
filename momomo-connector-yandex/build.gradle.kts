@@ -23,7 +23,6 @@ gradle.projectsEvaluated {
 
 openApiGenerate {
     inputSpec.set("$rootDir/configuration/codegenerator/yandex.yaml")
-    outputDir.set("$rootDir/momomo-connector-yandex/build/generated")
 }
 
 dependencies {

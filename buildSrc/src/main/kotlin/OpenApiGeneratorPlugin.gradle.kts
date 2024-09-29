@@ -7,6 +7,7 @@ openApiGenerate {
     generatorName.set("kotlin-spring")
     templateDir.set("$rootDir/configuration/codegenerator/templates")
     configFile.set("$rootDir/configuration/codegenerator/config.json")
+    outputDir.set(layout.buildDirectory.dir("generated").get().asFile.path)
     globalProperties.set(
         mapOf(
             "modelDocs" to "false",

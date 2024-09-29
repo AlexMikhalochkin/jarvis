@@ -23,7 +23,6 @@ gradle.projectsEvaluated {
 
 openApiGenerate {
     inputSpec.set("$rootDir/configuration/codegenerator/smart-things.yaml")
-    outputDir.set("$rootDir/momomo-connector-smart-things/build/generated")
 }
 
 dependencies {
