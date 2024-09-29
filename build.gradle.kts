@@ -62,6 +62,7 @@ subprojects {
     tasks.withType<Test> {
         useJUnitPlatform()
         jvmArgs = listOf("-Xshare:off")
+        finalizedBy(tasks.jacocoTestReport)
     }
 
     tasks.detekt.configure {
@@ -77,5 +78,33 @@ subprojects {
         toolVersion = "1.23.7"
         config.setFrom("$rootDir/configuration/detekt/detekt.yml")
         buildUponDefaultConfig = true
+    }
+
+    jacoco {
+        toolVersion = "0.8.12"
+    }
+
+    tasks.jacocoTestReport {
+        reports {
+            xml.required.set(true)
+            csv.required.set(false)
+            xml.outputLocation.set(layout.buildDirectory.file("reports/jacoco/report.xml"))
+            html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco"))
+        }
+        dependsOn(tasks.test)
+    }
+
+    tasks.withType<JacocoReport> {
+        afterEvaluate {
+            classDirectories.setFrom(files(classDirectories.files.map {
+                fileTree(it).apply {
+                    exclude(
+                        "**/*\$logger\$*.class",
+                        "com/am/jarvis/controller/generated/**",
+                        "com/am/jarvis/StubLoginController**"
+                    )
+                }
+            }))
+        }
     }
 }

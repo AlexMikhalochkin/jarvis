@@ -33,13 +33,6 @@ dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektFormattingVersion")
 }
 
-tasks.test {
-    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-}
-tasks.jacocoTestReport {
-    dependsOn(tasks.test) // tests are required to run before generating the report
-}
-
 val integrationTest: SourceSet by sourceSets.creating {
     kotlin.srcDirs("src/testIntegration/kotlin")
     resources.srcDirs("src/testIntegration/resources")
@@ -68,31 +61,4 @@ val integrationTestTask = tasks.register<Test>("integrationTest") {
 
 tasks.check {
     dependsOn(integrationTestTask)
-}
-
-jacoco {
-    toolVersion = "0.8.12"
-}
-
-tasks.jacocoTestReport {
-    reports {
-        xml.required.set(true)
-        csv.required.set(false)
-        xml.outputLocation.set(layout.buildDirectory.file("reports/jacoco/report.xml"))
-        html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco"))
-    }
-}
-
-tasks.withType<JacocoReport> {
-    afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.map {
-            fileTree(it).apply {
-                exclude(
-                    "**/*\$logger\$*.class",
-                    "com/am/jarvis/controller/generated/**",
-                    "com/am/jarvis/StubLoginController**"
-                )
-            }
-        }))
-    }
 }
