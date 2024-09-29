@@ -1,0 +1,437 @@
+openapi: 3.0.3
+info:
+  title: Jarvis
+  description: Jarvis Smart Home
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+- url: https://virtserver.swaggerhub.com/amikhalachkin/test/1.0.0
+  description: SwaggerHub API Auto Mocking
+tags:
+- name: yandex
+  externalDocs:
+    description: Documentation
+    url: https://yandex.ru/dev/dialogs/smart-home/doc/reference/
+paths:
+  /yandex/v1.0:
+    head:
+      tags:
+      - yandex
+      summary: Health check
+      operationId: health
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+  /yandex/v1.0/user/unlink:
+    post:
+      tags:
+      - yandex
+      summary: Unlink user's account
+      operationId: unlink
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: "12345"
+      - name: X-Request-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 62376c99-5a12-41a9-9599-0866e3bd7b98
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnlinkResponse'
+        "500":
+          description: Internal Server Error
+  /yandex/v1.0/user/devices:
+    get:
+      tags:
+      - yandex
+      summary: Get all user's devices
+      operationId: getDevices
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: "12345"
+      - name: X-Request-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 62376c99-5a12-41a9-9599-0866e3bd7b98
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DevicesResponse'
+        "404":
+          description: Not Found
+  /yandex/v1.0/user/devices/query:
+    post:
+      tags:
+      - yandex
+      summary: Get information about the state of user devices.
+      operationId: getDevicesStates
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: "12345"
+      - name: X-Request-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 62376c99-5a12-41a9-9599-0866e3bd7b98
+      requestBody:
+        description: Get devices states request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StatesRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DevicesResponse2'
+        "404":
+          description: Not Found
+  /yandex/v1.0/user/devices/action:
+    post:
+      tags:
+      - yandex
+      summary: Changes the current state of user devices.
+      operationId: changeDevicesStates
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: "12345"
+      - name: X-Request-Id
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 62376c99-5a12-41a9-9599-0866e3bd7b98
+      requestBody:
+        description: Change devices states request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeStatesRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeStatesResponse'
+        "404":
+          description: Not Found
+components:
+  schemas:
+    UnlinkResponse:
+      required:
+      - request_id
+      type: object
+      properties:
+        request_id:
+          type: string
+          example: 748b33ef-7eb4-4bae-8ead-5047ce34238f
+      description: Unlink user response
+    DevicesResponse:
+      required:
+      - payload
+      type: object
+      properties:
+        payload:
+          $ref: '#/components/schemas/Payload'
+      description: Response with all user's devices
+      allOf:
+      - $ref: '#/components/schemas/UnlinkResponse'
+    DevicesResponse2:
+      type: object
+      properties:
+        payload:
+          $ref: '#/components/schemas/Payload2'
+      description: Response with all user's devices
+      allOf:
+      - $ref: '#/components/schemas/UnlinkResponse'
+    Payload:
+      required:
+      - devices
+      - user_id
+      type: object
+      properties:
+        user_id:
+          type: string
+          example: a5b822de-2ebd-4fc0-802f-2869772583a8
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/YandexDevice'
+      description: Object with devices
+    Payload2:
+      type: object
+      properties:
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/YandexDeviceWithCapabilities'
+      description: Object with devices
+    YandexDevice:
+      required:
+      - capabilities
+      - device_info
+      - id
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+          example: лампa
+        description:
+          type: string
+          example: цветная лампa
+        room:
+          type: string
+          example: спальня
+        type:
+          type: string
+          example: devices.types.light
+        capabilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShortCapability'
+        device_info:
+          $ref: '#/components/schemas/YandexDeviceInfo'
+      description: User's device
+      allOf:
+      - $ref: '#/components/schemas/ShortYandexDevice'
+    YandexDeviceWithCapabilities:
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc-123
+        capabilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/FullCapability'
+      description: User's device with its capabilities
+    ShortCapability:
+      type: object
+      properties:
+        type:
+          type: string
+          example: devices.capabilities.on_off
+      description: Device's capability
+    FullCapability:
+      required:
+      - state
+      - type
+      type: object
+      properties:
+        state:
+          $ref: '#/components/schemas/YandexState'
+      description: Device's capability
+      allOf:
+      - $ref: '#/components/schemas/ShortCapability'
+    YandexDeviceInfo:
+      required:
+      - manufacturer
+      - model
+      type: object
+      properties:
+        manufacturer:
+          type: string
+          example: Provider2
+        model:
+          type: string
+          example: hue g11
+        hw_version:
+          type: string
+          example: "1.2"
+        sw_version:
+          type: string
+          example: "5.4"
+      description: Additional technical information about the device
+    StatesRequest:
+      type: object
+      properties:
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShortYandexDevice'
+      description: Request to get states of devices
+    ShortYandexDevice:
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc-123
+        custom_data:
+          type: object
+          additionalProperties:
+            type: object
+          example:
+            foo: 1
+            bar: two
+      description: User's device
+    YandexState:
+      required:
+      - instance
+      - value
+      type: object
+      properties:
+        instance:
+          type: string
+          example: "on"
+        value:
+          type: boolean
+          example: true
+      description: State of Yandex device
+    ChangeStatesRequest:
+      required:
+      - payload
+      type: object
+      properties:
+        payload:
+          $ref: '#/components/schemas/ChangeStatesRequestPayload'
+      description: Request to change devices' states
+    ChangeStatesRequestPayload:
+      required:
+      - devices
+      type: object
+      properties:
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeStateDevice'
+      description: Object with devices
+    ChangeStatesResponsePayload:
+      type: object
+      properties:
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeStatesResponseDevice'
+      description: Object with devices
+    ChangeStatesResponseDevice:
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc-123
+        capabilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeStatesResponseCapability'
+      description: Device's capability
+    ChangeStatesResponseCapability:
+      type: object
+      properties:
+        type:
+          type: string
+          example: devices.capabilities.on_off
+        state:
+          $ref: '#/components/schemas/ChangeStatesResponseState'
+      description: Device's capability
+    ChangeStatesResponseState:
+      type: object
+      properties:
+        instance:
+          type: string
+          example: "on"
+        action_result:
+          $ref: '#/components/schemas/ActionResult'
+      description: Device's state
+    ActionResult:
+      type: object
+      properties:
+        status:
+          type: string
+          example: DONE
+      description: Result of change state action
+    ChangeStateDevice:
+      required:
+      - capabilities
+      - id
+      type: object
+      description: Device's capability
+      allOf:
+      - $ref: '#/components/schemas/ShortYandexDevice'
+      - $ref: '#/components/schemas/YandexDeviceWithCapabilities'
+    ChangeStatesResponse:
+      type: object
+      properties:
+        payload:
+          $ref: '#/components/schemas/ChangeStatesResponsePayload'
+      description: Response with changed states of devices
+      allOf:
+      - $ref: '#/components/schemas/UnlinkResponse'
+  parameters:
+    authorization:
+      name: Authorization
+      in: header
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+      example: "12345"
+    requestId:
+      name: X-Request-Id
+      in: header
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+      example: 62376c99-5a12-41a9-9599-0866e3bd7b98

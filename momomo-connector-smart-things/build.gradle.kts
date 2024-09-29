@@ -1,0 +1,35 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+val kotlinLoggingVersion = "2.1.21"
+val validationApiVersion = "2.0.1.Final"
+
+plugins {
+    id("OpenApiGeneratorPlugin")
+}
+
+tasks.getByName("bootJar") {
+    enabled = false
+}
+
+sourceSets.getByName("main")
+    .java
+    .srcDirs(layout.buildDirectory.dir("generated/src/main/kotlin"))
+
+gradle.projectsEvaluated {
+    tasks.withType<KotlinCompile> {
+        dependsOn(tasks.openApiGenerate)
+    }
+}
+
+openApiGenerate {
+    inputSpec.set("$rootDir/configuration/codegenerator/smart-things.yaml")
+    outputDir.set("$rootDir/momomo-connector-smart-things/build/generated")
+}
+
+dependencies {
+    implementation(project(":momomo-core"))
+
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("io.github.microutils:kotlin-logging:$kotlinLoggingVersion")
+    implementation("javax.validation:validation-api:$validationApiVersion")
+}

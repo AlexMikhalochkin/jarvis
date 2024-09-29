@@ -16,7 +16,8 @@ val detektFormattingVersion = "1.23.7"
 dependencies {
     implementation(project(":momomo-core"))
     implementation(project(":momomo-connector-megad"))
-    implementation(project(":momomo-connector-temp"))
+    implementation(project(":momomo-connector-yandex"))
+    implementation(project(":momomo-connector-smart-things"))
     implementation("io.github.microutils:kotlin-logging:$kotlinLoggingVersion")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
