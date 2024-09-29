@@ -71,7 +71,7 @@ internal class YandexRestTest : BaseRestTest() {
 
     private fun createHeaders(requestId: String): HttpHeaders {
         val httpHeaders = HttpHeaders()
-        httpHeaders.add("Authorization", generateUuid())
+        httpHeaders.add("Authorization", UUID.randomUUID().toString())
         httpHeaders.add("X-Request-Id", requestId)
         return httpHeaders
     }
