@@ -1,13 +1,13 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("io.spring.dependency-management") version "1.1.6"
-    id("org.springframework.boot") version "3.3.3"
-    id("jacoco")
-    id("org.sonarqube") version "5.1.0.4882"
-    id("io.gitlab.arturbosch.detekt") version "1.23.7"
     kotlin("jvm")
-    kotlin("plugin.spring") version "2.0.10"
+    kotlin("plugin.spring") version kotlinVersion
+    id("io.gitlab.arturbosch.detekt") version detektFormattingVersion
+    id("io.spring.dependency-management") version springDependencyManagementVersion
+    id("jacoco")
+    id("org.springframework.boot") version springBootVersion
+    id("org.sonarqube") version sonarqubeVersion
 }
 
 allprojects {
@@ -38,12 +38,12 @@ tasks.getByName<Jar>("jar") {
 
 subprojects {
     apply {
+        plugin("io.gitlab.arturbosch.detekt")
         plugin("io.spring.dependency-management")
         plugin("jacoco")
-        plugin("org.springframework.boot")
-        plugin("io.gitlab.arturbosch.detekt")
         plugin("org.jetbrains.kotlin.jvm")
         plugin("org.jetbrains.kotlin.plugin.spring")
+        plugin("org.springframework.boot")
     }
 
     repositories {
@@ -53,8 +53,8 @@ subprojects {
     val mockkVersion = "1.12.1"
 
     dependencies {
-        testImplementation("org.springframework.boot:spring-boot-starter-test")
         testImplementation("io.mockk:mockk:$mockkVersion")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
 
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
