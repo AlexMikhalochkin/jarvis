@@ -1,0 +1,354 @@
+openapi: 3.0.3
+info:
+  title: Jarvis
+  description: Jarvis Smart Home
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+- url: https://virtserver.swaggerhub.com/amikhalachkin/test/1.0.0
+  description: SwaggerHub API Auto Mocking
+tags:
+- name: smartthings
+  externalDocs:
+    description: Documentation
+    url: https://smartthings.developer.samsung.com/docs/devices/smartthings-schema/smartthings-schema-reference.html
+paths:
+  /smartthings:
+    post:
+      tags:
+      - smartthings
+      summary: Handle SmartThings request
+      operationId: handleSmartThings
+      requestBody:
+        description: Request from SmartThings
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmartThingsRequest'
+            examples:
+              Discovery:
+                $ref: '#/components/examples/discoveryRequest'
+              StateRefresh:
+                $ref: '#/components/examples/stateRefreshRequest'
+              Command:
+                $ref: '#/components/examples/commandRequest'
+        required: true
+      responses:
+        "200":
+          description: Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SmartThingsResponse'
+components:
+  schemas:
+    SmartThingsRequest:
+      required:
+      - headers
+      type: object
+      properties:
+        headers:
+          $ref: '#/components/schemas/Headers'
+        authentication:
+          $ref: '#/components/schemas/Authentication'
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/SmartThingsDevice'
+        callbackAuthentication:
+          $ref: '#/components/schemas/CallbackAuthentication'
+        callbackUrls:
+          $ref: '#/components/schemas/CallbackUrls'
+      description: Request from SmartThings
+    SmartThingsResponse:
+      type: object
+      properties:
+        headers:
+          $ref: '#/components/schemas/Headers'
+        requestGrantCallbackAccess:
+          type: boolean
+          example: true
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/SmartThingsDevice'
+        deviceState:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceState'
+    SmartThingsDevice:
+      type: object
+      properties:
+        externalDeviceId:
+          type: string
+          example: pdevice-1
+        deviceCookie:
+          $ref: '#/components/schemas/DeviceCookie'
+        friendlyName:
+          type: string
+          example: Kitchen Bulb
+        manufacturerInfo:
+          $ref: '#/components/schemas/ManufacturerInfo'
+        deviceContext:
+          $ref: '#/components/schemas/DeviceContext'
+        deviceHandlerType:
+          type: string
+          example: c2c-rgbw-color-bulb
+        deviceUniqueId:
+          type: string
+          example: unique identifier of device
+        commands:
+          type: array
+          items:
+            $ref: '#/components/schemas/Command'
+    DeviceState:
+      type: object
+      properties:
+        externalDeviceId:
+          type: string
+          example: pdevice-1
+        deviceCookie:
+          $ref: '#/components/schemas/DeviceCookie'
+        states:
+          type: array
+          items:
+            $ref: '#/components/schemas/State'
+      description: SmartThings device state
+    State:
+      type: object
+      properties:
+        component:
+          type: string
+          example: main
+          default: main
+        capability:
+          type: string
+          example: st.switch
+        attribute:
+          type: string
+          example: switch
+        value:
+          type: object
+          example: true
+      description: SmartThings device state
+    Command:
+      type: object
+      properties:
+        component:
+          type: string
+          example: main
+          default: main
+        capability:
+          type: string
+          example: st.switch
+        command:
+          type: string
+          example: "true"
+        arguments:
+          type: array
+          example: []
+          items:
+            type: object
+      description: SmartThings command
+    DeviceCookie:
+      type: object
+      additionalProperties:
+        type: object
+      example:
+        foo: 1
+        bar: two
+    ManufacturerInfo:
+      type: object
+      properties:
+        manufacturerName:
+          type: string
+          example: LIFX
+        modelName:
+          type: string
+          example: A19 Color Bulb
+        hwVersion:
+          type: string
+          example: v1 US bulb
+        swVersion:
+          type: string
+          example: 23.123.231
+    DeviceContext:
+      type: object
+      properties:
+        roomName:
+          type: string
+          example: Kitchen
+        groups:
+          type: array
+          example:
+          - Kitchen Lights
+          - House Bulbs
+          items:
+            type: string
+        categories:
+          type: array
+          example:
+          - light
+          - switch
+          items:
+            type: string
+    Headers:
+      required:
+      - interactionType
+      - requestId
+      - schema
+      - version
+      type: object
+      properties:
+        schema:
+          type: string
+          example: st-schema
+          default: st-schema
+        version:
+          type: string
+          example: "1.0"
+          default: "1.0"
+        interactionType:
+          type: string
+          example: discoveryRequest
+        requestId:
+          type: string
+          example: abc-123-456
+    Authentication:
+      type: object
+      properties:
+        tokenType:
+          type: string
+          example: Bearer
+        token:
+          type: string
+          example: token received during oauth from partner
+      description: Authentication information
+    CallbackAuthentication:
+      type: object
+      properties:
+        grantType:
+          type: string
+          example: authorization_code
+        scope:
+          type: string
+          example: callback_access
+        code:
+          type: string
+          example: code received during oauth from partner
+        clientId:
+          type: string
+          example: Client ID given to partner in Workspace during app creation
+        clientSecret:
+          type: string
+          example: client secret given to partner in dev-workspace during app creation
+        accessToken:
+          type: string
+          example: Access token used in callback interactions.
+        refreshToken:
+          type: string
+          example: Refresh token.
+        expiresIn:
+          type: integer
+          example: 86400
+    CallbackUrls:
+      type: object
+      required:
+        - oauthToken
+        - stateCallback
+      properties:
+        oauthToken:
+          type: string
+          example: Callback URL for access-token-request.json and refresh-access-tokens.json
+            requests
+        stateCallback:
+          type: string
+          example: Callback URL for state-callback.json updates
+    AccessTokenResponse:
+      type: object
+      properties:
+        headers:
+          $ref: '#/components/schemas/Headers'
+        callbackAuthentication:
+          $ref: '#/components/schemas/CallbackAuthentication'
+    SmartThingsCallbackRequest:
+      type: object
+      properties:
+        headers:
+          $ref: '#/components/schemas/Headers'
+        authentication:
+          $ref: '#/components/schemas/Authentication'
+        deviceState:
+          type: array
+          items:
+            $ref: '#/components/schemas/SmartThingsDeviceState'
+    SmartThingsDeviceState:
+        type: object
+        properties:
+          externalDeviceId:
+            type: string
+            example: pdevice-1
+          states:
+            type: array
+            items:
+              $ref: '#/components/schemas/SmartThingsCallbackState'
+    SmartThingsCallbackState:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/State'
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+          example: 12354354
+  examples:
+    discoveryRequest:
+      value:
+        headers:
+          schema: st-schema
+          version: 1
+          interactionType: discoveryRequest
+          requestId: abc-123-456
+        authentication:
+          tokenType: Bearer
+          token: token received during oauth from partner
+    stateRefreshRequest:
+      value:
+        headers:
+          schema: st-schema
+          version: 1
+          interactionType: stateRefreshRequest
+          requestId: abc-123-456
+        authentication:
+          tokenType: Bearer
+          token: token received during oauth from partner
+        devices:
+        - externalDeviceId: partner-device-id-1
+        - externalDeviceId: partner-device-id-2
+    commandRequest:
+      value:
+        headers:
+          schema: st-schema
+          version: 1
+          interactionType: commandRequest
+          requestId: abc-123-456
+        authentication:
+          tokenType: Bearer
+          token: token received during oauth from partner
+        devices:
+        - externalDeviceId: partner-device-id-1
+          deviceCookie:
+            lastcookie: cookie value
+          commands:
+          - component: main
+            capability: st.switch
+            command: true
+            arguments: []
