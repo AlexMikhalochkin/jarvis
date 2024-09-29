@@ -8,8 +8,6 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.23.7"
     kotlin("jvm") version "2.0.10"
     kotlin("plugin.spring") version "2.0.10"
-    id("com.diffplug.spotless") version "5.14.2"
-    id("org.openapi.generator") version "5.1.1"
 }
 
 allprojects {
