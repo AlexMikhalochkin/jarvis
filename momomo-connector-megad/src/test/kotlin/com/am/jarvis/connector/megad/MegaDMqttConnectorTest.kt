@@ -1,16 +1,16 @@
 package com.am.jarvis.connector.megad
 
+import com.am.jarvis.connector.megad.mqtt.MegaDMqttCommandMessagePublisher
 import com.am.jarvis.connector.megad.repository.api.DeviceRepository
 import com.am.jarvis.core.model.Device
 import com.am.jarvis.core.model.DeviceState
 import io.mockk.every
+import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import io.mockk.verify
-import org.eclipse.paho.client.mqttv3.IMqttClient
 import org.junit.jupiter.api.Assertions.assertSame
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -26,14 +26,10 @@ internal class MegaDMqttConnectorTest {
     private lateinit var deviceRepository: DeviceRepository
 
     @MockK(relaxUnitFun = true)
-    private lateinit var mqttClient: IMqttClient
+    private lateinit var publisher: MegaDMqttCommandMessagePublisher
 
+    @InjectMockKs
     private lateinit var connector: MegaDMqttConnector
-
-    @BeforeEach
-    fun setUp() {
-        connector = MegaDMqttConnector(deviceRepository, mqttClient, "topic/cmd")
-    }
 
     @Test
     fun getAllDevices() {
@@ -67,8 +63,8 @@ internal class MegaDMqttConnectorTest {
 
         connector.changeStates(states)
 
-        verify { mqttClient.publish("topic/cmd", "1:1".toByteArray(), 0, true) }
-        verify { mqttClient.publish("topic/cmd", "2:0".toByteArray(), 0, true) }
+        verify { publisher.publish("1:1") }
+        verify { publisher.publish("2:0") }
     }
 
     @Test
@@ -82,8 +78,8 @@ internal class MegaDMqttConnectorTest {
 
         connector.changeStates(states)
 
-        verify { mqttClient.publish("topic/cmd", "1:1".toByteArray(), 0, true) }
-        verify { mqttClient.publish("topic/cmd", "2:0".toByteArray(), 0, true) }
+        verify { publisher.publish("1:1") }
+        verify { publisher.publish("2:0") }
     }
 
     @Test

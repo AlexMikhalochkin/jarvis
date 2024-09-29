@@ -23,8 +23,6 @@ dependencies {
     testImplementation("com.squareup.okhttp3:okhttp:$okhttpVersion")
     testImplementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:$pahoClientMqttVersion")
     testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
-
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektFormattingVersion")
 }
 
 val integrationTest: SourceSet by sourceSets.creating {

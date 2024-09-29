@@ -55,6 +55,8 @@ subprojects {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
 
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektFormattingVersion")
     }
 
     tasks.withType<Test> {

@@ -5,8 +5,8 @@ import com.am.jarvis.controller.generated.model.Headers
 import com.am.jarvis.controller.generated.model.SmartThingsDevice
 import com.am.jarvis.controller.generated.model.SmartThingsRequest
 import com.am.jarvis.controller.generated.model.SmartThingsResponse
-import com.am.jarvis.core.model.DeviceState
 import com.am.jarvis.core.api.SmartHomeService
+import com.am.jarvis.core.model.DeviceState
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension

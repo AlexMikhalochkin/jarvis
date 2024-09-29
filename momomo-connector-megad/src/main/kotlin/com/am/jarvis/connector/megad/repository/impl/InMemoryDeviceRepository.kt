@@ -42,4 +42,8 @@ internal class InMemoryDeviceRepository(
     override fun findPortByDeviceId(deviceId: String): Int {
         return idsToPorts.getValue(deviceId)
     }
+
+    override fun findAllPorts(): Collection<Int> {
+        return idsToPorts.values
+    }
 }

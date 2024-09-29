@@ -101,4 +101,11 @@ internal class InMemoryDeviceRepositoryTest {
     fun testFindPortByDeviceId() {
         assertEquals(7, deviceRepository.findPortByDeviceId(deviceId))
     }
+
+    @Test
+    fun testFindAllPorts() {
+        val actual = deviceRepository.findAllPorts()
+        assertEquals(1, actual.size)
+        assertTrue(actual.contains(7))
+    }
 }
