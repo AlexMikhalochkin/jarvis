@@ -38,4 +38,9 @@ interface DeviceRepository {
      * Returns port by specified [deviceId].
      */
     fun findPortByDeviceId(deviceId: String): Int
+
+    /**
+     * Returns all available ports.
+     */
+    fun findAllPorts(): Collection<Int>
 }

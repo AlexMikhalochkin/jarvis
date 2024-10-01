@@ -11,11 +11,11 @@ import com.am.jarvis.controller.generated.model.YandexDevice
 import com.am.jarvis.controller.generated.model.YandexDeviceInfo
 import com.am.jarvis.controller.generated.model.YandexDeviceWithCapabilities
 import com.am.jarvis.controller.generated.model.YandexState
+import com.am.jarvis.core.api.SmartHomeService
 import com.am.jarvis.core.model.Device
 import com.am.jarvis.core.model.DeviceName
 import com.am.jarvis.core.model.DeviceState
 import com.am.jarvis.core.model.Room
-import com.am.jarvis.core.api.SmartHomeService
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
