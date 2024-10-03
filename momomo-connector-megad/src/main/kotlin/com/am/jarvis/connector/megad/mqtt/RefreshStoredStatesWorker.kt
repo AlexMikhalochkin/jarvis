@@ -16,7 +16,7 @@ private val logger = KotlinLogging.logger {}
 @Service
 class RefreshStoredStatesWorker(
     private val deviceRepository: DeviceRepository,
-    private val publisher: MegaDMqttCommandMessagePublisher
+    private val commandPublisher: MegaDMqttCommandMessagePublisher
 ) {
 
     @Scheduled(
@@ -28,6 +28,6 @@ class RefreshStoredStatesWorker(
         logger.info("Refreshing stored states. Started.")
         deviceRepository.findAllPorts()
             .map { "get:$it" }
-            .forEach(publisher::publish)
+            .forEach(commandPublisher::publish)
     }
 }
