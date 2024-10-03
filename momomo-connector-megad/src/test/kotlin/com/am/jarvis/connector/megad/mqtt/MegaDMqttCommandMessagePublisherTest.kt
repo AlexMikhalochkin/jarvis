@@ -1,9 +1,9 @@
 package com.am.jarvis.connector.megad.mqtt
 
+import com.am.jarvis.core.api.MqttMessagePublisher
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.verify
-import org.eclipse.paho.client.mqttv3.IMqttClient
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -17,19 +17,19 @@ import org.junit.jupiter.api.extension.ExtendWith
 class MegaDMqttCommandMessagePublisherTest {
 
     @MockK(relaxUnitFun = true)
-    private lateinit var mqttClient: IMqttClient
+    private lateinit var mqttPublisher: MqttMessagePublisher
 
     private lateinit var publisher: MegaDMqttCommandMessagePublisher
 
     @BeforeEach
     fun setUp() {
-        publisher = MegaDMqttCommandMessagePublisher(mqttClient, "topic/cmd")
+        publisher = MegaDMqttCommandMessagePublisher(mqttPublisher, "topic/cmd")
     }
 
     @Test
     fun publishTest() {
         publisher.publish("2:0")
 
-        verify { mqttClient.publish("topic/cmd", "2:0".toByteArray(), 0, true) }
+        verify { mqttPublisher.publish("topic/cmd", "2:0") }
     }
 }

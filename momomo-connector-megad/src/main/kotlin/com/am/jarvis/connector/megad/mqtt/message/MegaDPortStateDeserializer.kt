@@ -1,4 +1,4 @@
-package com.am.jarvis.connector.megad.mqtt
+package com.am.jarvis.connector.megad.mqtt.message
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext

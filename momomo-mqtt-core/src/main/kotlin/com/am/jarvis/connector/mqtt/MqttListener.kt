@@ -1,6 +1,6 @@
-package com.am.jarvis.connector.megad.mqtt
+package com.am.jarvis.connector.mqtt
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.am.jarvis.core.api.MqttTopicMessageProcessor
 import mu.KotlinLogging
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.MqttCallback
@@ -10,16 +10,18 @@ import org.springframework.stereotype.Component
 private val logger = KotlinLogging.logger {}
 
 /**
- * Listener for MQTT topic.
+ * Listener for MQTT topics.
  *
  * @author Alex Mikhalochkin
  */
 @Component
 internal class MqttListener(
-    private val service: MqttSomeService
+    private val processors: List<MqttTopicMessageProcessor>
 ) : MqttCallback {
 
-    private val mapper = jacksonObjectMapper()
+    private val processorsForTopic = processors.map { it.getSupportedTopics() to it }
+        .flatMap { (topics, processor) -> topics.map { it to processor } }
+        .toMap()
 
     override fun connectionLost(cause: Throwable?) {
         logger.error(cause) { "Connection to MQTT broker lost." }
@@ -33,8 +35,7 @@ internal class MqttListener(
             return
         }
         try {
-            val megaDPortState = mapper.readValue(message.payload, MegaDPortState::class.java)
-            service.process(megaDPortState)
+            processorsForTopic[topic]?.process(message.payload)
             logger.debug { "Processing message. Finished. Topic=$topic, Message=$message" }
         } catch (e: Exception) {
             logger.error(e) { "Processing message. Failed. Topic=$topic, Message=$message" }

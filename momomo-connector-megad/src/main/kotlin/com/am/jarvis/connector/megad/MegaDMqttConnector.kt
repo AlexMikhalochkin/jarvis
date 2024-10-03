@@ -48,10 +48,8 @@ class MegaDMqttConnector(
 
     private fun toMqttMessage(deviceState: DeviceState): String {
         val status = deviceState.intState
-        val port = (
-            deviceState.customData["port"] as Int?
-                ?: deviceRepository.findPortByDeviceId(deviceState.deviceId)
-            )
+        val port = deviceState.customData["port"] as Int?
+            ?: deviceRepository.findPortByDeviceId(deviceState.deviceId)
         return "$port:$status"
     }
 }

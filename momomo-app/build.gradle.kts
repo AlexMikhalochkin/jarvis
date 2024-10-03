@@ -8,6 +8,7 @@ plugins {
 dependencies {
     implementation(project(":momomo-core"))
     implementation(project(":momomo-connector-megad"))
+    implementation(project(":momomo-mqtt-core"))
     implementation(project(":momomo-connector-yandex"))
     implementation(project(":momomo-connector-smart-things"))
 
