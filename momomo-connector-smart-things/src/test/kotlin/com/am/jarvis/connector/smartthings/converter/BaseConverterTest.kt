@@ -35,6 +35,7 @@ abstract class BaseConverterTest<S : Any, E> {
             DeviceName("friendly name", "свет на кухне"),
             "цветная лампа",
             listOf("Kitchen Lights", "House Bulbs"),
+            "MegaD",
             mapOf("port" to 7)
         )
     }

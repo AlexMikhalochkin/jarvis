@@ -54,5 +54,6 @@ configured-devices:
       groups:
         - "Kitchen Lights"
         - "House Bulbs"
+      sourceChannel: "MegaD"
       additionalData:
         port: 7

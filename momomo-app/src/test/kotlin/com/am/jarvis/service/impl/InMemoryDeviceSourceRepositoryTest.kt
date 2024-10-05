@@ -71,8 +71,8 @@ class InMemoryDeviceSourceRepositoryTest {
             DeviceName("name"),
             "name",
             listOf("Kitchen Lights"),
-            mapOf("port" to 7),
-            sourceChannel
+            sourceChannel,
+            mapOf("port" to 7)
         )
     }
 }

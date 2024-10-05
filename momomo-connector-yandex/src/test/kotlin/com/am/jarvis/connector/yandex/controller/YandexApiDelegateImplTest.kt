@@ -164,7 +164,8 @@ internal class YandexApiDelegateImplTest {
         Room("room"),
         DeviceName("device"),
         "description",
-        emptyList()
+        emptyList(),
+        "MegaD"
     )
 
     private fun createDeviceState() = DeviceState(deviceId, true, mapOf("port" to 1))

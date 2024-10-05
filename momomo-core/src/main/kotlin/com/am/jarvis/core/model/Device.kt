@@ -11,9 +11,8 @@ data class Device(
     val name: DeviceName,
     val description: String,
     val groups: List<String>,
+    val sourceChannel: String,
     val additionalData: Map<String, Any> = emptyMap(),
-    // it's always MegaD for now, but should be changed in the future
-    val sourceChannel: String = "MegaD",
     val type: DeviceType = DeviceType.ON_OFF,
     val technicalInfo: TechnicalInfo = TechnicalInfo()
 )

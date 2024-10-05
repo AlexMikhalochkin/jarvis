@@ -34,6 +34,7 @@ internal class InMemoryDeviceRepositoryTest {
                         DeviceName("friendly name"),
                         "description",
                         listOf("Kitchen Lights", "House Bulbs"),
+                        "MegaD",
                         mapOf("port" to 7)
                     )
                 )

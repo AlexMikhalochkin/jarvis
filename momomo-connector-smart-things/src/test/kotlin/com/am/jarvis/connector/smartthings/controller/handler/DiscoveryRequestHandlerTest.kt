@@ -29,7 +29,8 @@ class DiscoveryRequestHandlerTest : BaseRequestHandlerTest<DiscoveryRequestHandl
             Room("room"),
             DeviceName("device"),
             "description",
-            emptyList()
+            emptyList(),
+            "MegaD"
         )
         every { smartHomeService.getAllDevices() } returns listOf(device)
         val smartThingsDevice = SmartThingsDevice()
