@@ -7,6 +7,7 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
 
 /**
  * Configuration for MQTT.
@@ -30,6 +31,7 @@ class MqttConfiguration {
     }
 
     @Bean
+    @Primary
     fun mqttClient(
         @Value("\${mqtt.server-url}") mqttServerUrl: String,
         mqttCallback: MqttCallback,
@@ -42,6 +44,16 @@ class MqttConfiguration {
             setCallback(mqttCallback)
             connect(mqttConnectOptions)
             subscribe(topics, IntArray(topics.size) { 0 })
+        }
+    }
+
+    @Bean("mqttClientPublisher")
+    fun mqttClientPublisher(
+        @Value("\${mqtt.server-url}") mqttServerUrl: String,
+        mqttConnectOptions: MqttConnectOptions
+    ): MqttClient {
+        return MqttClient(mqttServerUrl, "jarvis2").apply {
+            connect(mqttConnectOptions)
         }
     }
 }
