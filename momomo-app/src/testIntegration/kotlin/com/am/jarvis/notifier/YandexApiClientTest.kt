@@ -39,8 +39,11 @@ class YandexApiClientTest {
     @Autowired
     private lateinit var yandexApiClient: YandexApiClient
 
-    @MockBean
+    @MockBean(name = "mqttClient")
     lateinit var mqttClient: IMqttClient
+
+    @MockBean(name = "mqttClientPublisher")
+    lateinit var mqttClientPublisher: IMqttClient
 
     @Value("\${yandex.notification-url}")
     private lateinit var yandexUrl: String
