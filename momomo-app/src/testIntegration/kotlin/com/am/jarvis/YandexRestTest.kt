@@ -66,7 +66,7 @@ internal class YandexRestTest : BaseRestTest() {
             .content(getPayloadFromFile("change_states_request.json"))
         performRequest(requestBuilder)
             .andExpect(content().json(expectedResponse, true))
-        verify(mqttClient).publish("megad-id/cmd", "7:0".toByteArray(), 0, true)
+        verify(mqttClientPublisher).publish("megad-id/cmd", "7:0".toByteArray(), 0, true)
     }
 
     private fun createHeaders(requestId: String): HttpHeaders {

@@ -28,7 +28,7 @@ internal class SmartThingsRestTest : BaseRestTest() {
     fun testCommand() {
         mockWebServer.enqueue(MockResponse().setResponseCode(HttpStatus.OK.value()))
         testSmartThings("smartthings/command_request.json", "smartthings/command_response.json")
-        verify(mqttClient).publish("megad-id/cmd", "7:1".toByteArray(), 0, true)
+        verify(mqttClientPublisher).publish("megad-id/cmd", "7:1".toByteArray(), 0, true)
     }
 
     @Test

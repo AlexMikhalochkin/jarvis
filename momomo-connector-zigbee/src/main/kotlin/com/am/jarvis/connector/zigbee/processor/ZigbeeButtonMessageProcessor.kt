@@ -2,7 +2,6 @@ package com.am.jarvis.connector.zigbee.processor
 
 import com.am.jarvis.core.api.MqttMessagePublisher
 import com.am.jarvis.core.api.MqttTopicMessageProcessor
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -24,7 +23,7 @@ class ZigbeeButtonMessageProcessor(
         val devices: ZigbeeDevice = mapper.readValue(message, ZigbeeDevice::class.java)
         if ("double" == devices.action) {
             publisher.publish(mqttTopic, "13:2")
-        } else  {
+        } else {
             publisher.publish(mqttTopic, "22:2")
         }
     }

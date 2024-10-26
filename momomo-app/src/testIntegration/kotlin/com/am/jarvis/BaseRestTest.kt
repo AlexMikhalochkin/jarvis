@@ -36,8 +36,8 @@ internal class BaseRestTest {
     @Autowired
     private lateinit var testService: TestService
 
-    @MockBean
-    lateinit var mqttClient: IMqttClient
+    @MockBean(name = "mqttClientPublisher")
+    lateinit var mqttClientPublisher: IMqttClient
 
     @MockBean
     lateinit var smartThingsTokenService: SmartThingsTokenService
