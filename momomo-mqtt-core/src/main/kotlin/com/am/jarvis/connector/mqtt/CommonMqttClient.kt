@@ -7,6 +7,7 @@ import org.eclipse.paho.client.mqttv3.MqttClient
  *
  * @author Alex Mikhalochkin
  */
+@MosquitoEnabled
 internal class CommonMqttClient(
     mqttServerUrl: String
 ) : MqttClient(mqttServerUrl, "jarvis") {

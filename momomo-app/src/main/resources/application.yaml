@@ -1,8 +1,14 @@
 mqtt:
-  server-url: tcp://localhost:1883
-  broker:
+  active: mosquitto # aws or mosquitto
+  aws:
+    clientId: clientId
+    port: 443
+    region: eu-west-1
+    endpoint: xxxxxx-ats.iot.${mqtt.aws.region}.amazonaws.com
+  mosquitto:
+    server-url: tcp://localhost:1883
     username: username
-    password: passwword
+    password: password
 
 megad:
   id: megad-id

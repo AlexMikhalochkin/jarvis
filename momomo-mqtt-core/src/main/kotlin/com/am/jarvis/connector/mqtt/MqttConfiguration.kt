@@ -15,12 +15,13 @@ import org.springframework.context.annotation.Primary
  * @author Alex Mikhalochkin
  */
 @Configuration
+@MosquitoEnabled
 class MqttConfiguration {
 
     @Bean
     fun mqttConnectOptions(
-        @Value("\${mqtt.broker.username}") mqttBrokerUsername: String,
-        @Value("\${mqtt.broker.password}") mqttBrokerPassword: String
+        @Value("\${mqtt.mosquitto.username}") mqttBrokerUsername: String,
+        @Value("\${mqtt.mosquitto.password}") mqttBrokerPassword: String
     ): MqttConnectOptions {
         return MqttConnectOptions().apply {
             isAutomaticReconnect = true
@@ -33,7 +34,7 @@ class MqttConfiguration {
     @Bean
     @Primary
     fun mqttClient(
-        @Value("\${mqtt.server-url}") mqttServerUrl: String,
+        @Value("\${mqtt.mosquitto.server-url}") mqttServerUrl: String,
         mqttCallback: MqttCallback,
         mqttConnectOptions: MqttConnectOptions,
         topicMessageProcessors: List<MqttTopicMessageProcessor>
@@ -49,7 +50,7 @@ class MqttConfiguration {
 
     @Bean("mqttClientPublisher")
     fun mqttClientPublisher(
-        @Value("\${mqtt.server-url}") mqttServerUrl: String,
+        @Value("\${mqtt.mosquitto.server-url}") mqttServerUrl: String,
         mqttConnectOptions: MqttConnectOptions
     ): MqttClient {
         return MqttClient(mqttServerUrl, "jarvis2").apply {

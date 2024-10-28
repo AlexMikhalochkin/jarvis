@@ -12,6 +12,7 @@ dependencies {
     implementation(project(":momomo-connector-yandex"))
     implementation(project(":momomo-connector-smart-things"))
     implementation(project(":momomo-connector-zigbee"))
+    implementation(project(":momomo-mqtt-aws"))
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonModuleKotlinVersion")
     implementation("io.github.microutils:kotlin-logging:$kotlinLoggingVersion")
