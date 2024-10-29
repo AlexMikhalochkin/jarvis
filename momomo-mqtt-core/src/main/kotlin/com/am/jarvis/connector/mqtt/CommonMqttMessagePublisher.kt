@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service
 private val logger = KotlinLogging.logger {}
 
 @Service
+@MosquitoEnabled
 class CommonMqttMessagePublisher(
     @Qualifier("mqttClientPublisher") private val mqttClientPublisher: IMqttClient,
 ) : MqttMessagePublisher {

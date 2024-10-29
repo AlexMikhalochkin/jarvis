@@ -15,8 +15,9 @@ private val logger = KotlinLogging.logger {}
  * @author Alex Mikhalochkin
  */
 @Component
+@MosquitoEnabled
 internal class MqttListener(
-    private val processors: List<MqttTopicMessageProcessor>
+    processors: List<MqttTopicMessageProcessor>
 ) : MqttCallback {
 
     private val processorsForTopic = processors.map { it.getSupportedTopics() to it }
