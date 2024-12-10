@@ -10,6 +10,7 @@ dependencies {
     implementation(project(":momomo-connector-megad"))
     implementation(project(":momomo-mqtt-core"))
     implementation(project(":momomo-connector-yandex"))
+    implementation(project(":momomo-notifier-yandex"))
     implementation(project(":momomo-connector-smart-things"))
     implementation(project(":momomo-connector-zigbee"))
     implementation(project(":momomo-mqtt-aws"))

@@ -4,6 +4,7 @@ plugins {
 rootProject.name = "jarvis"
 
 include("momomo-app")
+include("momomo-worker-app")
 include("momomo-core")
 include("momomo-connector-megad")
 include("momomo-connector-yandex")
@@ -11,3 +12,4 @@ include("momomo-connector-smart-things")
 include("momomo-mqtt-core")
 include("momomo-connector-zigbee")
 include("momomo-mqtt-aws")
+include("momomo-notifier-yandex")
