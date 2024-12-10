@@ -1,7 +1,6 @@
 package com.am.jarvis.connector.mqtt
 
 import com.am.jarvis.core.api.MqttTopicMessageProcessor
-import jakarta.annotation.PostConstruct
 import mu.KotlinLogging
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.MqttCallback
@@ -20,11 +19,6 @@ private val logger = KotlinLogging.logger {}
 internal class MqttListener(
     processors: List<MqttTopicMessageProcessor>
 ) : MqttCallback {
-
-    @PostConstruct
-    fun init() {
-        logger.info { "MQTT listener started" }
-    }
 
     private val processorsForTopic = processors.map { it.getSupportedTopics() to it }
         .flatMap { (topics, processor) -> topics.map { it to processor } }

@@ -6,6 +6,7 @@ plugins {
 dependencies {
     implementation(project(":momomo-core"))
     implementation(project(":momomo-connector-megad"))
+    implementation(project(":momomo-connector-zigbee"))
     implementation(project(":momomo-mqtt-core"))
     implementation(project(":momomo-notifier-yandex"))
 
