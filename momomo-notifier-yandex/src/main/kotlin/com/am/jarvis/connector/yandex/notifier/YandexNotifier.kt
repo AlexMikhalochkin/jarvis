@@ -22,11 +22,11 @@ class YandexNotifier(
     @Value("\${yandex.user-id}") private var userId: String
 ) : Notifier {
 
-    override fun notify(states: List<DeviceState>) {
+    override fun notify(states: List<DeviceState>, flag: Boolean) {
         logger.info { "Yandex. Send notification. Started. States=$states" }
-        val requestPayload = createRequest(states[0])
+        val requestPayload = if (flag) createRequest(states[0]) else createRequest2(states[0])
         yandexApiClient.notify(requestPayload)
-        logger.info { "Yandex. Send notification. Finished. States=$states" }
+        logger.info { "Yandex. Send notification. Finished. States=$states, RequestPayload=$requestPayload" }
     }
 
     override fun getSource() = "YANDEX"
@@ -38,7 +38,33 @@ class YandexNotifier(
         )
         val changeStateDevice = ChangeStateDevice(
             state.deviceId,
-            listOf(fullCapability)
+            listOf(fullCapability),
+            null
+        )
+        val payload = Payload(
+            userId,
+            listOf(changeStateDevice)
+        )
+        return YandexNotificationRequest(payload)
+    }
+
+    private fun createRequest2(state: DeviceState): YandexNotificationRequest {
+        val property = Property(
+            YandexState2("temperature", state.customData["temperature"] as Float),
+            "devices.properties.float"
+        )
+        val property2 = Property(
+            YandexState2("humidity", state.customData["humidity"] as Float),
+            "devices.properties.float"
+        )
+        val property3 = Property(
+            YandexState2("battery_level", state.customData["battery_level"] as Float),
+            "devices.properties.float"
+        )
+        val changeStateDevice = ChangeStateDevice(
+            state.deviceId,
+            listOf(),
+            listOf(property, property2, property3)
         )
         val payload = Payload(
             userId,
@@ -60,7 +86,24 @@ data class Payload(
 )
 
 data class ChangeStateDevice(
-    @field:JsonProperty("id") val id: String,
+    @field:JsonProperty("id")
+    val id: String,
     @field:JsonProperty("capabilities")
     val capabilities: List<FullCapability>,
+    @field:JsonProperty("properties")
+    val properties: List<Property>?,
+)
+
+data class Property(
+    @field:JsonProperty("state")
+    val state: YandexState2,
+    @field:JsonProperty("type")
+    val type: String
+)
+
+data class YandexState2(
+    @field:JsonProperty("instance")
+    val instance: String,
+    @field:JsonProperty("value")
+    val float: Float
 )
