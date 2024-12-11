@@ -50,15 +50,15 @@ class YandexNotifier(
 
     private fun createRequest2(state: DeviceState): YandexNotificationRequest {
         val property = Property(
-            YandexState2("temperature", state.customData["temperature"] as Float),
+            YandexState2("temperature", (state.customData["temperature"] as Int).toFloat()),
             "devices.properties.float"
         )
         val property2 = Property(
-            YandexState2("humidity", state.customData["humidity"] as Float),
+            YandexState2("humidity", (state.customData["humidity"] as Int).toFloat()),
             "devices.properties.float"
         )
         val property3 = Property(
-            YandexState2("battery_level", state.customData["battery_level"] as Float),
+            YandexState2("battery_level", (state.customData["battery_level"] as Int).toFloat()),
             "devices.properties.float"
         )
         val changeStateDevice = ChangeStateDevice(
