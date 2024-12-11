@@ -31,6 +31,6 @@ class ZigbeeSensorMessageProcessor(
     }
 
     override fun getSupportedTopics(): List<String> {
-        return listOf("zigbee2mqtt/button")
+        return listOf("zigbee2mqtt/Temperature and humidity sensor")
     }
 }
