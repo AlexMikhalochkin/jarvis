@@ -58,7 +58,7 @@ class YandexNotifier(
             "devices.properties.float"
         )
         val property3 = Property(
-            YandexState2("battery_level", (state.customData["battery_level"] as Int).toFloat()),
+            YandexState2("battery_level", (state.customData["battery"] as Int).toFloat()),
             "devices.properties.float"
         )
         val changeStateDevice = ChangeStateDevice(
