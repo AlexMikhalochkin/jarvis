@@ -21,7 +21,11 @@ class ZigbeeButtonMessageProcessor(
 
     override fun process(message: ByteArray) {
         val devices: ZigbeeDevice = mapper.readValue(message, ZigbeeDevice::class.java)
-        if ("double" == devices.action) {
+        val action = devices.action
+        if (action.isNullOrEmpty()) {
+            return
+        }
+        if ("double" == action) {
             publisher.publish(mqttTopic, "13:2")
         } else {
             publisher.publish(mqttTopic, "22:2")
