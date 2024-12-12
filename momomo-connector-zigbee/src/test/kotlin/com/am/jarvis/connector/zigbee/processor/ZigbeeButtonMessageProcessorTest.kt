@@ -1,5 +1,6 @@
 import com.am.jarvis.connector.zigbee.processor.ZigbeeButtonMessageProcessor
 import com.am.jarvis.core.api.MqttMessagePublisher
+import com.am.jarvis.core.api.Notifier
 import io.mockk.Called
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
@@ -16,11 +17,14 @@ class ZigbeeButtonMessageProcessorTest {
     @MockK(relaxUnitFun = true)
     private lateinit var publisher: MqttMessagePublisher
 
+    @MockK(relaxUnitFun = true)
+    private lateinit var notifier: Notifier
+
     private lateinit var processor: ZigbeeButtonMessageProcessor
 
     @BeforeEach
     fun setUp() {
-        processor = ZigbeeButtonMessageProcessor(publisher, "megad.id/cmd")
+        processor = ZigbeeButtonMessageProcessor(publisher, "megad.id/cmd", listOf(notifier))
     }
 
     @Test

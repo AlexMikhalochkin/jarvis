@@ -28,23 +28,16 @@ class ZigbeeButtonMessageProcessor(
         if (action.isNullOrEmpty()) {
             return
         }
-        val customData : Map<String, Any>
+        val customData: MutableMap<String, Any> = mutableMapOf()
         if ("double" == action) {
             publisher.publish(mqttTopic, "13:2")
-            customData = mapOf(
-                "battery" to device.battery!!,
-                "voltage" to device.voltage!!,
-                "button" to "double_click"
-            )
+            customData["button"] = "double_click"
         } else {
             publisher.publish(mqttTopic, "22:2")
-            customData = mapOf(
-                "battery" to device.battery!!,
-                "voltage" to device.voltage!!,
-                "button" to "click"
-            )
+            customData["button"] = "click"
         }
-
+        device.battery?.let { customData["battery"] = it }
+        device.voltage?.let { customData["voltage"] = it }
         DeviceState("child-button-0", false, customData).let { state ->
             notifiers.forEach { it.notify(listOf(state), false) }
         }

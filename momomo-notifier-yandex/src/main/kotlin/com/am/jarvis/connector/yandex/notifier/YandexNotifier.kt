@@ -53,7 +53,7 @@ class YandexNotifier(
         val property2 = property(state, "humidity", "humidity", "devices.properties.float")
         val property3 = property(state, "battery_level", "battery", "devices.properties.float")
         val property4 = property(state, "voltage", "voltage", "devices.properties.float")
-        val property5 = property2(state, "button", "voltage", "devices.properties.event")
+        val property5 = property2(state, "button", "button", "devices.properties.event")
         val changeStateDevice = ChangeStateDevice(
             state.deviceId,
             listOf(),
