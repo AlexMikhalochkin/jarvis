@@ -49,28 +49,39 @@ class YandexNotifier(
     }
 
     private fun createRequest2(state: DeviceState): YandexNotificationRequest {
-        val property = Property(
-            YandexState2("temperature", (state.customData["temperature"] as Int).toFloat()),
-            "devices.properties.float"
-        )
-        val property2 = Property(
-            YandexState2("humidity", (state.customData["humidity"] as Int).toFloat()),
-            "devices.properties.float"
-        )
-        val property3 = Property(
-            YandexState2("battery_level", (state.customData["battery"] as Int).toFloat()),
-            "devices.properties.float"
-        )
+        val property = property(state, "temperature", "temperature", "devices.properties.float")
+        val property2 = property(state, "humidity", "humidity", "devices.properties.float")
+        val property3 = property(state, "battery_level", "battery", "devices.properties.float")
+        val property4 = property(state, "voltage", "voltage", "devices.properties.float")
+        val property5 = property2(state, "button", "voltage", "devices.properties.event")
         val changeStateDevice = ChangeStateDevice(
             state.deviceId,
             listOf(),
-            listOf(property, property2, property3)
+            listOfNotNull(property, property2, property3, property4, property5)
         )
         val payload = Payload(
             userId,
             listOf(changeStateDevice)
         )
         return YandexNotificationRequest(payload)
+    }
+
+    private fun property(state: DeviceState, instance: String, customData: String, type: String): Property? {
+        val any = state.customData[customData] ?: return null
+        val float = (any as Int).toFloat()
+        return Property(
+            YandexState2(instance, float),
+            type
+        )
+    }
+
+    private fun property2(state: DeviceState, instance: String, customData: String, type: String): Property2? {
+        val any = state.customData[customData] ?: return null
+        val float = any as String
+        return Property2(
+            YandexState3(instance, float),
+            type
+        )
     }
 }
 
@@ -91,7 +102,7 @@ data class ChangeStateDevice(
     @field:JsonProperty("capabilities")
     val capabilities: List<FullCapability>,
     @field:JsonProperty("properties")
-    val properties: List<Property>?,
+    val properties: List<Any>?,
 )
 
 data class Property(
@@ -101,9 +112,23 @@ data class Property(
     val type: String
 )
 
+data class Property2(
+    @field:JsonProperty("state")
+    val state: YandexState3,
+    @field:JsonProperty("type")
+    val type: String
+)
+
 data class YandexState2(
     @field:JsonProperty("instance")
     val instance: String,
     @field:JsonProperty("value")
     val float: Float
+)
+
+data class YandexState3(
+    @field:JsonProperty("instance")
+    val instance: String,
+    @field:JsonProperty("value")
+    val float: String
 )
