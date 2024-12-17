@@ -18,5 +18,5 @@ interface Notifier : SourceAware {
      *
      * @param states a list of DeviceState objects representing the current states of the devices
      */
-    fun notify(states: List<DeviceState>)
+    fun notify(states: List<DeviceState>, flag: Boolean = true)
 }

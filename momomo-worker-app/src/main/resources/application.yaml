@@ -1,0 +1,52 @@
+mqtt:
+  active: mosquitto # aws or mosquitto
+  mosquitto:
+    server-url: tcp://localhost:1883
+    username: username
+    password: password
+
+megad:
+  id: megad-id
+  states:
+    refresh-interval-minutes: 1440
+    initial-delay-minutes: 5
+
+spring:
+  main:
+    web-application-type: none
+  jackson:
+    default-property-inclusion: non_null
+
+smart-things:
+  client:
+    id: clientId
+    secret: clientSecret
+  url: https://c2c-eu.smartthings.com
+
+yandex:
+  notification-url: https://dialogs.yandex.net/api/v1/skills/${yandex.skill-id}/callback/state
+  skill-id: 123456
+  token: 123456
+  user-id: user-id
+
+client:
+  retry:
+    max-attempts: 3
+    delay-millis: 5000
+
+configured-devices:
+  devices:
+    - id: "kitchen-light-0"
+      room:
+        primaryName: "Kitchen"
+        additionalName: "Кухня"
+      name:
+        primaryName: "Kitchen Bulb"
+        additionalName: "свет на кухне"
+      description: "цветная лампа"
+      groups:
+        - "Kitchen Lights"
+        - "House Bulbs"
+      sourceChannel: "MegaD"
+      additionalData:
+        port: 7

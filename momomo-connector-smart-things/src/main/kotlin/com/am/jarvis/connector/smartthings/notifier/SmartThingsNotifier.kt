@@ -25,7 +25,7 @@ class SmartThingsNotifier(
     private val conversionService: ConversionService
 ) : Notifier {
 
-    override fun notify(states: List<DeviceState>) {
+    override fun notify(states: List<DeviceState>, flag: Boolean) {
         logger.info { "SmartThings. Send notification. Started. States=$states" }
         val requestPayload = SmartThingsCallbackRequest(
             Headers(
