@@ -12,6 +12,7 @@ dependencies {
     implementation(project(":momomo-connector-yandex"))
     implementation(project(":momomo-notifier-yandex"))
     implementation(project(":momomo-connector-smart-things"))
+    implementation(project(":momomo-notifier-smart-things"))
     implementation(project(":momomo-connector-zigbee"))
     implementation(project(":momomo-mqtt-aws"))
 

@@ -1,5 +1,3 @@
-val kotlinLoggingVersion = "2.1.21"
-
 plugins {
     id("OpenApiGeneratorPlugin")
 }
@@ -10,11 +8,18 @@ tasks.getByName("bootJar") {
 
 openApiGenerate {
     inputSpec.set("$rootDir/configuration/codegenerator/smart-things.yaml")
+    globalProperties.set(
+        mapOf(
+            "modelDocs" to "false",
+            "models" to "",
+            "apis" to "false",
+            "supportingFiles" to "false"
+        )
+    )
 }
 
 dependencies {
     implementation(project(":momomo-core"))
-    implementation(project(":momomo-notifier-smart-things"))
 
     implementation("io.github.microutils:kotlin-logging:$kotlinLoggingVersion")
     implementation("javax.validation:validation-api:$validationApiVersion")

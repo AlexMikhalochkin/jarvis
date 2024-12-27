@@ -9,6 +9,7 @@ dependencies {
     implementation(project(":momomo-connector-zigbee"))
     implementation(project(":momomo-mqtt-core"))
     implementation(project(":momomo-notifier-yandex"))
+    implementation(project(":momomo-notifier-smart-things"))
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonModuleKotlinVersion")
     implementation("io.github.microutils:kotlin-logging:$kotlinLoggingVersion")

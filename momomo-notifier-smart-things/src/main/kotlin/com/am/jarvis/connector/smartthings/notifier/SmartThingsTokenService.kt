@@ -3,6 +3,7 @@ package com.am.jarvis.connector.smartthings.notifier
 import com.am.jarvis.controller.generated.model.CallbackAuthentication
 import com.am.jarvis.controller.generated.model.SmartThingsRequest
 import mu.KotlinLogging
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.convert.ConversionService
 import org.springframework.stereotype.Service
 
@@ -16,13 +17,16 @@ private val logger = KotlinLogging.logger {}
 @Service
 class SmartThingsTokenService(
     private val conversionService: ConversionService,
-    private val apiClient: SmartThingsApiClient
+    private val apiClient: SmartThingsApiClient,
+    @Value("\${smart-things.callback.refresh-token}") private val refreshToken: String,
+    @Value("\${smart-things.callback.url}") private val callbackUrl: String,
+    @Value("\${smart-things.callback.token-url}") private val oauthTokenUrl: String
 ) {
 
-    private var oauthTokenUrl: String? = null
-    private var callbackUrl: String? = null
+//    private var oauthTokenUrl: String? = null
+//    private var callbackUrl: String? = null
+//    private var refreshToken: String? = null
     private var accessToken: String? = null
-    private var refreshToken: String? = null
     private var token: Token = Token("stub", 0)
 
     fun getAccessToken(): String {
@@ -52,11 +56,12 @@ class SmartThingsTokenService(
 
     // todo rename. it stores token and urls
     fun storeCallbackToken(request: SmartThingsRequest) {
-        oauthTokenUrl = request.callbackUrls?.oauthToken
-        callbackUrl = request.callbackUrls?.stateCallback
+//        oauthTokenUrl = request.callbackUrls?.oauthToken
+//        callbackUrl = request.callbackUrls?.stateCallback
         val accessTokeRequest = conversionService.convert(request, SmartThingsRequest::class.java)!!
         val callbackAuthentication = apiClient.getAccessToken(accessTokeRequest, oauthTokenUrl!!)
-        refreshToken = callbackAuthentication?.refreshToken!!
+//        refreshToken = callbackAuthentication?.refreshToken!!
+        callbackAuthentication?.refreshToken!!
         extracted(callbackAuthentication)
     }
 

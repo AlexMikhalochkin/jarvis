@@ -22,6 +22,10 @@ smart-things:
     id: clientId
     secret: clientSecret
   url: https://c2c-eu.smartthings.com
+  callback:
+    url: https://c2c-eu.smartthings.com/device/events
+    token-url: https://c2c-eu.smartthings.com/oauth/token
+    refresh-token: refreshToken
 
 yandex:
   notification-url: https://dialogs.yandex.net/api/v1/skills/${yandex.skill-id}/callback/state
