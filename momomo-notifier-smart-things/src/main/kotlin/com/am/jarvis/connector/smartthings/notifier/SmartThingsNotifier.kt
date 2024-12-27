@@ -7,7 +7,7 @@ import com.am.jarvis.controller.generated.model.SmartThingsDeviceState
 import com.am.jarvis.core.api.Notifier
 import com.am.jarvis.core.model.DeviceState
 import mu.KotlinLogging
-import org.springframework.core.convert.ConversionService
+import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 import java.util.UUID
 
@@ -22,7 +22,7 @@ private val logger = KotlinLogging.logger {}
 class SmartThingsNotifier(
     private val smartThingsApiClient: SmartThingsApiClient,
     private val tokenService: SmartThingsTokenService,
-    private val conversionService: ConversionService
+    private val converter: Converter<DeviceState, SmartThingsDeviceState>
 ) : Notifier {
 
     override fun notify(states: List<DeviceState>, flag: Boolean) {
@@ -36,7 +36,7 @@ class SmartThingsNotifier(
                 "Bearer",
                 tokenService.getAccessToken()
             ),
-            states.mapNotNull { conversionService.convert(it, SmartThingsDeviceState::class.java) }
+            states.mapNotNull { converter.convert(it) }
         )
         val callbackUrl = tokenService.getCallbackUrl()
         smartThingsApiClient.sendCallback(requestPayload, callbackUrl)

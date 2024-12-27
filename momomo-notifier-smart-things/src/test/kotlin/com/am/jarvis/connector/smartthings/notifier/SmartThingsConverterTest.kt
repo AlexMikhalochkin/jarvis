@@ -1,4 +1,4 @@
-package com.am.jarvis.connector.smartthings.converter
+package com.am.jarvis.connector.smartthings.notifier
 
 import com.am.jarvis.controller.generated.model.SmartThingsCallbackState
 import com.am.jarvis.core.model.DeviceState
