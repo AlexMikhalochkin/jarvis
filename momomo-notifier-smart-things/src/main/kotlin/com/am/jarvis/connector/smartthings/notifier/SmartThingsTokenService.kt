@@ -4,7 +4,7 @@ import com.am.jarvis.controller.generated.model.CallbackAuthentication
 import com.am.jarvis.controller.generated.model.SmartThingsRequest
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.core.convert.ConversionService
+import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Service
 
 private val logger = KotlinLogging.logger {}
@@ -16,7 +16,8 @@ private val logger = KotlinLogging.logger {}
  */
 @Service
 class SmartThingsTokenService(
-    private val conversionService: ConversionService,
+    private val converter: Converter<String, SmartThingsRequest>,
+    private val converter2: Converter<SmartThingsRequest, SmartThingsRequest>,
     private val apiClient: SmartThingsApiClient,
     @Value("\${smart-things.callback.refresh-token}") private val refreshToken: String,
     @Value("\${smart-things.callback.url}") private val callbackUrl: String,
@@ -33,7 +34,7 @@ class SmartThingsTokenService(
         if (token.isExpired()) {
             logger.info { "SmartThings. Refresh callback token." }
             val tokenUrl = requireNotNull(oauthTokenUrl) { "SmartThings token URL is not set" }
-            val convert: SmartThingsRequest = conversionService.convert(refreshToken, SmartThingsRequest::class.java)!!
+            val convert: SmartThingsRequest = converter.convert(refreshToken)!!
             val callbackAuthentication = apiClient.getAccessToken(convert, tokenUrl)
             extracted(callbackAuthentication!!)
         }
@@ -58,7 +59,7 @@ class SmartThingsTokenService(
     fun storeCallbackToken(request: SmartThingsRequest) {
 //        oauthTokenUrl = request.callbackUrls?.oauthToken
 //        callbackUrl = request.callbackUrls?.stateCallback
-        val accessTokeRequest = conversionService.convert(request, SmartThingsRequest::class.java)!!
+        val accessTokeRequest = converter2.convert(request)!!
         val callbackAuthentication = apiClient.getAccessToken(accessTokeRequest, oauthTokenUrl!!)
 //        refreshToken = callbackAuthentication?.refreshToken!!
         callbackAuthentication?.refreshToken!!
