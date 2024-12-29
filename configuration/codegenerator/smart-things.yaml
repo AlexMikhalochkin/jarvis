@@ -309,6 +309,9 @@ components:
           type: integer
           format: int64
           example: 12354354
+        unit:
+          type: string
+          example: "C"
   examples:
     discoveryRequest:
       value:

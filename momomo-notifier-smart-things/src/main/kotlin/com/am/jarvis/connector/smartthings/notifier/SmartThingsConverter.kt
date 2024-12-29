@@ -17,15 +17,37 @@ class SmartThingsConverter : Converter<DeviceState, SmartThingsDeviceState> {
     private val millisInSeconds = 1000
 
     override fun convert(source: DeviceState): SmartThingsDeviceState {
-        val callbackState = SmartThingsCallbackState(
-            timestamp = System.currentTimeMillis().div(millisInSeconds),
-            value = source.stringState,
-            capability = "st.switch",
-            attribute = "switch"
-        )
+        val states =
+            if (source.customData.containsKey("port")) smartThingsCallbackStates(source) else smartThingsCallbackStates2(
+                source
+            )
         return SmartThingsDeviceState(
             source.deviceId,
-            listOf(callbackState)
+            states
+        )
+    }
+
+    private fun smartThingsCallbackStates2(source: DeviceState): List<SmartThingsCallbackState> {
+        val callbackState = smartThingsCallbackState(source.stringState, "st.switch", "switch")
+        return listOf(callbackState)
+    }
+
+    private fun smartThingsCallbackStates(source: DeviceState): List<SmartThingsCallbackState> {
+        val callbackState =
+            smartThingsCallbackState(source.customData["humidity"]!!, "st.relativeHumidityMeasurement", "humidity")
+        val callbackState2 = smartThingsCallbackState(source.customData["battery"]!!, "st.battery", "battery")
+        val callbackState3 =
+            smartThingsCallbackState(source.customData["temperature"]!!, "st.temperatureMeasurement", "temperature", "C")
+        return listOf(callbackState, callbackState2, callbackState3)
+    }
+
+    private fun smartThingsCallbackState(value: Any, capability: String, attribute: String, unit: String? = null): SmartThingsCallbackState {
+        return SmartThingsCallbackState(
+            timestamp = System.currentTimeMillis().div(millisInSeconds),
+            value = value,
+            capability = capability,
+            unit = unit,
+            attribute = attribute
         )
     }
 }
