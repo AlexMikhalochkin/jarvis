@@ -3,8 +3,11 @@ package com.am.jarvis.connector.mqtt
 import com.am.jarvis.core.api.MqttTopicMessageProcessor
 import mu.KotlinLogging
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
-import org.eclipse.paho.client.mqttv3.MqttCallback
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended
+import org.eclipse.paho.client.mqttv3.MqttClient
+import org.eclipse.paho.client.mqttv3.MqttException
 import org.eclipse.paho.client.mqttv3.MqttMessage
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 private val logger = KotlinLogging.logger {}
@@ -14,11 +17,11 @@ private val logger = KotlinLogging.logger {}
  *
  * @author Alex Mikhalochkin
  */
-@Component
-@MosquitoEnabled
+
 internal class MqttListener(
-    processors: List<MqttTopicMessageProcessor>
-) : MqttCallback {
+    processors: List<MqttTopicMessageProcessor>,
+    mqttServerUrl: String
+) : MqttClient(mqttServerUrl, "jarvis-listener"), MqttCallbackExtended {
 
     private val processorsForTopic = processors.map { it.getSupportedTopics() to it }
         .flatMap { (topics, processor) -> topics.map { it to processor } }
@@ -46,5 +49,15 @@ internal class MqttListener(
     override fun deliveryComplete(token: IMqttDeliveryToken?) {
         val message = token?.message
         logger.info { "Message [$message] was delivered" }
+    }
+
+    override fun connectComplete(reconnect: Boolean, serverURI: String?) {
+        try {
+            val topics = processorsForTopic.keys.toTypedArray()
+            subscribe(topics, IntArray(topics.size) { 0 })
+        } catch (e: MqttException) {
+            logger.error(e) { "Can't connect to MQTT broker. Reconnect=$reconnect, ServerURI=$serverURI" }
+        }
+        logger.info { "Connection to MQTT broker established. Reconnect=$reconnect, ServerURI=$serverURI" }
     }
 }

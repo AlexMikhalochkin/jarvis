@@ -2,6 +2,7 @@ package com.am.jarvis.connector.mqtt
 
 import com.am.jarvis.core.api.MqttTopicMessageProcessor
 import org.eclipse.paho.client.mqttv3.MqttCallback
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended
 import org.eclipse.paho.client.mqttv3.MqttClient
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 import org.springframework.beans.factory.annotation.Value
@@ -28,6 +29,7 @@ class MqttConfiguration {
             isCleanSession = true
             password = mqttBrokerPassword.toCharArray()
             userName = mqttBrokerUsername
+            isAutomaticReconnect = true
         }
     }
 
@@ -35,17 +37,13 @@ class MqttConfiguration {
     @Primary
     fun mqttClient(
         @Value("\${mqtt.mosquitto.server-url}") mqttServerUrl: String,
-        mqttCallback: MqttCallback,
         mqttConnectOptions: MqttConnectOptions,
         topicMessageProcessors: List<MqttTopicMessageProcessor>
-    ): MqttClient {
-        val topics = topicMessageProcessors.flatMap { it.getSupportedTopics() }
-            .toTypedArray()
-        return CommonMqttClient(mqttServerUrl).apply {
-            setCallback(mqttCallback)
-            connect(mqttConnectOptions)
-            subscribe(topics, IntArray(topics.size) { 0 })
-        }
+    ): MqttCallbackExtended {
+        val mqttListener = MqttListener(topicMessageProcessors, mqttServerUrl)
+        mqttListener.setCallback(mqttListener)
+        mqttListener.connect(mqttConnectOptions)
+        return mqttListener
     }
 
     @Bean("mqttClientPublisher")
