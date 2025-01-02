@@ -12,7 +12,7 @@ openApiGenerate {
         mapOf(
             "modelDocs" to "false",
             "models" to "",
-            "apis" to "false",
+            "apis" to "",
             "supportingFiles" to "false"
         )
     )
