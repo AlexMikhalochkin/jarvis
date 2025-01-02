@@ -18,7 +18,7 @@ class SmartThingsConverter : Converter<DeviceState, SmartThingsDeviceState> {
 
     override fun convert(source: DeviceState): SmartThingsDeviceState {
         val states =
-            if (source.customData.containsKey("port")) smartThingsCallbackStates(source) else smartThingsCallbackStates2(
+            if (source.customData.containsKey("battery")) smartThingsCallbackStates(source) else smartThingsCallbackStates2(
                 source
             )
         return SmartThingsDeviceState(
