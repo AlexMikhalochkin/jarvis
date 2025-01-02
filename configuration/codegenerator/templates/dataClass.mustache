@@ -1,5 +1,4 @@
 import jakarta.annotation.Generated;
-import com.fasterxml.jackson.annotation.JsonInclude
 /**
  * {{{description}}}
 {{#vars}}
@@ -8,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude
  */{{#discriminator}}
 {{>typeInfoAnnotation}}{{/discriminator}}
 {{>generatedAnnotation}}
-@JsonInclude(JsonInclude.Include.NON_NULL)
 {{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
 {{#requiredVars}}
 {{>dataClassReqVar}}{{^-last}},
