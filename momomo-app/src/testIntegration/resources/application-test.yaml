@@ -16,10 +16,15 @@ server:
     keyAlias: tomcat
 
 smart-things:
-    client:
-      id: clientId
-      secret: clientSecret
-    url: https://c2c-eu.smartthings.com
+  client:
+    id: clientId
+    secret: clientSecret
+  url: https://c2c-eu.smartthings.com
+  callback:
+    refresh-token: refreshToken
+    url: https://test-test-test-test.com
+    token-url: https://test-test-test-test.com
+
 
 yandex:
   skill-id: 123456

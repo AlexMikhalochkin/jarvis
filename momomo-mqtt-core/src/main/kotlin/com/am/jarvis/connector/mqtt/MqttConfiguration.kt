@@ -1,7 +1,6 @@
 package com.am.jarvis.connector.mqtt
 
 import com.am.jarvis.core.api.MqttTopicMessageProcessor
-import org.eclipse.paho.client.mqttv3.MqttCallback
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended
 import org.eclipse.paho.client.mqttv3.MqttClient
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions

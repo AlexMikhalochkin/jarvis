@@ -10,7 +10,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.core.convert.ConversionService
+import org.springframework.core.convert.converter.Converter
 
 /**
  * Verification for [SmartThingsNotifier].
@@ -27,7 +27,7 @@ class SmartThingsNotifierTest {
     private lateinit var tokenService: SmartThingsTokenService
 
     @MockK
-    private lateinit var conversionService: ConversionService
+    private lateinit var converter: Converter<DeviceState, SmartThingsDeviceState>
 
     @InjectMockKs
     private lateinit var notifier: SmartThingsNotifier
@@ -38,8 +38,8 @@ class SmartThingsNotifierTest {
         val callbackUrl = "http://test.test/test"
         val callbackState = SmartThingsDeviceState()
         every { tokenService.getAccessToken() } returns "token"
-        every { conversionService.convert(states[0], SmartThingsDeviceState::class.java) } returns callbackState
-        every { conversionService.convert(states[1], SmartThingsDeviceState::class.java) } returns callbackState
+        every { converter.convert(states[0]) } returns callbackState
+        every { converter.convert(states[1]) } returns callbackState
         every { tokenService.getCallbackUrl() } returns callbackUrl
 
         notifier.notify(states)

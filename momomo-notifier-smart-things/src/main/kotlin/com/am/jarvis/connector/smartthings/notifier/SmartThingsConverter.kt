@@ -17,10 +17,11 @@ class SmartThingsConverter : Converter<DeviceState, SmartThingsDeviceState> {
     private val millisInSeconds = 1000
 
     override fun convert(source: DeviceState): SmartThingsDeviceState {
-        val states =
-            if (source.customData.containsKey("battery")) smartThingsCallbackStates(source) else smartThingsCallbackStates2(
-                source
-            )
+        val states = if (source.customData.containsKey("battery")) {
+            smartThingsCallbackStates(source)
+        } else {
+            smartThingsCallbackStates2(source)
+        }
         return SmartThingsDeviceState(
             source.deviceId,
             states
@@ -33,15 +34,27 @@ class SmartThingsConverter : Converter<DeviceState, SmartThingsDeviceState> {
     }
 
     private fun smartThingsCallbackStates(source: DeviceState): List<SmartThingsCallbackState> {
-        val callbackState =
-            smartThingsCallbackState(source.customData["humidity"]!!, "st.relativeHumidityMeasurement", "humidity")
+        val callbackState = smartThingsCallbackState(
+            source.customData["humidity"]!!,
+            "st.relativeHumidityMeasurement",
+            "humidity"
+        )
         val callbackState2 = smartThingsCallbackState(source.customData["battery"]!!, "st.battery", "battery")
-        val callbackState3 =
-            smartThingsCallbackState(source.customData["temperature"]!!, "st.temperatureMeasurement", "temperature", "C")
+        val callbackState3 = smartThingsCallbackState(
+            source.customData["temperature"]!!,
+            "st.temperatureMeasurement",
+            "temperature",
+            "C"
+        )
         return listOf(callbackState, callbackState2, callbackState3)
     }
 
-    private fun smartThingsCallbackState(value: Any, capability: String, attribute: String, unit: String? = null): SmartThingsCallbackState {
+    private fun smartThingsCallbackState(
+        value: Any,
+        capability: String,
+        attribute: String,
+        unit: String? = null
+    ): SmartThingsCallbackState {
         return SmartThingsCallbackState(
             timestamp = System.currentTimeMillis().div(millisInSeconds),
             value = value,

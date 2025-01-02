@@ -31,7 +31,7 @@ internal class MqttListenerTest {
     @BeforeEach
     fun setUp() {
         every { processor.getSupportedTopics() } returns listOf(topicName)
-        mqttListener = MqttListener(listOf(processor))
+        mqttListener = MqttListener(listOf(processor), "tcp://1.1.1.1")
     }
 
     @Test

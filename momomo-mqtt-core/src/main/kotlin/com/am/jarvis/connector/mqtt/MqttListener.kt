@@ -7,8 +7,6 @@ import org.eclipse.paho.client.mqttv3.MqttCallbackExtended
 import org.eclipse.paho.client.mqttv3.MqttClient
 import org.eclipse.paho.client.mqttv3.MqttException
 import org.eclipse.paho.client.mqttv3.MqttMessage
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Component
 
 private val logger = KotlinLogging.logger {}
 
