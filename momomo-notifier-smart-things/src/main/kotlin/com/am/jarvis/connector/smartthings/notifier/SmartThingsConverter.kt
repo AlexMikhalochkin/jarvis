@@ -17,7 +17,7 @@ class SmartThingsConverter : Converter<DeviceState, SmartThingsDeviceState> {
     private val millisInSeconds = 1000
 
     override fun convert(source: DeviceState): SmartThingsDeviceState {
-        val states = if (source.customData.containsKey("battery")) {
+        val states = if (source.customData.containsKey("humidity")) {
             smartThingsCallbackStates(source)
         } else {
             smartThingsCallbackStates2(source)
@@ -35,13 +35,13 @@ class SmartThingsConverter : Converter<DeviceState, SmartThingsDeviceState> {
 
     private fun smartThingsCallbackStates(source: DeviceState): List<SmartThingsCallbackState> {
         val callbackState = smartThingsCallbackState(
-            source.customData["humidity"]!!,
+            source.customData.getValue("humidity"),
             "st.relativeHumidityMeasurement",
             "humidity"
         )
-        val callbackState2 = smartThingsCallbackState(source.customData["battery"]!!, "st.battery", "battery")
+        val callbackState2 = smartThingsCallbackState(source.customData.getValue("battery"), "st.battery", "battery")
         val callbackState3 = smartThingsCallbackState(
-            source.customData["temperature"]!!,
+            source.customData.getValue("temperature"),
             "st.temperatureMeasurement",
             "temperature",
             "C"
