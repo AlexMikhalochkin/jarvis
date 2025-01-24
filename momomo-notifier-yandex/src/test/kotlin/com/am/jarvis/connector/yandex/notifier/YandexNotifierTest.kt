@@ -1,5 +1,6 @@
 package com.am.jarvis.connector.yandex.notifier
 
+import com.am.jarvis.controller.generated.model.YandexNotificationRequest
 import com.am.jarvis.core.model.DeviceState
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension

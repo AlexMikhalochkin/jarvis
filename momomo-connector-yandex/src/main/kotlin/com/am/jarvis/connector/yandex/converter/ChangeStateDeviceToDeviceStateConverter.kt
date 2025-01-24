@@ -16,7 +16,7 @@ class ChangeStateDeviceToDeviceStateConverter : Converter<ChangeStateDevice, Dev
     override fun convert(source: ChangeStateDevice): DeviceState {
         return DeviceState(
             deviceId = source.id,
-            isOn = source.capabilities[0].state.value,
+            isOn = source.capabilities[0].state.value as Boolean,
             customData = mapOf("port" to source.customData!!["port"] as Int)
         )
     }

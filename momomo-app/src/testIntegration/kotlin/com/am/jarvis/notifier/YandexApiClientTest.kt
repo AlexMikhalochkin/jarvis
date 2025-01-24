@@ -1,9 +1,9 @@
 package com.am.jarvis.notifier
 
 import com.am.jarvis.JarvisApplication
-import com.am.jarvis.connector.yandex.notifier.Payload
 import com.am.jarvis.connector.yandex.notifier.YandexApiClient
-import com.am.jarvis.connector.yandex.notifier.YandexNotificationRequest
+import com.am.jarvis.controller.generated.model.NotificationPayload
+import com.am.jarvis.controller.generated.model.YandexNotificationRequest
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -52,10 +52,11 @@ class YandexApiClientTest {
     private var maxAttempts: Int? = null
 
     private val yandexNotificationRequest = YandexNotificationRequest(
-        Payload(
+        NotificationPayload(
             "userId",
             emptyList()
-        )
+        ),
+        123456L
     )
 
     private lateinit var mockWebServer: MockWebServer
