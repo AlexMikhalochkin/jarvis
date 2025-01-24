@@ -49,10 +49,11 @@ class YandexNotifier(
     }
 
     private fun createRequest2(state: DeviceState): YandexNotificationRequest {
-        val property = property(state, "temperature", "temperature", "devices.properties.float")
-        val property2 = property(state, "humidity", "humidity", "devices.properties.float")
-        val property3 = property(state, "battery_level", "battery", "devices.properties.float")
-        val property4 = property(state, "voltage", "voltage", "devices.properties.float")
+        val floatType = "devices.properties.float"
+        val property = property(state, "temperature", "temperature", floatType)
+        val property2 = property(state, "humidity", "humidity", floatType)
+        val property3 = property(state, "battery_level", "battery", floatType)
+        val property4 = property(state, "voltage", "voltage", floatType)
         val property5 = property2(state, "button", "button", "devices.properties.event")
         val changeStateDevice = ChangeStateDevice(
             state.deviceId,

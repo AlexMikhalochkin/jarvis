@@ -6,7 +6,7 @@ package com.am.jarvis.core.api
  *
  *  @author Alex Mikhalochkin
  */
-interface MqttMessagePublisher {
+fun interface MqttMessagePublisher {
 
     /**
      * Publishes a message to the given MQTT topic.

@@ -1,3 +1,4 @@
+const val awsIotVersion = "1.21.0"
 const val commonsIoVersion = "2.11.0"
 const val detektFormattingVersion = "1.23.7"
 const val jacksonModuleKotlinVersion = "2.12.3"

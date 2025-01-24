@@ -33,22 +33,19 @@ class SmartThingsTokenService(
     fun getAccessToken(): String {
         if (token.isExpired()) {
             logger.info { "SmartThings. Refresh callback token." }
-            val tokenUrl = requireNotNull(oauthTokenUrl) { "SmartThings token URL is not set" }
             val convert: SmartThingsRequest = converter.convert(refreshToken)!!
-            val callbackAuthentication = apiClient.getAccessToken(convert, tokenUrl)
+            val callbackAuthentication = apiClient.getAccessToken(convert, oauthTokenUrl)
             extracted(callbackAuthentication!!)
         }
         return token.accessToken
     }
 
     fun getCallbackUrl(): String {
-        return requireNotNull(callbackUrl) { "SmartThings callback URL is not set" }
+        return callbackUrl
     }
 
     fun isGrantCallbackAccessRequired(): Boolean {
-        val grantCallbackAccessRequired = null == refreshToken ||
-            null == callbackUrl ||
-            null == oauthTokenUrl
+        val grantCallbackAccessRequired = false
         if (grantCallbackAccessRequired) {
             logger.warn { "SmartThings. Grant callback access is required." }
         }
