@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 import reactor.util.retry.RetryBackoffSpec
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.toJavaDuration
 
 private val logger = KotlinLogging.logger {}
 
@@ -32,6 +34,7 @@ class YandexApiClient(
             .retrieve()
             .onStatus({ it.is5xxServerError }, { _ -> Mono.error(RetryableServerException()) })
             .bodyToMono(String::class.java)
+            .timeout(5.seconds.toJavaDuration())
             .retryWhen(retryBackoffSpec)
             .doOnError { logger.error(it) { "Error while sending notification to Yandex" } }
             .block()
