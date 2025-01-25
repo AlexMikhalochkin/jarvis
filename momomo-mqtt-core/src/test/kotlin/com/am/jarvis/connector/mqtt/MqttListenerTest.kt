@@ -7,7 +7,6 @@ import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import io.mockk.verify
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 import org.eclipse.paho.client.mqttv3.MqttMessage
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.BeforeEach
@@ -27,12 +26,12 @@ internal class MqttListenerTest {
     @MockK(relaxUnitFun = true)
     lateinit var processor: MqttTopicMessageProcessor
 
-    private lateinit var mqttListener: MqttListener
+    lateinit var mqttListener: MqttListener
 
     @BeforeEach
     fun setUp() {
         every { processor.getSupportedTopics() } returns listOf(topicName)
-        mqttListener = MqttListener(listOf(processor), "tcp://1.1.1.1", MqttConnectOptions())
+        mqttListener = MqttListener(listOf(processor), "tcp://1.1.1.1")
     }
 
     @Test

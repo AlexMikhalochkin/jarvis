@@ -6,18 +6,20 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 /**
- * Verification for [CommonMqttConnectOptions].
+ * Verification for [MqttConfiguration].
  *
  * @author Alex Mikhalochkin
  */
-internal class CommonMqttConnectOptionsTest {
+class MqttConfigurationTest {
+
+    private val mqttConfiguration = MqttConfiguration()
 
     @Test
     fun testMqttConnectOptions() {
         val username = "username"
         val password = "password"
 
-        val options = CommonMqttConnectOptions(username, password)
+        val options = mqttConfiguration.mqttConnectOptions(username, password)
 
         assertEquals(username, options.userName)
         assertArrayEquals(password.toCharArray(), options.password)

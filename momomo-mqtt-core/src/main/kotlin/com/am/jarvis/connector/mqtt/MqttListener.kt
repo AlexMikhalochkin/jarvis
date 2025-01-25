@@ -1,16 +1,12 @@
 package com.am.jarvis.connector.mqtt
 
 import com.am.jarvis.core.api.MqttTopicMessageProcessor
-import jakarta.annotation.PostConstruct
 import mu.KotlinLogging
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended
 import org.eclipse.paho.client.mqttv3.MqttClient
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 import org.eclipse.paho.client.mqttv3.MqttException
 import org.eclipse.paho.client.mqttv3.MqttMessage
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Component
 
 private val logger = KotlinLogging.logger {}
 
@@ -19,19 +15,11 @@ private val logger = KotlinLogging.logger {}
  *
  * @author Alex Mikhalochkin
  */
-@Component
-@MosquitoEnabled
+
 internal class MqttListener(
     processors: List<MqttTopicMessageProcessor>,
-    @Value("\${mqtt.mosquitto.server-url}") mqttServerUrl: String,
-    private val mqttConnectOptions: MqttConnectOptions
+    mqttServerUrl: String
 ) : MqttClient(mqttServerUrl, "jarvis-listener"), MqttCallbackExtended {
-
-    @PostConstruct
-    fun init() {
-        setCallback(this)
-        connect(mqttConnectOptions)
-    }
 
     private val processorsForTopic = processors.map { it.getSupportedTopics() to it }
         .flatMap { (topics, processor) -> topics.map { it to processor } }
