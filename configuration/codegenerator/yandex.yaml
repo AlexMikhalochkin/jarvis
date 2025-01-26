@@ -467,7 +467,8 @@ components:
         payload:
           $ref: '#/components/schemas/NotificationPayload'
         ts:
-          type: long
+          type: integer
+          format: int64
           example: 1234567890
   parameters:
     authorization:

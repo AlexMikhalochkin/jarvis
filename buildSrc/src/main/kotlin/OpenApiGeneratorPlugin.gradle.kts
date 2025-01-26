@@ -21,14 +21,7 @@ openApiGenerate {
     templateDir.set("$rootDir/configuration/codegenerator/templates")
     configFile.set("$rootDir/configuration/codegenerator/config.json")
     outputDir.set(layout.buildDirectory.dir("generated").get().asFile.path)
-    globalProperties.set(
-        mapOf(
-            "modelDocs" to "false",
-            "models" to "",
-            "apis" to "",
-            "supportingFiles" to "false"
-        )
-    )
+    ignoreFileOverride.set("$projectDir/.openapi-generator-ignore")
 }
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {

@@ -1,5 +1,3 @@
-val kotlinLoggingVersion = "2.1.21"
-
 plugins {
     id("OpenApiGeneratorPlugin")
 }
