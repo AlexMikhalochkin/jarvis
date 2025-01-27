@@ -7,7 +7,6 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Primary
 
 /**
  * Configuration for MQTT.
@@ -19,38 +18,25 @@ import org.springframework.context.annotation.Primary
 class MqttConfiguration {
 
     @Bean
-    fun mqttConnectOptions(
-        @Value("\${mqtt.mosquitto.username}") mqttBrokerUsername: String,
-        @Value("\${mqtt.mosquitto.password}") mqttBrokerPassword: String
-    ): MqttConnectOptions {
-        return MqttConnectOptions().apply {
-            isAutomaticReconnect = true
-            isCleanSession = true
-            password = mqttBrokerPassword.toCharArray()
-            userName = mqttBrokerUsername
-            isAutomaticReconnect = true
-        }
-    }
-
-    @Bean
-    @Primary
-    fun mqttClient(
+    fun mqttClientListener(
         @Value("\${mqtt.mosquitto.server-url}") mqttServerUrl: String,
+        @Value("\${mqtt.mosquitto.listener-client-id}") clientId: String,
         mqttConnectOptions: MqttConnectOptions,
         topicMessageProcessors: List<MqttTopicMessageProcessor>
     ): MqttCallbackExtended {
-        val mqttListener = MqttListener(topicMessageProcessors, mqttServerUrl)
+        val mqttListener = MqttListener(topicMessageProcessors, mqttServerUrl, clientId)
         mqttListener.setCallback(mqttListener)
         mqttListener.connect(mqttConnectOptions)
         return mqttListener
     }
 
-    @Bean("mqttClientPublisher")
+    @Bean
     fun mqttClientPublisher(
         @Value("\${mqtt.mosquitto.server-url}") mqttServerUrl: String,
+        @Value("\${mqtt.mosquitto.publisher-client-id}") clientId: String,
         mqttConnectOptions: MqttConnectOptions
     ): MqttClient {
-        return MqttClient(mqttServerUrl, "jarvis2").apply {
+        return CommonMqttClient(mqttServerUrl, clientId).apply {
             connect(mqttConnectOptions)
         }
     }

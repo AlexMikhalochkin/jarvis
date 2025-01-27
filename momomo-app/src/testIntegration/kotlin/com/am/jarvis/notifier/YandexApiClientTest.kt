@@ -39,8 +39,8 @@ class YandexApiClientTest {
     @Autowired
     private lateinit var yandexApiClient: YandexApiClient
 
-    @MockBean(name = "mqttClient")
-    lateinit var mqttClient: IMqttClient
+    @MockBean(name = "mqttClientListener")
+    lateinit var mqttClientListener: IMqttClient
 
     @MockBean(name = "mqttClientPublisher")
     lateinit var mqttClientPublisher: IMqttClient
