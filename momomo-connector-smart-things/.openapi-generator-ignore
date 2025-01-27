@@ -1,0 +1,12 @@
+# OpenAPI Generator Ignore
+
+# Ignore files
+**/.openapi-generator-ignore
+**/ApiUtil.kt
+**/Exceptions.kt
+**/pom.xml
+**/README.md
+
+# Ignore all files in the folder
+**/org/openapitools/*
+**/resources/*

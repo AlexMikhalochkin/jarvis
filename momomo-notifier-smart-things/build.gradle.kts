@@ -8,14 +8,6 @@ tasks.getByName("bootJar") {
 
 openApiGenerate {
     inputSpec.set("$rootDir/configuration/codegenerator/smart-things.yaml")
-    globalProperties.set(
-        mapOf(
-            "modelDocs" to "false",
-            "models" to "",
-            "apis" to "",
-            "supportingFiles" to "false"
-        )
-    )
 }
 
 dependencies {
