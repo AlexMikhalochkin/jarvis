@@ -3,10 +3,10 @@ package com.am.jarvis.connector.megad.mqtt
 import com.am.jarvis.connector.megad.repository.api.DeviceRepository
 import io.mockk.called
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.verify
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -24,8 +24,12 @@ class RefreshStoredStatesWorkerTest {
     @MockK(relaxUnitFun = true)
     private lateinit var publisher: MegaDMqttCommandMessagePublisher
 
-    @InjectMockKs
     private lateinit var worker: RefreshStoredStatesWorker
+
+    @BeforeEach
+    fun setUp() {
+        worker = RefreshStoredStatesWorker(deviceRepository, publisher, 0)
+    }
 
     @Test
     fun testRefresh() {
