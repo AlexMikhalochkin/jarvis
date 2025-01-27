@@ -4,6 +4,8 @@ mqtt:
     server-url: tcp://localhost:1883
     username: username
     password: password
+    listener-client-id: listener
+    publisher-client-id: publisher
 
 megad:
   id: megad-id

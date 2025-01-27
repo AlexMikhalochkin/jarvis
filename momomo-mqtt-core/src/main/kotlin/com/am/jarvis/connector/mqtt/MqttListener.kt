@@ -15,11 +15,11 @@ private val logger = KotlinLogging.logger {}
  *
  * @author Alex Mikhalochkin
  */
-
 internal class MqttListener(
     processors: List<MqttTopicMessageProcessor>,
-    mqttServerUrl: String
-) : MqttClient(mqttServerUrl, "jarvis-listener"), MqttCallbackExtended {
+    mqttServerUrl: String,
+    clientId: String
+) : MqttClient(mqttServerUrl, clientId), MqttCallbackExtended {
 
     private val processorsForTopic = processors.map { it.getSupportedTopics() to it }
         .flatMap { (topics, processor) -> topics.map { it to processor } }
