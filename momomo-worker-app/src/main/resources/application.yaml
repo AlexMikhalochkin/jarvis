@@ -14,9 +14,13 @@ megad:
     initial-delay-minutes: 5
     interval-between-messages-seconds: 1
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus
+
 spring:
-  main:
-    web-application-type: none
   jackson:
     default-property-inclusion: non_null
 
