@@ -8,6 +8,11 @@ import org.springframework.stereotype.Service
 
 private val logger = KotlinLogging.logger {}
 
+/**
+ * An implementation of [MqttMessagePublisher] that publishes messages to MQTT broker.
+ *
+ * @author Alex Mikhalochkin
+ */
 @Service
 @MosquitoEnabled
 class CommonMqttMessagePublisher(
