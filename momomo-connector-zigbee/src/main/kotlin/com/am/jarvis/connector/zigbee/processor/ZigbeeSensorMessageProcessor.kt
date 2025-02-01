@@ -26,7 +26,7 @@ class ZigbeeSensorMessageProcessor(
             "battery" to device.battery!!
         )
         DeviceState("child-sensor-1", false, customData).let { state ->
-            notifiers.forEach { it.notify(listOf(state), false) }
+            notifiers.forEach { it.notify(listOf(state)) }
         }
     }
 

@@ -39,7 +39,7 @@ class ZigbeeButtonMessageProcessor(
         device.battery?.let { customData["battery"] = it }
         device.voltage?.let { customData["voltage"] = it }
         DeviceState("child-button-0", false, customData).let { state ->
-            notifiers.forEach { it.notify(listOf(state), false) }
+            notifiers.forEach { it.notify(listOf(state)) }
         }
     }
 

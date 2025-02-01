@@ -25,7 +25,7 @@ class SmartThingsNotifier(
     private val converter: Converter<DeviceState, SmartThingsDeviceState>
 ) : Notifier {
 
-    override fun notify(states: List<DeviceState>, flag: Boolean) {
+    override fun notify(states: List<DeviceState>) {
         logger.info { "SmartThings. Send notification. Started. States=$states" }
         val requestPayload = SmartThingsCallbackRequest(
             Headers(

@@ -37,7 +37,7 @@ class ZigbeeSensorMessageProcessorTest {
 
         processor.process(message)
 
-        verify { notifier.notify(capture(slot), false) }
+        verify { notifier.notify(capture(slot)) }
         assertEquals(1, slot.captured.size)
         val deviceState = slot.captured[0]
         assertEquals("child-sensor-1", deviceState.deviceId)
