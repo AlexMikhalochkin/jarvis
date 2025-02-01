@@ -19,12 +19,12 @@ allprojects {
     }
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
-        jvmTarget.set(JvmTarget.JVM_17)
+        jvmTarget.set(JvmTarget.JVM_21)
     }
 }
 
