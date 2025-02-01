@@ -16,6 +16,5 @@ class CommonMqttConnectOptions(
         isCleanSession = true
         password = mqttBrokerPassword.toCharArray()
         userName = mqttBrokerUsername
-        isAutomaticReconnect = true
     }
 }
