@@ -9,6 +9,7 @@ mqtt:
 
 megad:
   id: megad-id
+  url: http://localhost:8080/password/
   states:
     refresh-interval-minutes: 1440
     initial-delay-minutes: 5

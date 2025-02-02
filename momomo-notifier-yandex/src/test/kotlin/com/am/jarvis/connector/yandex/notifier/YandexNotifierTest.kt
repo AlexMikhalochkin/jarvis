@@ -55,12 +55,6 @@ internal class YandexNotifierTest {
         val payload = request.payload
         assertSame(userId, payload.userId)
         assertSame(changeStatesDevice, payload.devices[0])
-
-//        assertEquals("id", device.id)
-//        val capability = device.capabilities[0]
-//        assertEquals("on", capability.state.instance)
-//        assertEquals(true, capability.state.value)
-//        assertEquals("devices.capabilities.on_off", capability.type)
     }
 
     @Test

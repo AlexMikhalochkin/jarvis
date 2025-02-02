@@ -26,8 +26,8 @@ class YandexNotifier(
 
     override fun notify(states: List<DeviceState>) {
         logger.info { "Yandex. Send notification. Started. States=$states" }
-        val yandexState = stateConverter.convert(states[0])
-        val payload = NotificationPayload(userId, listOfNotNull(yandexState))
+        val statesDevices = states.mapNotNull { stateConverter.convert(it) }
+        val payload = NotificationPayload(userId, statesDevices)
         val requestPayload = YandexNotificationRequest(payload, getCurrentTimestamp())
         yandexApiClient.notify(requestPayload)
         logger.info { "Yandex. Send notification. Finished. States=$states, RequestPayload=$requestPayload" }
