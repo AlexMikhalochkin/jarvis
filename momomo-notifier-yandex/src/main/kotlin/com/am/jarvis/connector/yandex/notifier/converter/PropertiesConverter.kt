@@ -15,11 +15,11 @@ import org.springframework.stereotype.Component
 class PropertiesConverter : Converter<DeviceState, List<Property>> {
 
     private val supportedProperties = listOf(
-        SupportedProperty("humidity", "humidity", "devices.capabilities.float"),
-        SupportedProperty("temperature", "temperature", "devices.capabilities.float"),
-        SupportedProperty("battery", "battery_level", "devices.capabilities.float"),
-        SupportedProperty("voltage", "voltage", "devices.capabilities.float"),
-        SupportedProperty("button", "button", "devices.capabilities.event")
+        SupportedProperty("humidity", "humidity", "devices.properties.float"),
+        SupportedProperty("temperature", "temperature", "devices.properties.float"),
+        SupportedProperty("battery", "battery_level", "devices.properties.float"),
+        SupportedProperty("voltage", "voltage", "devices.properties.float"),
+        SupportedProperty("button", "button", "devices.properties.event")
     )
 
     override fun convert(source: DeviceState): List<Property> {

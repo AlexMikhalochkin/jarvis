@@ -26,7 +26,7 @@ class PropertiesConverterTest {
         val property = convert[0]
         assertEquals("temperature", property.state.instance)
         assertEquals(2.0, property.state.value)
-        assertEquals("devices.capabilities.float", property.type)
+        assertEquals("devices.properties.float", property.type)
     }
 
     @Test
