@@ -23,7 +23,7 @@ class MegaDHttpClient(
      */
     fun getStatesForAllPorts(): String {
         webClient.get()
-            .uri(baseUrl, mapOf("cmd" to "all", "f" to "d"))
+            .uri("$baseUrl?cmd=all&f=d")
             .retrieve()
             .bodyToMono(String::class.java)
             .block()
