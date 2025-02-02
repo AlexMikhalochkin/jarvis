@@ -27,6 +27,7 @@ class YandexApiClient(
 ) {
 
     fun notify(requestPayload: YandexNotificationRequest) {
+        logger.info { "Sending notification to Yandex. Request=$requestPayload" }
         webClient.post()
             .uri(yandexUrl)
             .header("Authorization", "OAuth $yandexToken")
