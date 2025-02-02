@@ -1,33 +1,23 @@
 package com.am.jarvis.connector.megad.mqtt
 
+import com.am.jarvis.connector.megad.StatesRefresher
 import com.am.jarvis.connector.megad.repository.api.DeviceRepository
-import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
-import java.util.concurrent.TimeUnit
-
-private val logger = KotlinLogging.logger {}
 
 /**
- * Worker for refreshing stored states.
+ * Implementation of [StatesRefresher] for MQTT type of integration with MegaD.
  *
  * @author Alex Mikhalochkin
  */
 @Service
-class RefreshStoredStatesWorker(
+class MqttStatesRefresher(
     private val deviceRepository: DeviceRepository,
     private val commandPublisher: MegaDMqttCommandMessagePublisher,
     @Value("\${megad.states.interval-between-messages-seconds}") private val intervalBetweenMessages: Long
-) {
+) : StatesRefresher {
 
-    @Scheduled(
-        fixedRateString = "\${megad.states.refresh-interval-minutes}",
-        initialDelayString = "\${megad.states.initial-delay-minutes}",
-        timeUnit = TimeUnit.MINUTES
-    )
-    fun refresh() {
-        logger.info("Refreshing stored states. Started.")
+    override fun run() {
         deviceRepository.findAllPorts()
             .map { "get:$it" }
             .forEach(this::publishWithDelay)

@@ -1,8 +1,8 @@
-package com.am.jarvis.connector.megad.mqtt
+package com.am.jarvis.connector.megad
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.annotation.EnableScheduling
 
 @EnableScheduling
 @Configuration
-class MegaDMqttConfiguration
+class MegaDConfiguration
