@@ -24,10 +24,6 @@ class SmartThingsTokenService(
     @Value("\${smart-things.callback.token-url}") private val oauthTokenUrl: String
 ) {
 
-//    private var oauthTokenUrl: String? = null
-//    private var callbackUrl: String? = null
-//    private var refreshToken: String? = null
-    private var accessToken: String? = null
     private var token: Token = Token("stub", 0)
 
     fun getAccessToken(): String {
@@ -45,37 +41,30 @@ class SmartThingsTokenService(
     }
 
     fun isGrantCallbackAccessRequired(): Boolean {
-        val grantCallbackAccessRequired = false
-        if (grantCallbackAccessRequired) {
-            logger.warn { "SmartThings. Grant callback access is required." }
-        }
-        return grantCallbackAccessRequired
+        logger.warn { "SmartThings. Grant callback access is required." }
+        return false
     }
 
-    // todo rename. it stores token and urls
-    fun storeCallbackToken(request: SmartThingsRequest) {
-//        oauthTokenUrl = request.callbackUrls?.oauthToken
-//        callbackUrl = request.callbackUrls?.stateCallback
+    fun storeCallbackTokenAndUrls(request: SmartThingsRequest) {
         val accessTokeRequest = converter2.convert(request)!!
-        val callbackAuthentication = apiClient.getAccessToken(accessTokeRequest, oauthTokenUrl!!)
-//        refreshToken = callbackAuthentication?.refreshToken!!
+        val callbackAuthentication = apiClient.getAccessToken(accessTokeRequest, oauthTokenUrl)
         callbackAuthentication?.refreshToken!!
         extracted(callbackAuthentication)
     }
 
     private fun extracted(callbackAuthentication: CallbackAuthentication) {
-        accessToken = callbackAuthentication.accessToken!!
+        val accessToken = callbackAuthentication.accessToken!!
         val expiresIn = callbackAuthentication.expiresIn
-        token = Token(accessToken!!, expiresIn!!)
+        token = Token(accessToken, expiresIn!!)
     }
 }
 
-class Token(
+@Suppress("MagicNumber")
+data class Token(
     val accessToken: String,
-    expiresIn: Int
+    val expiresIn: Int,
+    val validUntil: Long = System.currentTimeMillis() + expiresIn * 1000
 ) {
-
-    private val validUntil = System.currentTimeMillis() + expiresIn * 1000
 
     fun isExpired(): Boolean = System.currentTimeMillis() > validUntil
 }

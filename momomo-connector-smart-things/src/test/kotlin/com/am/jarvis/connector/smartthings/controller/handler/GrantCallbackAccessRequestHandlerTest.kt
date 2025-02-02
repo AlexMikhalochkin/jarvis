@@ -34,6 +34,6 @@ class GrantCallbackAccessRequestHandlerTest : BaseRequestHandlerTest<GrantCallba
 
         verifyHeaders(response.body, "grantCallbackAccess")
         assertSame(HttpStatus.OK, response.statusCode)
-        verify { tokenService.storeCallbackToken(smartThingsRequest) }
+        verify { tokenService.storeCallbackTokenAndUrls(smartThingsRequest) }
     }
 }
