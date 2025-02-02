@@ -27,7 +27,7 @@ openApiGenerate {
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
     kotlin {
         target("build/generated/**/*.kt")
-        ktfmt().dropboxStyle()
+        ktfmt().kotlinlangStyle()
         ktlint()
     }
 }
