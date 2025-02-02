@@ -53,9 +53,9 @@ internal class MqttListener(
         try {
             val topics = processorsForTopic.keys.toTypedArray()
             subscribe(topics, IntArray(topics.size) { 0 })
+            logger.info { "Connection to MQTT broker established. Reconnect=$reconnect, ServerURI=$serverURI" }
         } catch (e: MqttException) {
             logger.error(e) { "Can't connect to MQTT broker. Reconnect=$reconnect, ServerURI=$serverURI" }
         }
-        logger.info { "Connection to MQTT broker established. Reconnect=$reconnect, ServerURI=$serverURI" }
     }
 }
