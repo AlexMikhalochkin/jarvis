@@ -33,7 +33,11 @@ class AwsMqttConfiguration {
             .withWebsocketSigningRegion(region)
             .withWebsocketCredentialsProvider(credentialsProvider)
             .build()
-        connection.connect().get()
         return connection
+    }
+
+    @Bean
+    fun connect(mqttClientConnection: MqttClientConnection) {
+        mqttClientConnection.connect().get()
     }
 }
