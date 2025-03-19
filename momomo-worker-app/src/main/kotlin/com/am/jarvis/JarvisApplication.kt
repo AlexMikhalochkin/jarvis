@@ -10,6 +10,8 @@ import org.springframework.core.codec.Encoder
 import org.springframework.http.MediaType
 import org.springframework.http.codec.json.Jackson2JsonEncoder
 import org.springframework.web.reactive.config.EnableWebFlux
+import org.springframework.web.reactive.config.ResourceHandlerRegistry
+import org.springframework.web.reactive.config.WebFluxConfigurer
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.util.retry.Retry
 import reactor.util.retry.RetryBackoffSpec
@@ -17,7 +19,12 @@ import java.time.Duration
 
 @SpringBootApplication
 @EnableWebFlux
-class JarvisApplication {
+class JarvisApplication :WebFluxConfigurer {
+
+    override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
+        registry.addResourceHandler("/**")
+            .addResourceLocations("classpath:/static/")
+    }
 
     @Bean
     fun webClient(): WebClient {
@@ -25,8 +32,8 @@ class JarvisApplication {
     }
 
     @Bean
-    fun encoder(objectMapper: ObjectMapper?): Encoder<Any> {
-        return Jackson2JsonEncoder(objectMapper!!, MediaType.APPLICATION_JSON)
+    fun encoder(objectMapper: ObjectMapper): Encoder<Any> {
+        return Jackson2JsonEncoder(objectMapper, MediaType.APPLICATION_JSON)
     }
 
     @Bean

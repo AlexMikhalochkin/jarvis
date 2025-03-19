@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulb Control</title>
+    <script>
+        function toggleBulb(id) {
+            fetch(`/bulbs/${id}/toggle`, { method: "POST" })
+                .then(response => response.text())
+                .then(alert)
+                .catch(console.error);
+        }
+    </script>
+</head>
+<body>
+<h1>Bulb Control</h1>
+<button onclick="toggleBulb(1)">Toggle Bulb 1</button>
+<button onclick="toggleBulb(2)">Toggle Bulb 2</button>
+</body>
+</html>
