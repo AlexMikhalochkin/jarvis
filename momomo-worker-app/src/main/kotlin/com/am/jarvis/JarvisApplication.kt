@@ -19,7 +19,7 @@ import java.time.Duration
 
 @SpringBootApplication
 @EnableWebFlux
-class JarvisApplication :WebFluxConfigurer {
+class JarvisApplication : WebFluxConfigurer {
 
     override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
         registry.addResourceHandler("/**")
