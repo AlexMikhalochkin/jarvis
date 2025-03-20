@@ -17,6 +17,7 @@ dependencies {
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
     testImplementation("commons-io:commons-io:$commonsIoVersion")
     testImplementation("com.squareup.okhttp3:mockwebserver:$okhttpVersion")

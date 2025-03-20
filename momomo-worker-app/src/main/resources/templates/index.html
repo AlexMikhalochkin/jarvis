@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulb Control</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .button-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .bulb-button {
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        .bulb-button img {
+            width: 30px;
+            height: 30px;
+        }
+        .bulb-button:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+    </style>
+    <script>
+        function toggleBulb(id, button) {
+            fetch(`/bulbs/${id}/toggle`, { method: "POST" })
+                .then(response => response.text())
+                .then(status => {
+                    alert(status);
+                    const isOn = button.getAttribute("data-on") === "true";
+                    button.setAttribute("data-on", !isOn);
+                    button.querySelector("img").src = isOn ? "bulb_off.png" : "bulb_on.png";
+                })
+                .catch(console.error);
+        }
+    </script>
+</head>
+<body>
+<h1>Bulb Control</h1>
+<div class="button-container">
+    <button th:each="bulb : ${bulbs}" class="bulb-button"
+            th:onclick="|toggleBulb(${bulb.id}, this)|"
+            data-on="false">
+        <img th:src="@{/bulb_off.png}" alt="Bulb Icon">
+        <span th:text="${bulb.name}"></span>
+    </button>
+</div>
+</body>
+</html>
