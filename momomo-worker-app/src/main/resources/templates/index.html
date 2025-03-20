@@ -46,14 +46,16 @@
         }
     </style>
     <script>
-        function toggleBulb(id, button) {
-            fetch(`/bulbs/${id}/toggle`, { method: "POST" })
+        function toggleBulb(button) {
+            const id = button.getAttribute("data-id");
+            const isOn = button.getAttribute("data-on") === "true";
+            const newState = !isOn;
+
+            fetch(`/bulbs/${id}/toggle?state=${newState}`, { method: "POST" })
                 .then(response => response.text())
                 .then(status => {
-                    alert(status);
-                    const isOn = button.getAttribute("data-on") === "true";
-                    button.setAttribute("data-on", !isOn);
-                    button.querySelector("img").src = isOn ? "bulb_off.png" : "bulb_on.png";
+                    button.setAttribute("data-on", newState);
+                    button.querySelector("img").src = newState ? "/bulb_on.png" : "/bulb_off.png";
                 })
                 .catch(console.error);
         }
@@ -63,8 +65,9 @@
 <h1>Bulb Control</h1>
 <div class="button-container">
     <button th:each="bulb : ${bulbs}" class="bulb-button"
-            th:onclick="|toggleBulb(${bulb.id}, this)|"
-            data-on="false">
+            th:data-id="${bulb.id}"
+            th:data-on="false"
+            onclick="toggleBulb(this)">
         <img th:src="@{/bulb_off.png}" alt="Bulb Icon">
         <span th:text="${bulb.name}"></span>
     </button>
