@@ -16,5 +16,6 @@ dependencies {
 
     implementation("io.github.microutils:kotlin-logging:$kotlinLoggingVersion")
     implementation("javax.validation:validation-api:$validationApiVersion")
+    implementation("jakarta.annotation:jakarta.annotation-api:$jakartaAnnotationApiVersion")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 }
