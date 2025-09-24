@@ -5,10 +5,5 @@
   "delegatePattern": true,
   "gradleBuildFile": false,
   "generateSupportingFiles": false,
-  "swaggerAnnotations": false,
-  "documentationProvider": "none",
-  "useSwaggerAnnotations": false,
-  "useBeanValidation": false,
-  "hideGenerationTimestamp": true,
-  "skipFormModel": true
+  "swaggerAnnotations": false
 }
