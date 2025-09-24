@@ -20,7 +20,10 @@ jobs:
         distribution: 'corretto'
         java-version: '21'
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '9.1.0'
+        cache-disabled: true
     - name: Build with Gradle wrapper
       run: ./gradlew clean build sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }} -no-build-cache
     - name: Publish Test Report
