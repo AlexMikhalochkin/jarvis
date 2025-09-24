@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 plugins {
     id("com.diffplug.spotless")
@@ -11,7 +11,7 @@ sourceSets.getByName("main")
     .srcDirs(layout.buildDirectory.dir("generated/src/main/kotlin"))
 
 gradle.projectsEvaluated {
-    tasks.withType<KotlinCompile> {
+    tasks.withType<KotlinJvmCompile> {
         dependsOn(tasks.openApiGenerate)
     }
 }
